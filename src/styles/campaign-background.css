@@ -1,0 +1,26 @@
+.page-background { overflow: hidden; background: var(--bg-base); contain: strict; }
+.page-mesh { position: absolute; inset: -100px; background: radial-gradient(ellipse at 5% 12%, rgba(2, 110, 78, 0.05), transparent 45%), radial-gradient(ellipse at 92% 20%, rgba(255, 159, 0, 0.06), transparent 45%), radial-gradient(ellipse at 40% 80%, rgba(0, 194, 255, 0.04), transparent 50%), radial-gradient(ellipse at 98% 95%, rgba(255, 159, 0, 0.04), transparent 38%); filter: blur(90px); }
+.ambient-blob { position: absolute; width: min(50vw, 700px); aspect-ratio: 1; border-radius: 50%; filter: blur(95px); opacity: .25; animation: field-drift 32s ease-in-out infinite alternate; will-change: transform; }
+.ambient-blob-mint { background: #026E4E; top: 5%; left: -12%; opacity: .04; }
+.ambient-blob-sky { background: #FF9F00; top: 25%; right: -15%; animation-delay: -15s; animation-duration: 38s; opacity: .05; }
+.ambient-blob-sage { background: #00C2FF; bottom: -20%; left: 40%; animation-delay: -9s; animation-duration: 29s; opacity: .03; }
+.field-pattern { position: absolute; inset: 0; }
+.page-grain { position: absolute; inset: 0; opacity: .02; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.72' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Cpath fill='%2308291D' filter='url(%23n)' d='M0 0h160v160H0z'/%3E%3C/svg%3E"); }
+@keyframes field-drift { from { transform: translate3d(0, 0, 0) scale(.95); } to { transform: translate3d(65px, -45px, 0) scale(1.06); } }
+.campaign-green-flow {
+  background-color: var(--campaign-green);
+  background-image: var(--destination-map), var(--destination-map), var(--destination-map);
+  background-position: right top 1rem, left center, right bottom 1rem;
+  background-size: min(100%, 960px) auto;
+  background-repeat: no-repeat;
+}
+
+@media (max-width: 767px) {
+  .page-mesh { filter: blur(64px); }
+  .ambient-blob { width: 85vw; filter: blur(64px); animation-duration: 40s; }
+  .ambient-blob-sage { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ambient-blob { animation: none; will-change: auto; }
+}

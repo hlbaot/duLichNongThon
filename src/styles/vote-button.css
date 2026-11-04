@@ -1,0 +1,49 @@
+/* ==========================================================================
+   Clean Brand Vote Button
+   Brand Palette: Bright Leaf Green (#22C55E / #16A34A)
+   ========================================================================== */
+.vote-button,
+.motion-vote-btn {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 22px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  background: linear-gradient(135deg, #22C55E 0%, #16A34A 100%);
+  color: #FFFFFF;
+  font-size: 13px;
+  line-height: 1.4;
+  font-weight: 800;
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(34, 197, 94, 0.35);
+  transition: all 0.2s ease;
+}
+
+.vote-button:hover:not(:disabled):not(.is-voted),
+.motion-vote-btn:hover:not(:disabled):not(.is-voted) {
+  background: linear-gradient(135deg, #16A34A 0%, #15803D 100%);
+  color: #FFFFFF;
+  transform: translateY(-1.5px);
+  box-shadow: 0 6px 18px rgba(34, 197, 94, 0.45);
+}
+
+.vote-button:active:not(:disabled):not(.is-voted),
+.motion-vote-btn:active:not(:disabled):not(.is-voted) {
+  transform: translateY(0);
+}
+
+/* Voted State & Disabled State */
+.vote-button:disabled,
+.motion-vote-btn:disabled,
+.vote-button.is-voted,
+.motion-vote-btn.is-voted {
+  background: #E8F5E9;
+  color: #16A34A;
+  border: 1px solid rgba(22, 163, 74, 0.3);
+  box-shadow: none;
+  cursor: default;
+  transform: none;
+}

@@ -1,0 +1,49 @@
+.destinations-section { padding-block: 80px; }
+.destination-heading { max-width: 720px; }
+.destination-heading > div { background: transparent; padding-left: 0; letter-spacing: .1em; font-size: 10px; text-transform: uppercase; color: #026E4E; }
+.destination-heading h2 { font-family: 'Lora', Georgia, serif; font-weight: 500; color: #0E382B; }
+.destination-heading p { font-size: 14px; max-width: 600px; color: #4B6354; }
+.destination-filters { box-shadow: 0 4px 16px rgba(2, 110, 78, 0.04); border-radius: 20px; background: #F4FAF6; border: 1px solid rgba(2, 110, 78, 0.1); }
+.destination-filters input, .destination-filters select { min-height: 44px; background: #FFFFFF; }
+.destination-card { border-radius: 16px; box-shadow: 0 4px 20px rgba(2, 110, 78, 0.05); background: #FFFFFF; border: 1px solid rgba(2, 110, 78, 0.1); }
+.destination-card > div:last-child { padding: 20px; }
+.destination-card h3 { font-size: 17px; min-height: 46px; display: flex; align-items: flex-end; }
+.destination-card > div:first-child { aspect-ratio: 1.15; }
+.destination-card button { min-height: 40px; border-radius: 10px; }
+
+@media (max-width: 767px) {
+  .destination-card > div:last-child { padding: 16px; }
+}
+
+@media (max-width: 767px) {
+  .destinations-section { padding-block: 60px; }
+}
+
+.filter-layout > *, .filter-controls > * { min-width: 0; }
+.filter-controls { width: 100%; }
+.filter-search { min-width: 200px; }
+.destination-filters input, .destination-filters select { font-size: 16px; }
+.destination-filters button, .destination-pagination button { min-height: 44px; }
+.destination-pagination { max-width: 100%; flex-wrap: wrap; justify-content: center; }
+.destination-pagination > div { min-width: 0; }
+.destination-card > div:last-child > div { flex-wrap: wrap; }
+.destination-card > div:last-child > div > button { min-height: 44px; }
+
+@media (min-width: 1280px) {
+  .filter-controls { width: auto; flex: 0 1 450px; }
+  .filter-layout > div:first-child { flex: 1; }
+}
+
+@media (max-width: 639px) {
+  .destination-pagination [data-pagination-edge] { display: none; }
+  .destination-pagination { gap: 4px; }
+  .destination-pagination > button { padding-inline: 8px; }
+  .destination-pagination > div { gap: 3px; }
+  .destination-pagination > div > button { width: 36px; }
+  .filter-search { min-width: 0; }
+}
+
+.destination-filters { background: #F4FAF6; border-color: rgba(2, 110, 78, 0.1); box-shadow: 0 4px 20px rgba(2, 110, 78, 0.04); backdrop-filter: blur(24px); }
+.destination-filters input, .destination-filters select { background: #FFFFFF; }
+.destination-card { background: #FFFFFF; border: 1px solid rgba(2, 110, 78, 0.1); backdrop-filter: blur(24px); box-shadow: 0 6px 24px rgba(2, 110, 78, 0.05); }
+.destination-card:hover { box-shadow: 0 16px 38px rgba(2, 110, 78, 0.14); border-color: rgba(2, 110, 78, 0.25); }

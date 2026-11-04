@@ -1,0 +1,4 @@
+footer li, footer p { overflow-wrap: anywhere; }
+
+.campaign-footer { background: linear-gradient(180deg, var(--campaign-forest), var(--campaign-deep)); border: 0; }
+.campaign-footer h4, .campaign-footer .text-\[\#7CB342\] { color: #A7F3D0; }

@@ -1,0 +1,79 @@
+@theme {
+  --font-sans: 'Manrope', sans-serif;
+  
+  --color-forest: #026E4E;
+  --color-forest-dark: #01583E;
+  --color-forest-light: #00875A;
+  --color-leaf: #16A34A;
+  --color-leaf-light: #22C55E;
+  --color-amber-accent: #FF9F00;
+  --color-amber-hover: #E68500;
+  --color-river: #00C2FF;
+  --color-river-light: #E0F7FE;
+  --color-cream: #FFFFFF;
+  --color-cream-soft: #F8FCF9;
+  --color-pale-green: #F4FAF6;
+  --color-ink: #0E382B;
+  --color-ink-muted: #4B6354;
+}
+
+:root {
+  --background: #FFFFFF;
+  --foreground: #0E382B;
+}
+
+@theme {
+  --font-sans: 'Manrope', sans-serif;
+  --font-editorial: 'Lora', Georgia, serif;
+  --color-cream: #FFFFFF;
+  --color-pale-green: #F4FAF6;
+}
+:root { --background: #FFFFFF; --foreground: #0E382B; }
+@theme {
+  --bg-base: #DAF1DE;
+  --bg-mint: #C4F3DD;
+  --bg-sage: #D1FAE5;
+  --bg-sky: #ECFDF5;
+  --bg-deep: #163832;
+  --color-bg-base: var(--bg-base);
+  --color-bg-mint: var(--bg-mint);
+  --color-bg-sage: var(--bg-sage);
+  --color-bg-sky: var(--bg-sky);
+  --color-bg-deep: var(--bg-deep);
+  --color-forest: #026E4E;
+  --color-leaf: #16A34A;
+  --color-amber-accent: #FF9F00;
+  --color-river: #00C2FF;
+  --color-ink: #0E382B;
+}
+:root {
+  --background: var(--bg-base);
+  --foreground: #0E382B;
+  --green-50: #ECFDF5;
+  --green-100: #D1FAE5;
+  --green-300: #6EE7B7;
+  --green-400: #34D399;
+  --green-500: #10B981;
+  --green-600: #059669;
+  --green-900: #064E3B;
+  --accent: #F59E0B;
+  --campaign-ink: #051F20;
+  --campaign-deep: #0B2B26;
+  --campaign-forest: var(--bg-deep);
+  --campaign-pine: #235347;
+  --campaign-sage: #8EB69B;
+  --campaign-green: var(--bg-base);
+  --destination-map: url("/images/destination-map-pattern.svg");
+}
+@theme {
+  --gold-100: #FFF4CC;
+  --gold-300: #F7D774;
+  --gold-500: #D4AF37;
+  --gold-600: #B8860B;
+  --gold-700: #8A6508;
+  --color-gold-100: var(--gold-100);
+  --color-gold-300: var(--gold-300);
+  --color-gold-500: var(--gold-500);
+  --color-gold-600: var(--gold-600);
+  --color-gold-700: var(--gold-700);
+}

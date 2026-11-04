@@ -1,0 +1,26 @@
+.responsive-modal-overlay { padding: max(12px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right)) max(12px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left)); }
+.responsive-modal-panel { min-width: 0; max-height: calc(100dvh - 32px); overscroll-behavior: contain; }
+.responsive-modal-panel.max-w-md { overflow-y: auto; }
+.modal-header { gap: 12px; flex-shrink: 0; }
+.modal-header > div { min-width: 0; }
+.modal-header > div > div:first-child, .modal-header > button { flex-shrink: 0; }
+.modal-header h3 { text-wrap: balance; }
+.modal-header button, .responsive-modal-panel > button { min-width: 44px; min-height: 44px; }
+.modal-body { min-height: 0; overscroll-behavior: contain; overflow-wrap: anywhere; }
+.modal-body button { min-height: 44px; }
+.modal-footer { flex-shrink: 0; }
+
+@media (max-width: 639px) {
+  .modal-header { padding: 16px; }
+  .modal-header h3 { font-size: 17px; }
+  .modal-header > div { gap: 9px; }
+  .modal-header p { font-size: 11px; }
+  .modal-body { padding: 16px; }
+  .responsive-modal-panel.max-w-md { padding: 24px 18px; }
+  .responsive-modal-panel.max-w-md .flex.justify-between { flex-wrap: wrap; gap: 8px; }
+  .responsive-modal-panel.max-w-md .flex.gap-3 { gap: 8px; }
+}
+
+@media (max-height: 600px) {
+  .responsive-modal-panel { max-height: calc(100dvh - 24px); }
+}

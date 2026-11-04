@@ -1,0 +1,82 @@
+/* Shared email and OTP sign-in surface. */
+.auth-overlay, .auth-page { display: flex; align-items: center; justify-content: center; padding: 28px 20px; color: #0E382B; }
+.auth-overlay { position: fixed; inset: 0; z-index: 70; background: rgba(0, 0, 0, 0.65); backdrop-filter: blur(12px); overflow-y: auto; }
+.auth-page { min-height: 100svh; background: radial-gradient(ellipse at 15% 10%, #E6F4EA, transparent 60%), #F4FAF6; }
+.auth-panel { width: 100%; max-width: 400px; max-height: calc(100svh - 56px); overflow-y: auto; background: #FFFFFF; border: 1px solid rgba(2, 110, 78, 0.12); border-radius: 24px; padding: 24px; box-shadow: 0 32px 100px rgba(8, 41, 29, 0.25), inset 0 1px 0 #ffffff; }
+.auth-page .auth-panel { max-height: none; }
+.auth-topline { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.auth-topline > a { display: flex; gap: 10px; align-items: center; }
+.auth-topline > a > span { font-size: 9px; font-weight: 800; letter-spacing: .08em; }
+.auth-topline small { display: block; color: #4B6354; font-size: 10px; font-weight: 500; letter-spacing: 0; margin-top: 2px; }
+.auth-close { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: #F4FAF6; color: #026E4E; cursor: pointer; }
+.auth-close:hover { background: #E6F4EA; }
+.auth-intro { padding-top: 22px; }
+.auth-intro h2 { font-size: 25px; line-height: 1.35; font-weight: 700; letter-spacing: -.04em; color: #0E382B; }
+.auth-intro > p:last-child { color: #4B6354; font-size: 12px; line-height: 1.8; margin: 8px 0 24px; }
+.auth-intro strong { color: #026E4E; overflow-wrap: anywhere; }
+.auth-form { display: flex; flex-direction: column; gap: 18px; }
+.auth-form label, .otp-fieldset legend { display: block; font-size: 12px; font-weight: 700; margin-bottom: 8px; color: #0E382B; }
+.auth-input { display: flex; align-items: center; gap: 11px; background: #F8FCF9; border: 1px solid rgba(2, 110, 78, 0.15); border-radius: 12px; padding: 0 14px; color: #0E382B; }
+.auth-input:focus-within { border-color: #026E4E; box-shadow: 0 0 0 3px rgba(2, 110, 78, 0.15); background: #FFFFFF; }
+.auth-input > svg { flex-shrink: 0; color: #026E4E; }
+.auth-input input { min-width: 0; width: 100%; background: transparent; border: 0; outline: 0; padding: 14px 0; color: #0E382B; font-size: 16px; }
+.auth-input input:focus-visible { outline: 0; }
+.auth-input input::placeholder { color: #8A9D91; font-size: 13px; }
+.auth-input button { display: grid; place-items: center; cursor: pointer; min-width: 28px; min-height: 36px; }
+.auth-submit { width: 100%; padding-block: 14px; margin-top: 2px; }
+.auth-session-note { font-size: 10px; line-height: 1.7; color: #4B6354; margin-top: 18px; text-align: center; }
+.auth-error { border: 1px solid #FECACA; border-radius: 9px; padding: 10px 12px; color: #B91C1C; background: #FEF2F2; font-size: 12px; margin-bottom: 18px; line-height: 1.7; }
+.auth-back { text-decoration: underline; text-underline-offset: 4px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; color: #026E4E; font-weight: 600; font-size: 12px; cursor: pointer; min-height: 36px; }
+.otp-fieldset { min-width: 0; border: 0; padding: 0; margin: 0; }
+.otp-fieldset legend { text-align: center; width: 100%; color: #026E4E; margin-bottom: 14px; }
+.otp-boxes { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 9px; }
+.otp-boxes input { width: 100%; min-width: 0; height: 58px; border-radius: 11px; background: #F8FCF9; border: 1px solid rgba(2, 110, 78, 0.2); text-align: center; color: #026E4E; font-size: 24px; font-weight: 700; caret-color: #026E4E; }
+.otp-boxes input.is-filled { background: #E6F4EA; border-color: #026E4E; }
+.otp-boxes input:focus { outline: none; border-color: #026E4E; box-shadow: 0 0 0 3px rgba(2, 110, 78, 0.15); background: #FFFFFF; }
+.otp-resend { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 11px; color: #4B6354; }
+.otp-resend button { font-weight: 700; color: #026E4E; cursor: pointer; padding-block: 6px; }
+.otp-resend button:disabled { color: #8A9D91; opacity: 1; }
+.auth-panel button:focus-visible { outline: 2px solid #026E4E; outline-offset: 3px; }
+@media (prefers-reduced-motion: no-preference) {
+  .modal-enter-overlay,
+  dialog.modal-enter-panel[open]::backdrop { animation: modal-overlay-in 240ms ease-out both; }
+  .modal-enter-panel:not(dialog),
+  dialog.modal-enter-panel[open] { animation: modal-panel-in 420ms cubic-bezier(.22,1,.36,1) 35ms both; }
+}
+@keyframes modal-overlay-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes modal-panel-in {
+  from { opacity: 0; transform: translateY(20px) scale(.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@media(max-width: 480px) { .auth-overlay, .auth-page { padding: 16px; } .auth-panel { padding: 22px; max-height: calc(100svh - 32px); border-radius: 20px; } .auth-intro { padding-top: 20px; } .auth-intro h2 { font-size: 25px; } .otp-boxes { gap: 7px; } .otp-boxes input { height: 52px; font-size: 22px; } }
+
+.auth-destination { overflow-wrap: anywhere; }
+
+.auth-destination { background: #e1ecd8; border-radius: 8px; padding: 12px; margin-bottom: 20px; font-size: 12px; }
+.auth-destination span, .auth-destination strong { display: block; }
+.auth-destination span { font-size: 10px; color: #617752; margin-bottom: 4px; }
+.auth-panel { max-height: calc(100dvh - 56px); overscroll-behavior: contain; }
+.auth-close { width: 44px; height: 44px; flex-shrink: 0; }
+.auth-back, .otp-resend button { min-height: 44px; }
+.auth-page { min-height: 100dvh; }
+
+@media (max-width: 374px) {
+  .auth-panel { padding: 18px; }
+  .otp-boxes { gap: 5px; }
+  .otp-boxes input { height: 46px; font-size: 20px; }
+  .otp-resend { flex-wrap: wrap; }
+}
+
+@media (max-height: 600px) {
+  .auth-overlay { padding-block: 12px; }
+  .auth-panel { max-height: calc(100dvh - 24px); }
+}
+
+@media (max-width: 480px) and (min-height: 601px) {
+  .auth-panel { max-height: calc(100dvh - 32px); }
+}
+
+.auth-otp-page { background: rgba(0, 0, 0, 0.65); }
