@@ -37,11 +37,11 @@ export function Hero() {
       <div className="site-container hero-layout">
         <RevealOnScroll className="hero-copy">
           <h1 className="hero-stagger" style={{ "--i": 0 } as CSSProperties}>
-            Về miền xanh.<br />
-            <em>Chạm điều bình dị.</em>
+            HỘI THI ĐIỂM ĐẾN DU LỊCH NÔNG THÔN<br />
+            <em>TỐT NHẤT VIỆT NAM NĂM 2026</em>
           </h1>
           <p className="hero-description hero-stagger" style={{ "--i": 1 } as CSSProperties}>
-            Tôn vinh 35 điểm đến du lịch nông thôn tiêu biểu.
+            Hội thi được tổ chức nhằm tìm kiếm, giới thiệu và tôn vinh các điểm đến tiêu biểu, mang đậm bản sắc văn hóa, cảnh quan và những trải nghiệm đặc trưng của các vùng quê Việt Nam. Thông qua Hội thi, các giá trị du lịch nông thôn được quảng bá rộng rãi, góp phần bảo tồn bản sắc văn hóa, phát huy tiềm năng địa phương và thúc đẩy phát triển du lịch bền vững.
           </p>
 
           <div className="hero-actions hero-stagger" style={{ "--i": 2 } as CSSProperties}>

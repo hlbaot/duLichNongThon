@@ -7,9 +7,9 @@
 }
 .hero-eyebrow { color: #A7F3D0; display: flex; align-items: center; gap: 10px; margin-bottom: 25px; }
 .live-dot { width: 8px; height: 8px; display: inline-block; background: #FF9F00; border-radius: 50%; box-shadow: 0 0 0 5px rgba(255, 159, 0, 0.3); flex-shrink: 0; }
-.hero-copy h1 { font-size: clamp(46px, 4.65vw, 84px); line-height: 1.15; font-weight: 600; letter-spacing: -.05em; }
-.hero-copy h1 em { color: #A7F3D0; font-family: 'Lora', Georgia, serif; font-weight: 400; }
-.hero-description { font-size: 16px; line-height: 1.9; max-width: 510px; color: #E6F4EA; margin-top: 28px; }
+.hero-copy h1 { font-size: clamp(28px, 3.2vw, 48px); line-height: 1.25; font-weight: 800; letter-spacing: -.02em; }
+.hero-copy h1 em { color: #A7F3D0; font-style: normal; font-weight: 800; }
+.hero-description { font-size: 15px; line-height: 1.8; max-width: 680px; color: #E6F4EA; margin-top: 22px; }
 .hero-actions { display: flex; align-items: center; gap: 30px; margin-top: 32px; }
 .hero-text-link { display: inline-flex; align-items: center; gap: 10px; color: #FFFFFF; font-size: 13px; font-weight: 700; }
 .hero-bottom { margin-top: auto; padding: 22px 28px; border: 1px solid rgba(255, 255, 255, 0.25); border-radius: 20px; background: rgba(8, 41, 29, 0.75); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); display: flex; align-items: center; gap: 30px; box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25); }
@@ -26,9 +26,9 @@
 
 @media (max-width: 767px) {
   .campaign-hero { min-height: 850px; min-height: 100svh; }
-  .hero-copy h1 { font-size: clamp(39px, 7.5vw, 57px); }
+  .hero-copy h1 { font-size: clamp(24px, 6vw, 34px); }
   .hero-eyebrow { font-size: 9px; letter-spacing: .09em; }
-  .hero-description { font-size: 14px; margin-top: 22px; }
+  .hero-description { font-size: 13.5px; margin-top: 18px; line-height: 1.75; }
   .hero-actions { gap: 20px; flex-wrap: wrap; margin-top: 25px; }
   .hero-actions .vote-button { padding: 14px 18px; font-size: 13px; }
   .hero-text-link { font-size: 12px; }

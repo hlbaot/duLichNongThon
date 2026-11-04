@@ -4,7 +4,7 @@ import React from "react";
 import { DestinationImage } from "./destination-image";
 import { useVoting } from "@/context/voting-context";
 import { useVotingStore } from "@/stores/use-voting-store";
-import { X, Heart, AlertCircle, CheckCircle2 } from "lucide-react";
+import { X, Heart, CheckCircle2 } from "lucide-react";
 
 export function VoteModal() {
   const { voteModalDestination: selectedDestination, destinations, setVoteModalDestination, confirmVote, user, loginModalOpen } = useVoting();
@@ -35,7 +35,6 @@ export function VoteModal() {
 
   if (!isOpen || !voteModalDestination || !user) return null;
 
-  const votesLeft = user?.votesRemaining || 0;
   const isVoted = user?.votedIds.includes(voteModalDestination.id);
 
   const handleConfirm = () => {
@@ -122,28 +121,17 @@ export function VoteModal() {
           </div>
         </div>
 
-        {/* Voting Allowance Notice */}
-        {votesLeft > 0 && !isVoted ? (
-          <div className="space-y-1 rounded-2xl border border-emerald-900/15 bg-[#F5FBF5]/85 p-3.5">
-            <div className="flex flex-wrap items-center justify-between gap-1 text-xs">
-              <span className="text-[#4B5E52] font-medium">Lượt bình chọn còn lại của bạn:</span>
-              <span className="font-black text-[#1F6B45] bg-[#1F6B45]/10 px-2 py-0.5 rounded-full">
-                {votesLeft} lượt
-              </span>
-            </div>
-            <p className="text-[11px] text-[#4B5E52]">
-              Sau khi xác nhận, bạn sẽ còn <strong>{votesLeft - 1}</strong> lượt bình chọn cho các điểm đến khác.
-            </p>
-          </div>
-        ) : isVoted ? (
+        {/* Notice */}
+        {isVoted ? (
           <div className="p-3.5 rounded-2xl bg-amber-50/90 border border-amber-200 flex items-center gap-2.5 text-xs text-amber-800 font-bold">
             <CheckCircle2 className="h-4 w-4 text-amber-600 shrink-0" />
             <span>Bạn đã bình chọn cho điểm đến này rồi. Mỗi điểm đến chỉ được bình chọn 1 lần.</span>
           </div>
         ) : (
-          <div className="p-3.5 rounded-2xl bg-rose-50/90 border border-rose-200 flex items-center gap-2.5 text-xs text-rose-800 font-bold">
-            <AlertCircle className="h-4 w-4 text-rose-600 shrink-0" />
-            <span>Bạn đã sử dụng hết lượt bình chọn. Cảm ơn bạn đã tham gia cuộc thi!</span>
+          <div className="space-y-1 rounded-2xl border border-emerald-900/15 bg-[#F5FBF5]/85 p-3.5">
+            <p className="text-xs text-[#4B5E52]">
+              Mỗi điểm đến chỉ được bình chọn <strong>1 lần</strong>. Lá phiếu sau khi xác nhận <strong>không thể thu hồi</strong>.
+            </p>
           </div>
         )}
 
@@ -157,11 +145,11 @@ export function VoteModal() {
           </button>
           <button
             onClick={handleConfirm}
-            disabled={isVoting || votesLeft <= 0 || isVoted}
+            disabled={isVoting || isVoted}
             className="flex min-h-11 flex-1 cursor-pointer items-center justify-center gap-2 rounded-xl bg-(--campaign-pine) px-3 text-sm font-extrabold text-white shadow-md shadow-emerald-900/20 hover:bg-(--campaign-deep) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-800 disabled:cursor-not-allowed disabled:opacity-50"
           >
             <Heart className="h-4 w-4 fill-current" />
-            <span>{isVoting ? "Đang xác nhận…" : "Xác nhận bình chọn"}</span>
+            <span>{isVoting ? "Đang xác nhận…" : isVoted ? "Đã bình chọn" : "Xác nhận bình chọn"}</span>
           </button>
         </div>
       </div>

@@ -14,7 +14,7 @@ function VotingBridge({ children }: { children: ReactNode }) {
   const [selectedDestination, setSelectedDestination] = useState<Destination | null>(null);
   const [leaderboardModalOpen, setLeaderboardModalOpen] = useState(false);
   const [rulesModalOpen, setRulesModalOpen] = useState(false);
-  const user = auth.user ? { email: auth.user.email ?? "", votesRemaining: auth.remainingVotes, votedIds: auth.votedIds } : null;
+  const user = auth.user ? { email: auth.user.email ?? "", votedIds: auth.votedIds } : null;
   const waitingDestination = destinations.find(item => item.id === auth.pendingDestinationId);
   const voteModalDestination = selectedDestination ?? (auth.user && !auth.loginModalOpen ? waitingDestination ?? null : null);
   const setVoteModalDestination = (destination: Destination | null) => {
@@ -22,7 +22,7 @@ function VotingBridge({ children }: { children: ReactNode }) {
     setSelectedDestination(destination);
   };
   const handleVoteClick = (destination: Destination) => {
-    if (!auth.user || auth.hasVoted(destination.id) || auth.remainingVotes === 0) {
+    if (!auth.user || auth.hasVoted(destination.id)) {
       void auth.vote(destination.id);
       return;
     }

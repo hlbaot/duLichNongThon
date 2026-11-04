@@ -37,11 +37,11 @@ export function Footer() {
                 />
               </div>
               <div>
-                <span className="block font-black text-lg text-white tracking-tight">
-                  Du Lịch Nông Thôn
+                <span className="block font-black text-base sm:text-lg text-white tracking-tight leading-snug">
+                  Hội Thi Điểm Đến Du Lịch Nông Thôn
                 </span>
                 <span className="block text-xs text-[#A7F3D0] font-bold">
-                  Hội thi Điểm đến du lịch nông thôn Việt Nam tốt nhất 2026
+                  Tốt Nhất Việt Nam Năm 2026
                 </span>
               </div>
             </div>

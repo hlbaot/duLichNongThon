@@ -23,10 +23,10 @@ export function Top3Leaderboard() {
   return <section id="leaderboard" className={`ranking-section premium-ranking ${play ? "ranking-playing" : ""}`}>
     <div className="ranking-spotlight" aria-hidden="true" /><div className="ranking-halo" aria-hidden="true" />
     <div className="site-container">
-      <div ref={ref} className="section-heading ranking-intro">
-        <div>
+      <div ref={ref} className="section-heading ranking-intro !justify-center text-center">
+        <div className="mx-auto flex flex-col items-center text-center">
           <p className="eyebrow">BẢNG XẾP HẠNG · TOP 3</p>
-          <h2>Những miền xanh<br /><em>được yêu mến nhất.</em></h2>
+          <h2>Những điểm đến<br /><em>được yêu thích nhất</em></h2>
         </div>
       </div>
 

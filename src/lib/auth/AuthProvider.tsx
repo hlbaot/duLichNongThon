@@ -78,7 +78,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (state.isVoting) return false;
     if (!state.myVotes) { toast.error("Chưa tải được lượt bình chọn. Vui lòng thử lại."); void refreshAccount(); return false; }
     if (state.myVotes.items.some(item => item.destinationId === destinationId)) { toast.error("Bạn đã bình chọn điểm đến này."); return false; }
-    if (state.myVotes.remainingVotes <= 0) { toast.error("Bạn đã dùng hết lượt bình chọn trong hội thi."); return false; }
     state.setIsVoting(true);
     let committed = false;
     try {

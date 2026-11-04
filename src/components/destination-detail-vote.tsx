@@ -72,7 +72,7 @@ export function DestinationDetailVote({
           <Heart size={18} className="fill-current" />
         )}
         <span>
-          {isVoting ? "Đang xử lý…" : isLoading ? "Đang tải…" : voted ? "Đã bình chọn" : "Bình chọn ngay"}
+          {isVoting ? "Đang xử lý…" : isLoading ? "Đang tải…" : voted ? "Đã vote" : "Bình chọn ngay"}
         </span>
         {voted && (
           <span className="profile-heart-particles" aria-hidden="true">
@@ -91,7 +91,7 @@ export function DestinationDetailVote({
             {voted
               ? "Lá phiếu của bạn đã được ghi nhận thành công."
               : user
-              ? "Mỗi tài khoản được bình chọn 1 lần cho điểm đến này."
+              ? "Mỗi tài khoản chỉ được bình chọn 1 lần cho điểm đến này. Không giới hạn tổng số điểm đến."
               : "Đăng nhập nhanh để dành lá phiếu cho điểm đến bạn yêu mến."}
           </p>
         </div>

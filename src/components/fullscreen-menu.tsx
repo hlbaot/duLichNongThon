@@ -96,7 +96,7 @@ export function FullscreenMenu({ open, activeId, onClose, onNavigate }: Fullscre
       <div className="fsm-foot">
         <div className="fsm-brand">
           <span className="fsm-logo"><Image src="/logo.png" alt="" sizes="36px" fill className="object-cover" /></span>
-          <span>Du Lịch Nông Thôn · Bình chọn 2026</span>
+          <span>Hội Thi Điểm Đến Du Lịch Nông Thôn Tốt Nhất Việt Nam Năm 2026</span>
         </div>
         <p>Tôn vinh 35 điểm đến du lịch nông thôn tiêu biểu.</p>
       </div>

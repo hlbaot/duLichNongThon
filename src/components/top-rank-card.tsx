@@ -124,7 +124,7 @@ function TopRankCardInner({ rank, destination, delay, play, order, tied = false 
                   onClick={() => handleVoteClick(destination)}
                 >
                   {voted ? <Check size={16} /> : <Heart size={16} />}
-                  {voted ? "Đã chọn" : "Bình chọn"}
+                  {voted ? "Đã vote" : "Bình chọn"}
                 </button>
               </div>
             </div>

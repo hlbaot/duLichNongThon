@@ -3,8 +3,8 @@ import RootLayoutView from "@/views/root/root-layout-view";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Cuộc thi Du lịch Nông thôn 2026 | Bình chọn 35 Điểm đến Toàn quốc",
-  description: "Trang bình chọn trực tuyến chính thức cho 35 điểm đến du lịch nông nghiệp, làng nghề sinh thái tiêu biểu của Việt Nam.",
+  title: "Hội Thi Điểm Đến Du Lịch Nông Thôn Tốt Nhất Việt Nam Năm 2026",
+  description: "Hội thi được tổ chức nhằm tìm kiếm, giới thiệu và tôn vinh các điểm đến tiêu biểu, mang đậm bản sắc văn hóa, cảnh quan và những trải nghiệm đặc trưng của các vùng quê Việt Nam.",
   icons: {
     icon: "/logo.png",
     apple: "/logo.png",

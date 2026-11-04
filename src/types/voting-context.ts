@@ -1,6 +1,6 @@
 import type { Destination } from "./voting-destination";
 
-export interface UserState { email: string; votesRemaining: number; votedIds: string[]; }
+export interface UserState { email: string; votedIds: string[]; }
 
 export interface VotingContextType {
   user: UserState | null;

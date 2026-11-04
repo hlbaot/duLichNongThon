@@ -1,13 +1,13 @@
 import type { Destination } from "@/types/voting-destination";
 import type { TopRank, TopRankedDestination } from "@/types/top-rank-card";
 
-/** Only destinations with votes enter the podium; ties never expand it beyond 3 cards. */
+/** Return top 3 destinations sorted by votes (and displayOrder as tiebreaker) so the podium always renders. */
 export function getTopDestinations(destinations: readonly Destination[]): TopRankedDestination[] {
-  const voted = destinations.filter(item => item.votes > 0).sort((a, b) =>
+  const sorted = [...destinations].sort((a, b) =>
     b.votes - a.votes || a.displayOrder - b.displayOrder || a.id.localeCompare(b.id));
-  return voted.slice(0, 3).map(destination => ({
+  return sorted.slice(0, 3).map((destination, index) => ({
     destination,
-    rank: (voted.findIndex(item => item.votes === destination.votes) + 1) as TopRank,
-    tied: voted.filter(item => item.votes === destination.votes).length > 1,
+    rank: (index + 1) as TopRank,
+    tied: destination.votes > 0 && sorted.filter(item => item.votes === destination.votes).length > 1,
   }));
 }

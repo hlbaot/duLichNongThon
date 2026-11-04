@@ -81,7 +81,7 @@ function DestinationCardInner({ destination, index = 0 }: DestinationCardProps) 
               aria-label={`${isVoted ? "Đã bình chọn" : "Bình chọn cho"} ${destination.name}`}
             >
               {isVoted ? <CheckCircle2 size={15} /> : <Heart size={15} />}
-              <span>{isVoted ? "Đã vote" : "Vote"}</span>
+              <span>{isVoted ? "Đã vote" : "Bình chọn"}</span>
             </button>
           </div>
         </div>

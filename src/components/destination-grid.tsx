@@ -98,14 +98,11 @@ export function DestinationGrid() {
   return (
     <section id="destinations" className="destinations-section">
       <div className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-8 space-y-8">
-        {/* Section Header (Tối đa 2 tầng text gọn gàng, không lộn xộn) */}
+        {/* Section Header */}
         <div className="destination-heading space-y-2.5" data-aos="fade-up">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#1F6B45]/10 text-[#1F6B45] text-xs font-semibold">
-            <Compass className="h-3.5 w-3.5" />
+          <h2 className="text-3xl sm:text-4xl font-black text-[#1B2B22] tracking-tight flex items-center gap-3">
+            <Compass className="h-8 w-8 text-[#026E4E] shrink-0" />
             <span>Danh sách đề cử chính thức</span>
-          </div>
-          <h2 className="text-3xl sm:text-4xl font-black text-[#1B2B22] tracking-tight">
-            Tìm một miền quê để thương.
           </h2>
         </div>
 

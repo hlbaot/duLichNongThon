@@ -1,13 +1,13 @@
 "use client";
 
 import React, { useState } from "react";
+import Image from "next/image";
 import {
   Award,
   Calendar,
   CheckCircle2,
   Clock,
   ExternalLink,
-  Globe,
   Heart,
   HelpCircle,
   Mail,
@@ -17,6 +17,35 @@ import {
   Trophy,
   Users,
 } from "lucide-react";
+
+function FacebookBadgeIcon({ className = "h-6 w-6" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+    </svg>
+  );
+}
+
+function TikTokBadgeIcon({ className = "h-6 w-6" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path
+        d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64c.3-.002.6.042.88.13V9.4a6.33 6.33 0 0 0-1-.08A6.34 6.34 0 0 0 3 15.66a6.34 6.34 0 0 0 10.82 4.47 6.27 6.27 0 0 0 1.87-4.47V8.7a8.18 8.18 0 0 0 4.78 1.52V6.76c-.29-.02-.58-.04-.88-.07z"
+        fill="#25F4EE"
+        transform="translate(-0.8, -0.6)"
+      />
+      <path
+        d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64c.3-.002.6.042.88.13V9.4a6.33 6.33 0 0 0-1-.08A6.34 6.34 0 0 0 3 15.66a6.34 6.34 0 0 0 10.82 4.47 6.27 6.27 0 0 0 1.87-4.47V8.7a8.18 8.18 0 0 0 4.78 1.52V6.76c-.29-.02-.58-.04-.88-.07z"
+        fill="#FE2C55"
+        transform="translate(0.8, 0.6)"
+      />
+      <path
+        d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64c.3-.002.6.042.88.13V9.4a6.33 6.33 0 0 0-1-.08A6.34 6.34 0 0 0 3 15.66a6.34 6.34 0 0 0 10.82 4.47 6.27 6.27 0 0 0 1.87-4.47V8.7a8.18 8.18 0 0 0 4.78 1.52V6.76c-.29-.02-.58-.04-.88-.07z"
+        fill="#FFFFFF"
+      />
+    </svg>
+  );
+}
 
 /** =========================================================================
  * 1. THỂ LỆ BÌNH CHỌN TRỰC TUYẾN (4 ĐIỀU CHÍNH THỨC)
@@ -282,8 +311,8 @@ export function PlatformVotingGuide({ inline = false }: { inline?: boolean }) {
             {/* Header Nền tảng */}
             <div className="p-5 bg-gradient-to-br from-[#1877F2] to-[#0D5BB5] text-white flex items-center justify-between gap-3">
               <div className="flex items-center gap-3">
-                <div className="h-11 w-11 rounded-2xl bg-white/20 backdrop-blur-xs flex items-center justify-center font-black text-white text-lg">
-                  f
+                <div className="h-11 w-11 rounded-2xl bg-white/20 backdrop-blur-xs flex items-center justify-center text-white shrink-0">
+                  <FacebookBadgeIcon className="h-6 w-6 fill-white" />
                 </div>
                 <div>
                   <span className="text-[10px] font-bold tracking-wider text-blue-200 uppercase block">
@@ -357,8 +386,8 @@ export function PlatformVotingGuide({ inline = false }: { inline?: boolean }) {
             {/* Header Nền tảng */}
             <div className="p-5 bg-gradient-to-br from-[#121212] to-[#252525] text-white flex items-center justify-between gap-3">
               <div className="flex items-center gap-3">
-                <div className="h-11 w-11 rounded-2xl bg-white/15 backdrop-blur-xs flex items-center justify-center font-black text-white text-lg">
-                  🎵
+                <div className="h-11 w-11 rounded-2xl bg-white/15 backdrop-blur-xs flex items-center justify-center text-white shrink-0">
+                  <TikTokBadgeIcon className="h-6 w-6" />
                 </div>
                 <div>
                   <span className="text-[10px] font-bold tracking-wider text-rose-300 uppercase block">
@@ -432,8 +461,14 @@ export function PlatformVotingGuide({ inline = false }: { inline?: boolean }) {
             {/* Header Nền tảng */}
             <div className="p-5 bg-gradient-to-br from-[#026E4E] to-[#0B3B2B] text-white flex items-center justify-between gap-3">
               <div className="flex items-center gap-3">
-                <div className="h-11 w-11 rounded-2xl bg-white/20 backdrop-blur-xs flex items-center justify-center font-black text-white text-lg">
-                  <Globe className="h-6 w-6 text-white" />
+                <div className="h-11 w-11 rounded-2xl bg-white p-1 shadow-xs flex items-center justify-center overflow-hidden shrink-0">
+                  <Image
+                    src="/logo.png"
+                    alt="Logo Du lịch Nông thôn"
+                    width={40}
+                    height={40}
+                    className="h-full w-full object-contain"
+                  />
                 </div>
                 <div>
                   <span className="text-[10px] font-bold tracking-wider text-[#A7F3D0] uppercase block">

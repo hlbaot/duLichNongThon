@@ -10,7 +10,7 @@ import { useVoteHistory } from "@/hooks/useVoteHistory";
 const PROFILE_TOAST_ID = "profile-toast";
 
 export function AccountMenu() {
-  const { user, remainingVotes } = useAuth();
+  const { user } = useAuth();
   const [open, setOpen] = useState(false);
 
   if (!user) return null;
@@ -21,15 +21,12 @@ export function AccountMenu() {
         type="button"
         className="account-trigger relative inline-flex size-11 cursor-pointer items-center justify-center rounded-full bg-emerald-800 text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-300"
         onClick={() => setOpen(true)}
-        aria-label={`Mở hồ sơ, còn ${remainingVotes} lượt bình chọn`}
+        aria-label="Mở hồ sơ bình chọn"
         aria-haspopup="dialog"
         aria-expanded={open}
         aria-controls={open ? "account-panel" : undefined}
       >
         <UserRound aria-hidden="true" size={20} />
-        <span className="absolute -top-1 -right-1 grid size-5 place-items-center rounded-full bg-emerald-100 text-[11px] font-extrabold text-emerald-950">
-          {remainingVotes}
-        </span>
       </button>
       {open && createPortal(
         <ProfileModal email={user.email ?? ""} onClose={() => setOpen(false)} />,
@@ -40,7 +37,7 @@ export function AccountMenu() {
 }
 
 function ProfileModal({ email, onClose }: { email: string; onClose: () => void }) {
-  const { logout, usedVotes, remainingVotes, maxVotes } = useAuth();
+  const { logout } = useAuth();
   const voteHistory = useVoteHistory() ?? [];
   const [revealEmail, setRevealEmail] = useState(false);
   const dialog = useRef<HTMLDialogElement>(null);
@@ -116,24 +113,15 @@ function ProfileModal({ email, onClose }: { email: string; onClose: () => void }
           <section aria-labelledby="profile-votes" className="rounded-2xl border border-emerald-200 bg-gradient-to-br from-emerald-100 to-white/80 p-4">
             <div className="flex items-center justify-between gap-3">
               <h3 id="profile-votes" className="flex items-center gap-2 text-sm font-bold">
-                <Vote aria-hidden="true" size={17} /> Lượt bình chọn
+                <Vote aria-hidden="true" size={17} /> Bình chọn của bạn
               </h3>
-              <span className="shrink-0 text-sm font-extrabold tabular-nums">{usedVotes}/{maxVotes}</span>
+              <span className="shrink-0 rounded-full bg-emerald-200 px-2.5 py-1 text-xs font-extrabold tabular-nums text-emerald-900">
+                {voteHistory.length} địa điểm
+              </span>
             </div>
-            <div
-              role="progressbar"
-              aria-label="Lượt bình chọn đã dùng"
-              aria-valuenow={usedVotes}
-              aria-valuemin={0}
-              aria-valuemax={maxVotes}
-              className="my-3 flex gap-1.5"
-            >
-              {Array.from({ length: maxVotes }, (_, index) => (
-                <span key={index} className={`h-2 flex-1 rounded-full ${index < usedVotes ? "bg-emerald-700" : "bg-emerald-200"}`} />
-              ))}
-            </div>
-            <p className="text-sm">Còn lại <strong>{remainingVotes} lượt</strong></p>
-            <p className="mt-2 text-xs text-emerald-800">Hạn mức áp dụng cho toàn hội thi.</p>
+            <p className="mt-2 text-xs text-emerald-800">
+              Mỗi địa điểm chỉ bình chọn được 1 lần. Không giới hạn tổng số địa điểm.
+            </p>
           </section>
 
           <section aria-labelledby="profile-destinations">
