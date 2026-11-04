@@ -3,6 +3,7 @@ import { CampaignContent } from "@/components/campaign-intro";
 import { SmoothScroll } from "@/components/smooth-scroll";
 import { SectionDivider } from "@/components/section-divider";
 import { AnimationProvider } from "@/components/animation-provider";
+import { IntroSequence } from "@/components/intro-sequence";
 import { Navbar } from "@/components/navbar";
 import { Hero } from "@/components/hero";
 import { Top3Leaderboard } from "@/components/top3";
@@ -17,6 +18,7 @@ export default function HomeView() {
       <BackgroundVideo />
       <SmoothScroll />
       <AnimationProvider />
+      <IntroSequence />
       <div className="relative isolate min-h-screen flex flex-col bg-transparent text-[#1B2B22]">
         <Navbar />
         <CampaignContent

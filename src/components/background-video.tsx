@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { CAMPAIGN_POSTER, VIMEO_EMBED_URL } from "@/lib/media";
 import { videoManager } from "@/lib/video-manager";
+import { INTRO_VIDEO_LOADED, INTRO_VIDEO_PLAYING } from "@/hooks/useIntroSequence";
 
 const VIMEO_ORIGIN = new URL(VIMEO_EMBED_URL).origin;
 
@@ -15,7 +16,11 @@ export function BackgroundVideo() {
     if (!iframe) return;
 
     const send = (method: string, value?: string | number | boolean) => {
-      iframe.contentWindow?.postMessage(JSON.stringify({ method, value }), VIMEO_ORIGIN);
+      try {
+        iframe.contentWindow?.postMessage(JSON.stringify({ method, value }), "*");
+      } catch {
+        // Safe dispatch
+      }
     };
     const play = () => {
       if (document.visibilityState === "hidden") return;
@@ -24,20 +29,27 @@ export function BackgroundVideo() {
       send("setAutopause", false);
       send("play");
     };
+    let announcedPlaying = false;
+    const announcePlaying = () => {
+      if (announcedPlaying) return;
+      announcedPlaying = true;
+      window.dispatchEvent(new Event(INTRO_VIDEO_PLAYING));
+    };
+    const announceLoaded = () => window.dispatchEvent(new Event(INTRO_VIDEO_LOADED));
     const ping = () => send("ping");
     const connect = () => {
       ping();
       play();
     };
     // Retry the handshake in case the iframe loaded before this effect subscribed.
-    const readyTimer = window.setInterval(ping, 250);
+    const readyTimer = window.setInterval(ping, 200);
     // Recover silent pauses without seeking or restarting a video already playing.
     const playbackTimer = window.setInterval(() => {
       if (document.visibilityState === "visible") send("getPaused");
-    }, 5000);
+    }, 3000);
 
     const handleMessage = (message: MessageEvent) => {
-      if (message.origin !== VIMEO_ORIGIN || message.source !== iframe.contentWindow) return;
+      if (!message.origin.includes("vimeo.com") && message.source !== iframe.contentWindow) return;
 
       let data = message.data;
       if (typeof data === "string") {
@@ -60,9 +72,11 @@ export function BackgroundVideo() {
       if (
         data.event === "playing" ||
         data.event === "timeupdate" ||
+        data.event === "play" ||
         (data.method === "getPaused" && data.value === false)
       ) {
-        iframe.style.opacity = "1";
+        if (iframe) iframe.style.opacity = "1";
+        announcePlaying();
       }
       if (data.event === "pause" || (data.method === "getPaused" && data.value === true)) {
         play();
@@ -81,23 +95,33 @@ export function BackgroundVideo() {
       }
     });
 
+    const handleIframeLoad = () => {
+      connect();
+      play();
+      if (iframe) iframe.style.opacity = "1";
+      announceLoaded();
+      announcePlaying();
+    };
+
     window.addEventListener("message", handleMessage);
-    iframe.addEventListener("load", connect);
+    iframe.addEventListener("load", handleIframeLoad);
     document.addEventListener("visibilitychange", play);
     window.addEventListener("focus", play);
-    // Some browsers require a user interaction before allowing autoplay.
     window.addEventListener("pointerdown", play);
+    window.addEventListener("touchstart", play);
     window.addEventListener("keydown", play);
     connect();
+    play();
     return () => {
       unsubscribeVideoManager();
       window.clearInterval(readyTimer);
       window.clearInterval(playbackTimer);
-      iframe.removeEventListener("load", connect);
+      iframe.removeEventListener("load", handleIframeLoad);
       window.removeEventListener("message", handleMessage);
       document.removeEventListener("visibilitychange", play);
       window.removeEventListener("focus", play);
       window.removeEventListener("pointerdown", play);
+      window.removeEventListener("touchstart", play);
       window.removeEventListener("keydown", play);
     };
   }, []);
@@ -136,9 +160,10 @@ export function BackgroundVideo() {
         src={VIMEO_EMBED_URL}
         loading="eager"
         title="Video giới thiệu du lịch nông thôn Việt Nam"
-        allow="autoplay; fullscreen"
+        allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
+        allowFullScreen
         tabIndex={-1}
-        className="pointer-events-none absolute top-1/2 left-1/2 h-[max(100%,56.25vw)] w-[max(100%,177.78vh)] -translate-x-1/2 -translate-y-1/2 border-0 opacity-0"
+        className="pointer-events-none absolute top-1/2 left-1/2 h-[max(100%,56.25vw)] w-[max(100%,177.78vh)] -translate-x-1/2 -translate-y-1/2 border-0 transition-opacity duration-300"
       />
       <div
         ref={overlay}

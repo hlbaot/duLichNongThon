@@ -14,8 +14,22 @@ export function normalizeEmail(email: string): string {
   return clean;
 }
 
+const SESSION_MAX_AGE = 60 * 60 * 24 * 30; // 30 ngày
+
+function readCookie(): string | null {
+  const prefix = `${SESSION_KEY}=`;
+  const entry = document.cookie.split("; ").find(part => part.startsWith(prefix));
+  if (!entry) return null;
+  try { return decodeURIComponent(entry.slice(prefix.length)); } catch { return null; }
+}
+
+function writeCookie(value: string, maxAge: number) {
+  const secure = window.location.protocol === "https:" ? "; Secure" : "";
+  document.cookie = `${SESSION_KEY}=${encodeURIComponent(value)}; Path=/; Max-Age=${maxAge}; SameSite=Lax${secure}`;
+}
+
 function readSession(): VerifyOtpResponse | null {
-  const raw = window.localStorage.getItem(SESSION_KEY);
+  const raw = readCookie();
   if (!raw) return null;
   try {
     const value: unknown = JSON.parse(raw);
@@ -23,15 +37,18 @@ function readSession(): VerifyOtpResponse | null {
       "accessToken" in value && typeof value.accessToken === "string" &&
       "refreshToken" in value && typeof value.refreshToken === "string") return value as VerifyOtpResponse;
   } catch { /* Invalid local session: require a fresh login. */ }
-  window.localStorage.removeItem(SESSION_KEY);
+  clearSession();
   return null;
 }
 
 function saveSession(session: VerifyOtpResponse) {
-  window.localStorage.setItem(SESSION_KEY, JSON.stringify(session));
+  writeCookie(JSON.stringify(session), SESSION_MAX_AGE);
+  // Dọn token cũ từng lưu trong localStorage (nếu có).
+  window.localStorage.removeItem(SESSION_KEY);
 }
 
 function clearSession() {
+  writeCookie("", 0);
   window.localStorage.removeItem(SESSION_KEY);
 }
 

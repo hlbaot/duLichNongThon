@@ -93,3 +93,13 @@
   --profile-tint: #e6ecdf;
   --accent: #2F8F5B;
 }
+
+/* Header: menu toàn màn hình và cục thu gọn. */
+:root {
+  --menu-overlay: #14261C;
+  --menu-cream: #F4F1E6;
+  --menu-gold: #D9A441;
+  --header-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --header-compact-bg: linear-gradient(135deg, var(--campaign-pine), var(--campaign-forest));
+}
+

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Camera, ChevronLeft, ChevronRight, Eye, ImageIcon, X } from "lucide-react";
+import { Camera, ChevronLeft, ChevronRight, Eye, X } from "lucide-react";
 import { DestinationImage } from "./destination-image";
 import type { DestinationMedia } from "@/types/api/destinations";
 

@@ -125,7 +125,7 @@ function LoginPanel({ standalone }: { standalone: boolean }) {
       else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
     }
   }}><div ref={panel} data-lenis-prevent className={standalone ? "auth-panel" : "auth-panel modal-enter-panel"} role={standalone && step !== "otp" ? undefined : "dialog"} aria-modal={standalone && step !== "otp" ? undefined : true} aria-labelledby="auth-title" aria-describedby="auth-description">
-    <div className="auth-topline"><Link href="/" aria-label="Du lịch Nông thôn - Trang chủ"><Image src="/logo.png" alt="Du lịch Nông thôn" width={34} height={34} className="rounded-full" /></Link><button className="auth-close" onClick={close} aria-label="Đóng đăng nhập"><X size={19} /></button></div>
+    <div className="auth-topline"><Link href="/" aria-label="Du lịch Nông thôn - Trang chủ" className="inline-flex items-center gap-2"><Image src="/logo.png" alt="Du lịch Nông thôn" width={38} height={38} className="object-contain" priority /></Link><button className="auth-close" onClick={close} aria-label="Đóng đăng nhập"><X size={19} /></button></div>
     <div className="auth-intro"><h2 id="auth-title">{step === "otp" ? "Nhập mã OTP" : "Đăng nhập"}</h2><p id="auth-description">{step === "otp" ? <>Nhập mã 6 số gửi đến <strong>{normalizedEmail}</strong>.</> : "Nhập email của bạn để xác minh trước khi nhận mã OTP."}</p></div>
     {pendingDestination && <div className="auth-destination"><span>Đăng nhập để tiếp tục bình chọn cho</span><strong>{pendingDestination.name}</strong></div>}
     <div aria-live="assertive" aria-atomic="true">{error && <p id="auth-error" className="auth-error">{error}</p>}</div>

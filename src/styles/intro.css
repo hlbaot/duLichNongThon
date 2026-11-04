@@ -1,0 +1,58 @@
+/* Hiệu ứng mở đầu trang chủ: điều khiển bằng html[data-intro="video|reveal|done"].
+   Chỉ animate transform + opacity; ẩn bằng visibility (giữ nguyên layout, CLS = 0, không focus được). */
+:root { --intro-ease: cubic-bezier(0.22, 1, 0.36, 1); }
+
+/* Giai đoạn 1: chỉ có video. Khóa cuộn trong cả video và reveal. */
+html[data-intro="video"],
+html[data-intro="reveal"] { overflow: hidden; }
+
+html[data-intro="video"] :is(.site-header, main > :not(.campaign-hero), footer, .hero-stagger) {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+html[data-intro="video"] .site-header { transform: translateY(-100%); }
+html[data-intro="video"] .hero-stagger { transform: translateY(24px); }
+html[data-intro="video"] .campaign-hero::before { opacity: 0; }
+
+/* Lớp phủ gradient tối nhẹ ở hero để chữ dễ đọc, hiện dần ở giai đoạn reveal. */
+.campaign-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(8, 41, 29, 0.35) 0%, rgba(8, 41, 29, 0.12) 45%, rgba(8, 41, 29, 0.5) 100%);
+}
+
+/* Giai đoạn 2: reveal. */
+html[data-intro="reveal"] .site-header {
+  will-change: transform, opacity;
+  animation: intro-header-in 750ms var(--intro-ease) both;
+}
+html[data-intro="reveal"] .hero-stagger {
+  will-change: transform, opacity;
+  animation: intro-fade-up 700ms var(--intro-ease) both;
+  animation-delay: calc(var(--i, 0) * var(--intro-stagger, 100ms) + 200ms);
+}
+html[data-intro="reveal"] .campaign-hero::before { animation: intro-fade-in 900ms ease-out both; }
+html[data-intro="reveal"] :is(main > :not(.campaign-hero), footer) {
+  animation: intro-fade-in 800ms ease-out 400ms both;
+}
+
+@keyframes intro-header-in {
+  from { opacity: 0; transform: translateY(-100%); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes intro-fade-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes intro-fade-in { from { opacity: 0; } to { opacity: 1; } }
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-intro] .site-header,
+  html[data-intro] .hero-stagger,
+  html[data-intro] .campaign-hero::before,
+  html[data-intro] :is(main > :not(.campaign-hero), footer) { animation: none !important; }
+}

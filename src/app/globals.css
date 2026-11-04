@@ -6,7 +6,9 @@
 @import "../styles/interactions.css";
 @import "../styles/vote-button.css";
 @import "../styles/navbar.css";
+@import "../styles/header.css";
 @import "../styles/hero.css";
+@import "../styles/intro.css";
 @import "../styles/campaign-story.css";
 @import "../styles/leaderboard.css";
 @import "../styles/destination-grid.css";

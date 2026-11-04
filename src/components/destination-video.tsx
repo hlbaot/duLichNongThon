@@ -309,7 +309,7 @@ export function DestinationVideo({ src, title, poster, mode = "controls", autoPl
       muted={muted}
       playsInline
       loop
-      preload="none"
+      preload={autoPlay ? "auto" : "metadata"}
       className="absolute inset-0 h-full w-full bg-black object-contain"
     />
   );

@@ -27,12 +27,13 @@ export function Footer() {
           {/* Col 1: Logo & Mission */}
           <div className="md:col-span-5 space-y-4">
             <div className="flex items-center gap-3">
-              <div className="relative h-12 w-12 rounded-full overflow-hidden border-2 border-[#A7F3D0]/60 shadow-sm bg-white">
+              <div className="relative h-14 w-14 shrink-0 drop-shadow-md">
                 <Image
                   src="/logo.png"
                   alt="Logo Hội thi Điểm đến du lịch nông thôn Việt Nam tốt nhất"
                   fill
-                  className="object-contain p-1"
+                  sizes="56px"
+                  className="object-contain"
                 />
               </div>
               <div>

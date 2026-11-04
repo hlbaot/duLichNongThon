@@ -2,6 +2,7 @@
 import type { ActiveTab } from "@/types/rules-modal";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import { BookOpen, CalendarDays, Check, Info, Mail, Share2, X } from "lucide-react";
 import { useVoting } from "@/context/voting-context";
 import { RulesAwards, RulesSteps, RulesValidity } from "./rules-content";
@@ -55,8 +56,14 @@ export function RulesModal() {
         {/* Modal Header */}
         <header className="px-6 py-5 bg-[#08291D] text-white flex items-center justify-between gap-4 border-b border-white/10 shrink-0">
           <div className="flex items-center gap-3.5 min-w-0">
-            <div className="h-11 w-11 rounded-2xl bg-white/10 border border-white/15 flex items-center justify-center text-[#FF9F00] shrink-0">
-              <BookOpen className="h-5 w-5" />
+            <div className="relative h-11 w-11 shrink-0 drop-shadow-sm">
+              <Image
+                src="/logo.png"
+                alt="Logo Cuộc thi Du lịch Nông thôn"
+                fill
+                sizes="44px"
+                className="object-contain"
+              />
             </div>
             <div className="min-w-0">
               <span className="block text-[10px] font-bold tracking-widest text-[#A7F3D0] uppercase">
