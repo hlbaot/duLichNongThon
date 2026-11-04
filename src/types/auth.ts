@@ -9,6 +9,7 @@ export interface AuthContextValue {
   openLoginModal(destinationId?: string): void;
   closeLoginModal(): void;
   sendOtp(email: string): Promise<SendOtpResponse>;
+  resendOtp(email: string): Promise<SendOtpResponse>;
   verifyOtp(email: string, otp: string): Promise<void>;
   logout(errorToastContainerId?: string): Promise<void>;
   usedVotes: number;

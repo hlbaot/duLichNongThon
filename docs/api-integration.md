@@ -39,3 +39,7 @@ Hạn mức toàn hội thi lấy từ `maxVotes` của `/votes/me`, không rese
 Đồng hồ hội thi chỉ hiển thị khi có `NEXT_PUBLIC_VOTING_END_AT` (ISO 8601) được ban tổ chức xác nhận; quyền bỏ phiếu do backend quyết định.
 
 Đã kiểm tra GET `/destinations?page=1&limit=1`: HTTP 200, 35 điểm đến; production cần cấu hình URL backend để Next.js tạo proxy rewrite.
+
+Card đề cử chỉ hiển thị video, tên, vị trí, số phiếu và nút Vote. Video lấy từ phần tử `VIDEO` đầu tiên trong `/destinations/:slug`; chỉ gọi cho các card ở trang hiện tại, dùng chung cache trong 60 giây. Link Vimeo riêng tư được chuyển sang player và giữ tham số `h`. Mô tả và nội dung đầy đủ chỉ nằm ở trang chi tiết; nhấn tên để mở.
+
+Top 3: khi chưa có điểm đến nào có phiếu (`votes > 0`), hiển thị khung chờ xếp hạng. Khi có phiếu, tự thay khung chờ bằng tối đa 3 card. Bằng số phiếu hiển thị đồng hạng ở podium (ví dụ 1, 1, 3); `displayOrder`, UUID quyết định 3 điểm đến được chọn nếu có nhiều người bằng phiếu. Không thay đổi giá trị `rank` của backend trong store.

@@ -129,6 +129,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       try { return await authService.sendOtp(email); }
       catch (error) { throw new Error(apiErrorMessage(error)); }
     },
+    resendOtp: async email => {
+      try { return await authService.resendOtp(email); }
+      catch (error) { throw new Error(apiErrorMessage(error)); }
+    },
     verifyOtp, logout, vote,
     usedVotes: myVotes?.usedVotes ?? 0,
     remainingVotes: myVotes?.remainingVotes ?? 0,

@@ -8,7 +8,15 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 body { font-family: 'Manrope', sans-serif; }
-h1, h2 { text-wrap: balance; }
+h1, h2, h3, h4, h5, h6 {
+  text-wrap: balance;
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+p {
+  text-wrap: pretty;
+  overflow-wrap: break-word;
+}
 button, a, input, select { -webkit-tap-highlight-color: transparent; }
 button, a { touch-action: manipulation; }
 button:disabled { cursor: not-allowed; opacity: .65; }

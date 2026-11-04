@@ -1,8 +1,9 @@
 "use client";
 import type { SortOption } from "@/types/destination-grid";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { useVoting } from "@/context/voting-context";
+import { getDestinations } from "@/api/destinations";
 import { DestinationCard } from "./destination-card";
 import { Search, Compass, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, X } from "lucide-react";
 
@@ -15,27 +16,48 @@ export function DestinationGrid() {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy] = useState<SortOption>("votes-desc");
   const [currentPage, setCurrentPage] = useState(1);
+  const [serverMatchedIds, setServerMatchedIds] = useState<string[] | null>(null);
 
   const handleSearchChange = (query: string) => {
     setSearchQuery(query);
     setCurrentPage(1);
   };
 
-  // Filter & sort (Chỉ lọc qua tìm kiếm theo tên, tỉnh thành, mã dự thi DLNT... và sắp xếp)
+  // Gọi API GET /destinations?keyword=... khi người dùng tìm kiếm
+  useEffect(() => {
+    const q = searchQuery.trim();
+    if (!q) {
+      setServerMatchedIds(null);
+      return;
+    }
+    const timer = setTimeout(async () => {
+      try {
+        const res = await getDestinations({ keyword: q, page: 1, limit: 50 });
+        setServerMatchedIds(res.items.map((item) => item.id));
+      } catch {
+        // Fallback local search nếu có sự cố mạng
+        setServerMatchedIds(null);
+      }
+    }, 250);
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
+
+  // Filter & sort (Kết hợp kết quả tìm kiếm server-side từ API và lọc bổ trợ mã hồ sơ local)
   const filteredDestinations = useMemo(() => {
     let result = [...destinations];
 
-    // Filter purely by search query
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase().trim();
-      result = result.filter(
-        (d) =>
+      result = result.filter((d) => {
+        if (serverMatchedIds && serverMatchedIds.includes(d.id)) return true;
+        return (
           d.name.toLowerCase().includes(q) ||
           d.province.toLowerCase().includes(q) ||
           d.code.toLowerCase().includes(q) ||
           (d.recordCode && d.recordCode.toLowerCase().includes(q)) ||
           d.tags.some((t) => t.toLowerCase().includes(q))
-      );
+        );
+      });
     }
 
     // Sort
@@ -54,15 +76,6 @@ export function DestinationGrid() {
 
     return result;
   }, [destinations, searchQuery, sortBy]);
-
-  // Overall ranks mapping based on all destinations sorted by votes
-  const rankMap = useMemo(() => {
-    const map = new Map<string, number>();
-    destinations.forEach((d, index) => {
-      map.set(d.id, index + 1);
-    });
-    return map;
-  }, [destinations]);
 
   // Pagination calculation
   const totalItems = filteredDestinations.length;
@@ -132,7 +145,6 @@ export function DestinationGrid() {
                 <DestinationCard
                   key={dest.id}
                   destination={dest}
-                  rank={rankMap.get(dest.id) || 1}
                   index={idx}
                 />
               ))}

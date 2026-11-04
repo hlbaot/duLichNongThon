@@ -19,6 +19,12 @@ export interface SendOtpResponse {
   retryAfter: number;
 }
 
+export interface ResendOtpRequest {
+  email: string;
+}
+
+export type ResendOtpResponse = SendOtpResponse;
+
 export interface VerifyOtpRequest {
   email: string;
   /** Exactly six digits; keep leading zeroes. */

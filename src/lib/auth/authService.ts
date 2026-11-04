@@ -66,6 +66,7 @@ async function authorized<T>(operation: (accessToken: string) => Promise<T>): Pr
 export const authService = {
   hasSession: () => readSession() !== null,
   async sendOtp(email: string) { return api.sendOtp({ email: normalizeEmail(email) }); },
+  async resendOtp(email: string) { return api.resendOtp({ email: normalizeEmail(email) }); },
   async verifyOtp(email: string, otp: string) {
     const session = await api.verifyOtp({ email: normalizeEmail(email), otp });
     saveSession(session);

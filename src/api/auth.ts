@@ -5,6 +5,8 @@ import type {
   LogoutResponse,
   RefreshTokenRequest,
   RefreshTokenResponse,
+  ResendOtpRequest,
+  ResendOtpResponse,
   SendOtpRequest,
   SendOtpResponse,
   VerifyOtpRequest,
@@ -13,6 +15,11 @@ import type {
 
 export async function sendOtp({ email }: SendOtpRequest): Promise<SendOtpResponse> {
   const { data } = await https.post<SendOtpResponse>("/auth/otp/send", { email });
+  return data;
+}
+
+export async function resendOtp({ email }: ResendOtpRequest): Promise<ResendOtpResponse> {
+  const { data } = await https.post<ResendOtpResponse>("/auth/otp/resend", { email });
   return data;
 }
 

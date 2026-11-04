@@ -50,7 +50,7 @@ const BURST = [
 ] as const;
 function FourPointStar() { return <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0 10 6 16 8 10 10 8 16 6 10 0 8 6 6Z" /></svg>; }
 
-export function TopRankCard({ rank, destination, delay, play }: TopRankCardProps) {
+export function TopRankCard({ rank, destination, delay, play, order, tied = false }: TopRankCardProps) {
   const theme = RANK_THEME[rank];
   const Icon = theme.icon;
   const reduced = useReducedMotion();
@@ -90,20 +90,20 @@ export function TopRankCard({ rank, destination, delay, play }: TopRankCardProps
     if (tilt.current) delete tilt.current.dataset.tilting;
   };
   const style = {
-    "--rank-order": theme.order, "--rank-header": theme.header, "--rank-border": theme.border,
+    "--rank-order": order ?? theme.order, "--rank-header": theme.header, "--rank-border": theme.border,
     "--rank-ink": theme.ink, "--rank-label-surface": theme.labelSurface, "--rank-vote-ink": theme.voteInk, "--rank-tint": theme.tint,
     "--rank-glow": theme.glow, "--rank-badge": theme.badge, "--rank-entrance": theme.entrance,
     "--rank-delay": `${delay}ms`, "--rank-mobile-delay": `${rank * 200}ms`,
     "--rank-duration": `${theme.duration}ms`, "--rank-shine-delay": `${theme.shine}ms`,
   } as CSSProperties;
   return <div className={`rank-slot rank-slot-${rank}`} style={style}>
-    <div className={`rank-reveal ${play ? "rank-playing" : ""} ${entering ? "rank-entering" : ""} ${complete ? "rank-complete" : ""}`} inert={!play && !reduced} onAnimationStart={event => { if (event.target === event.currentTarget) setEntering(true); }} onAnimationEnd={event => { if (event.target === event.currentTarget) { setEntering(false); setComplete(true); } }}>
+    <div className={`rank-reveal ${play ? "rank-playing" : ""} ${entering ? "rank-entering" : ""} ${complete ? "rank-complete" : ""}`} onAnimationStart={event => { if (event.target === event.currentTarget) setEntering(true); }} onAnimationEnd={event => { if (event.target === event.currentTarget) { setEntering(false); setComplete(true); } }}>
       <div ref={tilt} className="rank-tilt" onPointerMove={onMove} onPointerLeave={resetTilt} onPointerCancel={resetTilt}>
         <div className="rank-glow" aria-hidden="true" />
-        <article className="rank-frame" aria-label={`Hạng ${rank}: ${destination.name}`}>
+        <article className="rank-frame" aria-label={`${tied ? "Đồng hạng" : "Hạng"} ${rank}: ${destination.name}`}>
           <div className="rank-surface">
             <Link href={detailUrl} prefetch={true} className="rank-visual cursor-pointer block" title={`Xem chi tiết bài thi ${destination.name}`}>
-              <header className="rank-header"><span><Icon size={18} strokeWidth={1.8} />{theme.label}</span><span className="rank-badge-plate"><strong className="rank-badge">0{rank}</strong></span></header>
+              <header className="rank-header"><span><Icon size={18} strokeWidth={1.8} />{tied ? `ĐỒNG HẠNG ${rank}` : theme.label}</span><span className="rank-badge-plate"><strong className="rank-badge">0{rank}</strong></span></header>
               <div className="rank-photo"><DestinationImage src={destination.imageUrl} alt={destination.name} region={destination.region} /><div className="rank-photo-shade" /><div className="rank-place"><p><MapPin size={12} />{destination.province}</p><h3>{destination.name}</h3></div></div>
               <div className="rank-shine" aria-hidden="true" />
               {rank === 1 && <div className="rank-sparkles" aria-hidden="true">{SPARKLES.map((sparkle, index) => <span key={index} style={{ left:sparkle.x, top:sparkle.y, "--sparkle-delay":`${sparkle.delay + 1000}ms` } as CSSProperties}><FourPointStar /></span>)}</div>}

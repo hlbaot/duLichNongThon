@@ -6,7 +6,7 @@
 .modal-header > div > div:first-child, .modal-header > button { flex-shrink: 0; }
 .modal-header h3 { text-wrap: balance; }
 .modal-header button, .responsive-modal-panel > button { min-width: 44px; min-height: 44px; }
-.modal-body { min-height: 0; overscroll-behavior: contain; overflow-wrap: anywhere; }
+.modal-body { min-height: 0; overscroll-behavior: contain; overflow-wrap: break-word; word-break: normal; }
 .modal-body button { min-height: 44px; }
 .modal-footer { flex-shrink: 0; }
 

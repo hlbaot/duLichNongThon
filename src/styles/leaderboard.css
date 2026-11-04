@@ -51,10 +51,11 @@
   .podium-votes .vote-button { width: auto; }
 }
 
-.section-heading h2 { overflow-wrap: break-word; }
+.section-heading h2 { overflow-wrap: break-word; word-break: normal; text-wrap: balance; }
 
-.podium-label, .podium-place, .podium-body { overflow-wrap: anywhere; }
-.podium-votes .vote-button { min-height: 44px; }
+.podium-label, .podium-place, .podium-body { overflow-wrap: break-word; word-break: normal; }
+.podium-place h3 { text-wrap: balance; overflow-wrap: break-word; word-break: normal; }
+.podium-votes .vote-button { min-height: 44px; white-space: nowrap; }
 
 @media (min-width: 640px) and (max-width: 899px) {
   .podium-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 720px; gap: 24px; }
@@ -96,7 +97,7 @@
 .premium-podium { position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.08fr) minmax(0,1fr);gap:28px;align-items:end;margin-top:76px; }
 .rank-slot { min-width:0;order:var(--rank-order);position:relative; }
 .rank-slot-1 { z-index:3; }
-.rank-reveal { opacity:0;visibility:hidden;pointer-events:none; }
+.rank-reveal { opacity:1;visibility:visible;pointer-events:auto; }
 .rank-playing { animation:var(--rank-entrance) var(--rank-duration) var(--rank-delay) cubic-bezier(.16,1,.3,1) both;pointer-events:auto; }
 .rank-entering { will-change:transform,opacity,filter; }
 @keyframes rank-enter-gold { from {visibility:visible;opacity:0;transform:translateY(60px) scale(.85);filter:blur(12px);} to {visibility:visible;opacity:1;transform:translateY(0) scale(1);filter:blur(0);} }
@@ -190,3 +191,38 @@
 /* Keep the terminal layout stable when resizing after the one-shot entrance. */
 .rank-reveal.rank-complete { animation:none; opacity:1; visibility:visible; transform:none; filter:none; }
 .rank-photo .destination-image-fallback small { background:#14352aeb; color:#f4f8f0; border:1px solid #d5eac433; padding:4px 8px; border-radius:4px; }
+
+/* The podium remains visible even if entrance animation observation is unavailable. */
+.premium-podium[data-count="1"] { grid-template-columns: minmax(0, 440px); justify-content: center; }
+.premium-podium[data-count="2"] { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 920px; margin-inline: auto; }
+.rank-place h3 { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden; }
+.ranking-empty { position: relative; display: grid; grid-template-columns: .85fr 1.15fr; align-items: center; gap: clamp(28px, 5vw, 80px); margin-top: 38px; padding: clamp(28px, 5vw, 64px); border: 1px solid #ffffffc9; border-radius: 32px; background: radial-gradient(ellipse at 15% 20%, #ffffffc9, transparent 60%), linear-gradient(120deg, #f7fcf6b3, #edf8ee80); box-shadow: 0 18px 65px #164c3010, inset 0 1px 0 #fff; overflow: hidden; }
+.ranking-empty-art { position: relative; display: flex; align-items: end; justify-content: center; width: 100%; height: 260px; max-width: 340px; margin: auto; padding-bottom: 12px; }
+.ranking-empty-orbit { position: absolute; width: 260px; height: 260px; border: 1px solid #30825e1c; border-radius: 50%; background: radial-gradient(circle, #f7e1a233, #ffffff00 68%); }
+.ranking-empty-orbit::after { content: ""; position: absolute; inset: 24px; border: 1px dashed #30825e26; border-radius: 50%; }
+.ranking-empty-crown { position: absolute; top: 4px; left: 50%; display: grid; place-items: center; width: 76px; height: 76px; transform: translateX(-50%) rotate(-8deg); border: 1px solid #ffffff; border-radius: 25px; color: #987123; background: linear-gradient(140deg, #fffdf1, #f6e9c1); box-shadow: 0 14px 32px #9871231a; }
+.ranking-empty-sparkle { position: absolute; top: 64px; right: 18px; color: #a98a40; transform: rotate(12deg); }
+.ranking-empty-steps { z-index: 1; display: flex; align-items: end; gap: 10px; width: 100%; padding-inline: 8px; }
+.ranking-empty-steps > div { display: flex; flex: 1; flex-direction: column; align-items: center; justify-content: center; gap: 12px; height: 100px; border: 1px solid #ffffffc9; border-radius: 17px 17px 10px 10px; color: #38795f; background: linear-gradient(150deg, #f8fdfb, #cde5d7); box-shadow: 0 12px 18px #174b2e0b; }
+.ranking-empty-steps > div:nth-child(2) { height: 150px; color: #8b6d2b; background: linear-gradient(150deg, #fffdf5, #eee3bc); }
+.ranking-empty-steps > div:nth-child(3) { height: 76px; background: linear-gradient(150deg, #f6fcf8, #dbeade); }
+.ranking-empty-steps span { font-size: 23px; font-weight: 800; opacity: .55; }
+.ranking-empty-status { display: inline-flex; align-items: center; gap: 8px; font-size: 10px; font-weight: 800; letter-spacing: .09em; text-transform: uppercase; color: #38745a; }
+.ranking-empty-status > span { width: 7px; height: 7px; border-radius: 50%; background: #4d9b73; box-shadow: 0 0 0 4px #4d9b7312; }
+.ranking-empty-copy h3 { margin-top: 16px; font-size: clamp(26px, 3vw, 38px); font-weight: 750; line-height: 1.2; letter-spacing: -.045em; color: #164d3b; }
+.ranking-empty-copy > p { max-width: 440px; margin-top: 16px; color: #587363; font-size: 14px; line-height: 1.8; }
+.ranking-empty-cta { display: inline-flex; align-items: center; justify-content: center; gap: 16px; min-height: 48px; margin-top: 25px; padding: 12px 20px; border-radius: 14px; color: #fff; background: #215c45; box-shadow: 0 8px 20px #215c451a; font-size: 13px; font-weight: 750; transition: background .2s, transform .2s; }
+.ranking-empty-cta:hover { background: #164632; transform: translateY(-2px); }
+.ranking-empty-footnote { display: block; margin-top: 13px; font-size: 10px; color: #648271; }
+@media (max-width: 767px) {
+  .premium-podium[data-count="2"] { grid-template-columns: minmax(0, 1fr); max-width: 460px; }
+  .ranking-empty { grid-template-columns: 1fr; gap: 26px; padding: 28px 24px 32px; border-radius: 25px; }
+  .ranking-empty-art { height: 215px; max-width: 280px; }
+  .ranking-empty-orbit { width: 210px; height: 210px; }
+  .ranking-empty-crown { width: 64px; height: 64px; border-radius: 20px; }
+  .ranking-empty-steps > div { height: 85px; }
+  .ranking-empty-steps > div:nth-child(2) { height: 125px; }
+  .ranking-empty-steps > div:nth-child(3) { height: 65px; }
+  .ranking-empty-copy { text-align: center; }
+  .ranking-empty-copy > p { margin-inline: auto; }
+}

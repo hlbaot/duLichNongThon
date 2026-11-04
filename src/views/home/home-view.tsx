@@ -9,10 +9,6 @@ import { Top3Leaderboard } from "@/components/top3";
 import { DestinationGrid } from "@/components/destination-grid";
 import { HowToVote } from "@/components/how-to-vote";
 import { Footer } from "@/components/footer";
-import { LoginModal } from "@/components/login-modal";
-import { VoteModal } from "@/components/vote-modal";
-import { LeaderboardModal } from "@/components/leaderboard-modal";
-import { RulesModal } from "@/components/rules-modal";
 import { BackToTop } from "@/components/back-to-top";
 
 export default function HomeView() {
@@ -42,10 +38,6 @@ export default function HomeView() {
           </div>
         </CampaignContent>
         <BackToTop />
-        <LoginModal />
-        <VoteModal />
-        <LeaderboardModal />
-        <RulesModal />
       </div>
     </>
   );

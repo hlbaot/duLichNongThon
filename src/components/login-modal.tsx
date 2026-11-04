@@ -92,12 +92,13 @@ function LoginPanel({ standalone }: { standalone: boolean }) {
   };
 
   const resend = () => run(async () => {
-    const result = await auth.sendOtp(normalizedEmail);
+    const result = await auth.resendOtp(normalizedEmail);
     if (!mounted.current) return;
     setResendAt(Date.now() + result.retryAfter * 1000);
     setExpiresAt(Date.now() + result.expiresIn * 1000);
     setOtp(Array(6).fill(""));
     inputs.current[0]?.focus();
+    toast.success("Mã OTP mới đã được gửi lại vào email của bạn.");
   });
 
   const verify = async (event: FormEvent) => {

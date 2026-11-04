@@ -46,7 +46,7 @@
 .rules-support { display: flex; align-items: center; gap: 12px; margin-top: 24px; font-size: 12px; color: #5b744f; }
 .rules-support > svg { flex-shrink: 0; }
 .rules-support span { display: block; }
-.rules-support a { display: inline-block; color: #315e32; font-weight: 700; overflow-wrap: anywhere; text-underline-offset: 3px; }
+.rules-support a { display: inline-block; color: #315e32; font-weight: 700; overflow-wrap: break-word; word-break: break-all; text-underline-offset: 3px; }
 .rules-support a:hover { text-decoration: underline; }
 .rules-footer { border-top: 1px solid #c7dabc; background: #e3eedb; padding: 16px 28px; display: flex; justify-content: flex-end; flex-shrink: 0; }
 .rules-footer button { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 12px 22px; min-height: 44px; border-radius: 9px; color: #f3f8ed; background: #326a40; font-size: 13px; font-weight: 700; cursor: pointer; }

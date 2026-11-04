@@ -2,6 +2,10 @@
 import { Toast } from "@/components/toast";
 import DevToolsGuard from "@/components/DevToolsGuard";
 import { VotingProvider } from "@/context/voting-context";
+import { LoginModal } from "@/components/login-modal";
+import { VoteModal } from "@/components/vote-modal";
+import { LeaderboardModal } from "@/components/leaderboard-modal";
+import { RulesModal } from "@/components/rules-modal";
 
 export default function RootLayoutView({
   children,
@@ -27,6 +31,10 @@ export default function RootLayoutView({
         <DevToolsGuard />
         <VotingProvider>
           {children}
+          <LoginModal />
+          <VoteModal />
+          <LeaderboardModal />
+          <RulesModal />
           <Toast />
         </VotingProvider>
       </body>
