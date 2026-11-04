@@ -1,6 +1,5 @@
 /* eslint-disable @next/next/no-page-custom-font, @next/next/no-head-element -- This view renders the App Router root document. */
 import { Toast } from "@/components/toast";
-import DevToolsGuard from "@/components/DevToolsGuard";
 import { VotingProvider } from "@/context/voting-context";
 import { GlobalModals } from "@/components/global-modals";
 
@@ -31,7 +30,6 @@ export default function RootLayoutView({
         />
       </head>
       <body className="isolate min-h-screen bg-bg-base text-[#1B2B22] font-sans antialiased selection:bg-[#7CB342]/20 selection:text-[#1F6B45]">
-        <DevToolsGuard />
         <VotingProvider>
           {children}
           <GlobalModals />
