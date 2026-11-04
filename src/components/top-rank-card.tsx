@@ -1,7 +1,7 @@
 "use client";
 import type { TopRankCardProps } from "@/types/top-rank-card";
 
-import { useEffect, useRef, useState, type CSSProperties, type PointerEvent } from "react";
+import { useEffect, useRef, useState, memo, type CSSProperties, type PointerEvent } from "react";
 import Link from "next/link";
 import { Award, Check, Crown, Heart, Medal, MapPin } from "lucide-react";
 import { useVoting } from "@/context/voting-context";
@@ -50,7 +50,7 @@ const BURST = [
 ] as const;
 function FourPointStar() { return <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0 10 6 16 8 10 10 8 16 6 10 0 8 6 6Z" /></svg>; }
 
-export function TopRankCard({ rank, destination, delay, play, order, tied = false }: TopRankCardProps) {
+function TopRankCardInner({ rank, destination, delay, play, order, tied = false }: TopRankCardProps) {
   const theme = RANK_THEME[rank];
   const Icon = theme.icon;
   const reduced = useReducedMotion();
@@ -135,3 +135,5 @@ export function TopRankCard({ rank, destination, delay, play, order, tied = fals
     </div>
   </div>;
 }
+
+export const TopRankCard = memo(TopRankCardInner);

@@ -5,6 +5,8 @@ import { useEffect } from "react";
 /** A client-side deterrent only; never use this as an authorization boundary. */
 export default function DevToolsGuard() {
   useEffect(() => {
+    if (process.env.NODE_ENV !== "production") return;
+
     const overlay = document.createElement("div");
     overlay.setAttribute("role", "alertdialog");
     overlay.setAttribute("aria-modal", "true");

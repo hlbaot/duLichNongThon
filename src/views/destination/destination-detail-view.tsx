@@ -2,31 +2,55 @@ import type { PageProps } from "@/types/destination-route";
 import type { Metadata } from "next";
 import { cache, Suspense } from "react";
 import { notFound } from "next/navigation";
-import axios from "axios";
 import { getDestination } from "@/api/destinations";
-import { DestinationVideo } from "@/components/destination-video";
-import { DestinationImage } from "@/components/destination-image";
+import { getRankings } from "@/api/rankings";
+import type { GetDestinationResponse } from "@/types/api/destinations";
+import type { RankedDestination } from "@/types/api/rankings";
 import { DestinationDetailClient } from "@/components/destination-detail-client";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
+import { Playfair_Display, Manrope } from "next/font/google";
 import { BackToTop } from "@/components/back-to-top";
 
-const loadDestination = cache(async (slug: string) => {
+const editorial = Playfair_Display({ subsets: ["latin", "vietnamese"], display: "swap", variable: "--font-profile-serif" });
+const bodyFont = Manrope({ subsets: ["latin", "vietnamese"], display: "swap", variable: "--font-profile-sans" });
+
+/** Chỉ hiển thị dữ liệu thật do BE trả về; không dựng dữ liệu thay thế. */
+const loadDestination = cache(async (rawParam: string): Promise<GetDestinationResponse> => {
+  const decoded = decodeURIComponent(rawParam).trim();
+
   try {
-    return await getDestination({ slug });
-  } catch (error) {
-    if (axios.isAxiosError(error) && error.response?.status === 404) notFound();
-    throw error;
+    return await getDestination({ slug: decoded });
+  } catch {
+    // Thử tra cứu slug thật theo id (UUID) trong bảng xếp hạng.
   }
+
+  try {
+    const rankings = await getRankings();
+    const matched = rankings.items?.find(
+      (item: RankedDestination) => item.id.toLowerCase() === decoded.toLowerCase(),
+    );
+    if (matched) return await getDestination({ slug: matched.slug });
+  } catch {
+    // Không có dữ liệu từ BE.
+  }
+
+  notFound();
 });
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { id: slug } = await params;
-  const destination = await loadDestination(slug);
-  return {
-    title: `${destination.title} | Hội thi Du lịch Nông thôn 2026`,
-    description: destination.brief,
-  };
+  try {
+    const destination = await loadDestination(slug);
+    return {
+      title: `${destination.title} | Hội thi Du lịch Nông thôn 2026`,
+      description: destination.brief,
+    };
+  } catch {
+    return {
+      title: "Chi tiết điểm đến | Hội thi Du lịch Nông thôn 2026",
+    };
+  }
 }
 
 async function DestinationContent({ params }: PageProps) {
@@ -34,53 +58,11 @@ async function DestinationContent({ params }: PageProps) {
   const destination = await loadDestination(slug);
 
   return (
-    <div className="relative min-h-screen flex flex-col bg-[#FDFEFC] text-[#1B2B22]">
+    <div className={`destination-detail-page ${editorial.variable} ${bodyFont.variable}`}>
       <Navbar />
 
-      <main className="mx-auto flex-1 w-full max-w-5xl px-4 sm:px-6 lg:px-8 pt-24 pb-16 space-y-8">
-        {/* Client-side actions: Breadcrumb, Live Voting stats & button, markdown formatting */}
+      <main className="profile-page-main">
         <DestinationDetailClient destination={destination} />
-
-        {/* Media gallery: Video Vimeo & Photos */}
-        {destination.media.length > 0 && (
-          <section aria-label="Hình ảnh và video bài dự thi" className="space-y-4">
-            <h2 className="text-xl sm:text-2xl font-black text-[#0E382B]">
-              Video &amp; Hình ảnh bài dự thi
-            </h2>
-            <div className="grid gap-6 sm:grid-cols-2">
-              {destination.media.map((media) => (
-                <figure
-                  key={media.id}
-                  className="space-y-2 rounded-2xl bg-white p-3 border border-[#026E4E]/12 shadow-xs"
-                >
-                  {media.mediaType === "IMAGE" ? (
-                    <div className="relative aspect-video overflow-hidden rounded-xl bg-gray-100">
-                      <DestinationImage
-                        src={media.mediaUrl}
-                        alt={media.caption ?? destination.title}
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
-                  ) : (
-                    <div className="relative aspect-video overflow-hidden rounded-xl bg-black">
-                      <DestinationVideo
-                        src={media.mediaUrl}
-                        title={media.caption ?? destination.title}
-                        poster={destination.thumbnailUrl ?? undefined}
-                      />
-                    </div>
-                  )}
-                  {media.caption && (
-                    <figcaption className="text-xs sm:text-sm font-medium text-[#4B6354] px-1">
-                      {media.caption}
-                    </figcaption>
-                  )}
-                </figure>
-              ))}
-            </div>
-          </section>
-        )}
       </main>
 
       <Footer />

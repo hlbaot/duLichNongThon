@@ -97,7 +97,7 @@ export function DestinationGrid() {
 
   return (
     <section id="destinations" className="destinations-section">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-8">
+      <div className="mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-8 space-y-8">
         {/* Section Header (Tối đa 2 tầng text gọn gàng, không lộn xộn) */}
         <div className="destination-heading space-y-2.5" data-aos="fade-up">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#1F6B45]/10 text-[#1F6B45] text-xs font-semibold">
@@ -139,7 +139,7 @@ export function DestinationGrid() {
           <div className="space-y-10">
             <div
               key={`${searchQuery}-${sortBy}-${safeCurrentPage}`}
-              className="destination-cards grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+              className="destination-cards grid gap-6"
             >
               {currentItems.map((dest, idx) => (
                 <DestinationCard

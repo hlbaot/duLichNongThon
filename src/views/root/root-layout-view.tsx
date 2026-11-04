@@ -2,10 +2,7 @@
 import { Toast } from "@/components/toast";
 import DevToolsGuard from "@/components/DevToolsGuard";
 import { VotingProvider } from "@/context/voting-context";
-import { LoginModal } from "@/components/login-modal";
-import { VoteModal } from "@/components/vote-modal";
-import { LeaderboardModal } from "@/components/leaderboard-modal";
-import { RulesModal } from "@/components/rules-modal";
+import { GlobalModals } from "@/components/global-modals";
 
 export default function RootLayoutView({
   children,
@@ -16,8 +13,7 @@ export default function RootLayoutView({
     <html lang="vi">
       <head>
         <link rel="preconnect" href="https://player.vimeo.com" />
-        <link rel="preconnect" href="https://i.vimeocdn.com" />
-        <link rel="preconnect" href="https://f.vimeocdn.com" />
+        <link rel="preconnect" href="https://i.vimeocdn.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://vod-adaptive-ak.vimeocdn.com" />
         <link rel="dns-prefetch" href="https://vod-adaptive.akamaized.net" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -31,10 +27,7 @@ export default function RootLayoutView({
         <DevToolsGuard />
         <VotingProvider>
           {children}
-          <LoginModal />
-          <VoteModal />
-          <LeaderboardModal />
-          <RulesModal />
+          <GlobalModals />
           <Toast />
         </VotingProvider>
       </body>

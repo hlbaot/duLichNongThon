@@ -77,3 +77,19 @@
   --color-gold-600: var(--gold-600);
   --color-gold-700: var(--gold-700);
 }
+
+/* Editorial destination page palette, scoped to keep the rest of the site unchanged. */
+.destination-detail-page {
+  --profile-bg: #F4F1E6;
+  --profile-card: #FBF9F2;
+  --profile-ink: #0F2418;
+  --profile-muted: #3F4B3C;
+  --profile-green: #2F8F5B;
+  --profile-green-deep: #1F6B43;
+  --profile-gold: #D9A441;
+  --profile-brick: #B5442E;
+  --profile-indigo: #2B3A67;
+  --profile-line: #1f3a2b24;
+  --profile-tint: #e6ecdf;
+  --accent: #2F8F5B;
+}

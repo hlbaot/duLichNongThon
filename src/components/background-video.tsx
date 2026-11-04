@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { CAMPAIGN_POSTER, VIMEO_EMBED_URL } from "@/lib/media";
+import { videoManager } from "@/lib/video-manager";
 
 const VIMEO_ORIGIN = new URL(VIMEO_EMBED_URL).origin;
 
@@ -72,6 +73,14 @@ export function BackgroundVideo() {
       }
     };
 
+    const unsubscribeVideoManager = videoManager.subscribe((activeId) => {
+      if (activeId !== null) {
+        send("pause");
+      } else if (document.visibilityState === "visible") {
+        send("play");
+      }
+    });
+
     window.addEventListener("message", handleMessage);
     iframe.addEventListener("load", connect);
     document.addEventListener("visibilitychange", play);
@@ -81,6 +90,7 @@ export function BackgroundVideo() {
     window.addEventListener("keydown", play);
     connect();
     return () => {
+      unsubscribeVideoManager();
       window.clearInterval(readyTimer);
       window.clearInterval(playbackTimer);
       iframe.removeEventListener("load", connect);

@@ -45,7 +45,7 @@
 }
 
 .story-section { background: transparent; }
-.story-section > .site-container { padding: clamp(24px, 4vw, 48px); background: #ffffff; border: 1px solid rgba(2, 110, 78, 0.1); border-radius: 28px; box-shadow: 0 16px 45px rgba(2, 110, 78, 0.06); backdrop-filter: blur(24px); }
+.story-section > .site-container { padding: clamp(24px, 4vw, 48px); background: #ffffff; border: 1px solid rgba(2, 110, 78, 0.1); border-radius: 28px; box-shadow: 0 16px 45px rgba(2, 110, 78, 0.06); }
 .story-intro { column-gap: 60px; }
 .stats-band { background: linear-gradient(125deg, var(--green-50), var(--green-100)); border-color: rgba(2, 110, 78, 0.12); }
 .stats-band > div { border-color: rgba(2, 110, 78, 0.12); }

@@ -1,4 +1,5 @@
 .destinations-section { padding-block: 80px; }
+.destination-cards { grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); }
 .destination-heading { max-width: 720px; }
 .destination-heading > div { background: transparent; padding-left: 0; letter-spacing: .1em; font-size: 10px; text-transform: uppercase; color: #026E4E; }
 .destination-heading h2 { font-family: 'Lora', Georgia, serif; font-weight: 500; color: #0E382B; }
@@ -34,14 +35,28 @@
   .filter-search { min-width: 0; }
 }
 
-.destination-filters { background: #F4FAF6; border-color: rgba(2, 110, 78, 0.1); box-shadow: 0 4px 20px rgba(2, 110, 78, 0.04); backdrop-filter: blur(24px); }
+.destination-filters { background: #F4FAF6; border-color: rgba(2, 110, 78, 0.1); box-shadow: 0 4px 20px rgba(2, 110, 78, 0.04); }
 .destination-filters input, .destination-filters select { background: #FFFFFF; }
-.destination-card { background: #FFFFFF; border: 1px solid rgba(2, 110, 78, 0.1); backdrop-filter: blur(24px); box-shadow: 0 6px 24px rgba(2, 110, 78, 0.05); }
-.destination-card:hover { box-shadow: 0 16px 38px rgba(2, 110, 78, 0.14); border-color: rgba(2, 110, 78, 0.25); }
+.destination-card { 
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 20px;
+  background: linear-gradient(165deg, #10382E 0%, #08231C 100%);
+  border: 1px solid rgba(142, 182, 155, 0.22);
+  box-shadow: 0 10px 30px -5px rgba(5, 31, 32, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.28s ease, border-color 0.28s ease;
+  will-change: transform;
+}
+.destination-card:hover { 
+  transform: translateY(-6px);
+  border-color: rgba(110, 231, 183, 0.45);
+  box-shadow: 0 22px 45px -10px rgba(2, 35, 27, 0.5), 0 0 25px rgba(2, 110, 78, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
 
-.destination-card { display: flex; min-width: 0; flex-direction: column; overflow: hidden; }
-.destination-card-media { position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; background: #e4f0e8; }
-.destination-card-body { display: flex; flex: 1; flex-direction: column; gap: 16px; padding: 18px; }
+.destination-card-media { position: relative; width: 100%; aspect-ratio: 16 / 10; overflow: hidden; background: #061914; }
+.destination-card-body { display: flex; flex: 1; flex-direction: column; gap: 14px; padding: 18px; }
 .destination-card-title {
   display: -webkit-box;
   -webkit-box-orient: vertical;
@@ -50,15 +65,22 @@
   overflow-wrap: break-word;
   word-break: normal;
   text-wrap: balance;
-  min-height: 2.9em;
+  min-height: 2.8em;
   font-size: 16px;
   font-weight: 800;
   line-height: 1.45;
+  color: #F8FCF9;
+  transition: color 0.2s ease;
 }
-.destination-card-location { display: flex; align-items: center; gap: 5px; margin-top: 8px; font-size: 12px; line-height: 1.4; color: #4b6354; }
-.destination-card-location > svg { flex-shrink: 0; }
+.destination-card-title:hover {
+  color: #FFB020;
+}
+.destination-card-location { display: flex; align-items: center; gap: 6px; margin-top: 6px; font-size: 13px; line-height: 1.4; color: #8EB69B; font-weight: 500; }
+.destination-card-location > svg { flex-shrink: 0; color: #FF9F00; }
 .destination-card-location > span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.destination-card-actions { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: auto; padding-top: 14px; border-top: 1px solid #026e4e12; }
+.destination-card-actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin-top: auto; padding-top: 14px; border-top: 1px solid rgba(255, 255, 255, 0.08); }
+.destination-card-actions > div:last-child { display: flex; flex-wrap: wrap; justify-content: flex-end; max-width: 100%; margin-left: auto; }
+.destination-card-actions .vote-button { gap: 6px; padding: 10px 14px; font-size: 12px; }
 @media (max-width: 767px) {
   .destination-card-body { padding: 14px; gap: 12px; }
   .destination-card-title { font-size: 15px; line-height: 1.4; min-height: 2.8em; }

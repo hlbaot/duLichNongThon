@@ -281,13 +281,16 @@ function VideoPreview({ src, title, poster }: DestinationVideoProps) {
   );
 }
 
-export function DestinationVideo({ src, title, poster, mode = "controls" }: DestinationVideoProps) {
+export function DestinationVideo({ src, title, poster, mode = "controls", autoPlay = false, muted = false }: DestinationVideoProps) {
   if (mode === "preview") return <VideoPreview key={src} src={src} title={title} poster={poster} />;
   const embedData = getVideoEmbed(src);
   if (embedData) {
+    const embedURL = new URL(embedData.url);
+    if (autoPlay) embedURL.searchParams.set("autoplay", "1");
+    if (muted) embedURL.searchParams.set("muted", "1");
     return (
       <iframe
-        src={embedData.url}
+        src={embedURL.toString()}
         title={title}
         loading="eager"
         allow="autoplay; fullscreen; picture-in-picture"
@@ -302,6 +305,8 @@ export function DestinationVideo({ src, title, poster, mode = "controls" }: Dest
       aria-label={title}
       poster={poster || undefined}
       controls
+      autoPlay={autoPlay}
+      muted={muted}
       playsInline
       loop
       preload="none"
