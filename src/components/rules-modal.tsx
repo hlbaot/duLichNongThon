@@ -3,10 +3,9 @@ import type { ActiveTab } from "@/types/rules-modal";
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { BookOpen, CalendarDays, Check, Info, Mail, Share2, X } from "lucide-react";
+import { BookOpen, CalendarDays, Check, Globe, Heart, Info, Mail, ShieldCheck, ThumbsUp, X } from "lucide-react";
 import { useVoting } from "@/context/voting-context";
-import { RulesAwards, RulesSteps, RulesValidity } from "./rules-content";
-
+import { OfficialRulesArticles, PlatformVotingGuide, RulesAwards } from "./rules-content";
 
 export function RulesModal() {
   const { rulesModalOpen, setRulesModalOpen } = useVoting();
@@ -70,7 +69,7 @@ export function RulesModal() {
                 BỘ NÔNG NGHIỆP VÀ MÔI TRƯỜNG • BAN TỔ CHỨC HỘI THI
               </span>
               <h2 id="rules-title" className="text-lg sm:text-xl font-black text-white truncate">
-                Thể Lệ & Quy Chế Bình Chọn Chính Thức 2026
+                Thể Lệ & Hướng Dẫn Bình Chọn Trực Tuyến 2026
               </h2>
             </div>
           </div>
@@ -94,7 +93,17 @@ export function RulesModal() {
                 : "bg-white text-[#4B6354] hover:text-[#0E382B] border border-[#026E4E]/10"
             }`}
           >
-            Tóm tắt cốt lõi
+            Thể lệ chính thức (4 Điều)
+          </button>
+          <button
+            onClick={() => setActiveTab("guide")}
+            className={`px-3.5 py-1.5 rounded-full transition-all shrink-0 cursor-pointer ${
+              activeTab === "guide" || activeTab === "steps"
+                ? "bg-[#026E4E] text-white shadow-xs"
+                : "bg-white text-[#4B6354] hover:text-[#0E382B] border border-[#026E4E]/10"
+            }`}
+          >
+            Hướng dẫn 3 Nền tảng
           </button>
           <button
             onClick={() => setActiveTab("awards")}
@@ -104,34 +113,14 @@ export function RulesModal() {
                 : "bg-white text-[#4B6354] hover:text-[#0E382B] border border-[#026E4E]/10"
             }`}
           >
-            Giải thưởng
-          </button>
-          <button
-            onClick={() => setActiveTab("steps")}
-            className={`px-3.5 py-1.5 rounded-full transition-all shrink-0 cursor-pointer ${
-              activeTab === "steps"
-                ? "bg-[#026E4E] text-white shadow-xs"
-                : "bg-white text-[#4B6354] hover:text-[#0E382B] border border-[#026E4E]/10"
-            }`}
-          >
-            Quy trình 5 bước
-          </button>
-          <button
-            onClick={() => setActiveTab("validity")}
-            className={`px-3.5 py-1.5 rounded-full transition-all shrink-0 cursor-pointer ${
-              activeTab === "validity"
-                ? "bg-[#026E4E] text-white shadow-xs"
-                : "bg-white text-[#4B6354] hover:text-[#0E382B] border border-[#026E4E]/10"
-            }`}
-          >
-            Tiêu chuẩn hợp lệ
+            Cơ cấu Giải thưởng
           </button>
         </div>
 
         {/* Modal Body */}
         <div className="flex-1 overflow-y-auto p-6 space-y-6 text-[#0E382B] text-sm leading-relaxed">
-          {/* TAB 1: OVERVIEW */}
-          {activeTab === "overview" && (
+          {/* TAB 1: THỂ LỆ CHÍNH THỨC */}
+          {(activeTab === "overview" || activeTab === "validity") && (
             <div className="space-y-6 animate-in fade-in duration-150">
               {/* Highlight summary cards */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -142,18 +131,18 @@ export function RulesModal() {
                 </div>
                 <div className="p-4 rounded-2xl bg-gradient-to-br from-emerald-50 to-emerald-100/40 border border-emerald-200/80 text-center">
                   <span className="block text-3xl font-black text-[#026E4E]">03</span>
-                  <span className="text-xs font-bold text-[#0E382B] mt-1 block">Lượt vote / tài khoản</span>
-                  <span className="text-[10px] text-[#4B6354]">Mỗi tài khoản trong toàn hội thi</span>
+                  <span className="text-xs font-bold text-[#0E382B] mt-1 block">Nền tảng</span>
+                  <span className="text-[10px] text-[#4B6354]">Facebook, TikTok, Web</span>
                 </div>
                 <div className="p-4 rounded-2xl bg-gradient-to-br from-emerald-50 to-emerald-100/40 border border-emerald-200/80 text-center">
-                  <span className="block text-3xl font-black text-[#026E4E]">OTP</span>
-                  <span className="text-xs font-bold text-[#0E382B] mt-1 block">Bảo mật</span>
-                  <span className="text-[10px] text-[#4B6354]">Xác thực OTP qua email</span>
+                  <span className="block text-3xl font-black text-[#026E4E]">1đ / vote</span>
+                  <span className="text-xs font-bold text-[#0E382B] mt-1 block">Tính điểm</span>
+                  <span className="text-[10px] text-[#4B6354]">1 Like = 1 Tim = 1 Vote</span>
                 </div>
                 <div className="p-4 rounded-2xl bg-gradient-to-br from-amber-50 to-amber-100/40 border border-amber-200/80 text-center">
-                  <span className="block text-3xl font-black text-[#FF9F00]">16</span>
+                  <span className="block text-3xl font-black text-[#FF9F00]">14</span>
                   <span className="text-xs font-bold text-[#0E382B] mt-1 block">Ngày bình chọn</span>
-                  <span className="text-[10px] text-[#4B6354]">05/11 đến 20/11/2026</span>
+                  <span className="text-[10px] text-[#4B6354]">07/11 đến 20/11/2026</span>
                 </div>
               </div>
 
@@ -165,60 +154,33 @@ export function RulesModal() {
                   </div>
                   <div>
                     <h4 className="font-extrabold text-[#0E382B]">Thời gian bình chọn chính thức</h4>
-                    <p className="text-xs text-[#4B6354]">Áp dụng đồng bộ trên toàn bộ các kênh truyền thông</p>
+                    <p className="text-xs text-[#4B6354]">Áp dụng đồng bộ trên toàn bộ 03 nền tảng chính thức</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3 text-xs sm:text-sm font-black bg-white px-4 py-2.5 rounded-xl border border-[#026E4E]/15 shadow-2xs">
-                  <span className="text-[#026E4E]">00:00 · 05/11/2026</span>
+                  <span className="text-[#026E4E]">00:00 · 07/11/2026</span>
                   <span className="text-[#4B6354]">đến</span>
                   <span className="text-[#FF9F00]">23:59 · 20/11/2026</span>
                 </div>
               </div>
 
-              {/* Core Purpose & Philosophy */}
-              <div className="space-y-3">
-                <h4 className="font-black text-base text-[#0E382B] flex items-center gap-2">
-                  <Info className="h-4 w-4 text-[#026E4E]" />
-                  <span>Mục đích & Ý nghĩa cuộc thi</span>
-                </h4>
-                <p className="text-sm text-[#4B6354] leading-relaxed">
-                  Hội thi <strong>“Điểm đến du lịch nông thôn Việt Nam tốt nhất” năm 2026</strong> do Ban Tổ chức Hội thi (Bộ Nông nghiệp và Môi trường) chủ trì tổ chức, nhằm tôn vinh 35 điểm đến du lịch nông nghiệp, sinh thái tiêu biểu; đồng thời kết nối cộng đồng gìn giữ cảnh quan thiên nhiên và thúc đẩy kinh tế nông thôn bền vững.
-                </p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-                  <div className="p-3.5 rounded-xl bg-white border border-[#026E4E]/10 shadow-2xs space-y-1">
-                    <span className="text-xs font-bold text-[#026E4E] flex items-center gap-1.5">
-                      <Check className="h-4 w-4" /> Cổng bình chọn duy nhất
-                    </span>
-                    <p className="text-xs text-[#4B6354]">
-                      Landing Page là cổng ghi nhận kết quả chính thức; mọi lượt vote đều xác thực qua mã OTP minh bạch.
-                    </p>
-                  </div>
-                  <div className="p-3.5 rounded-xl bg-white border border-[#026E4E]/10 shadow-2xs space-y-1">
-                    <span className="text-xs font-bold text-[#FF9F00] flex items-center gap-1.5">
-                      <Share2 className="h-4 w-4" /> Lan tỏa mạng xã hội
-                    </span>
-                    <p className="text-xs text-[#4B6354]">
-                      20% tỷ trọng dành cho Facebook & TikTok khuyến khích các địa phương lan tỏa tự nhiên hình ảnh nông thôn.
-                    </p>
-                  </div>
-                </div>
-              </div>
+              {/* 4 Điều Thể lệ */}
+              <OfficialRulesArticles />
             </div>
           )}
 
-          {/* TAB: AWARDS (ĐIỀU 10. GIẢI THƯỞNG & BAN TỔ CHỨC) */}
+          {/* TAB 2: HƯỚNG DẪN 3 NỀN TẢNG */}
+          {(activeTab === "guide" || activeTab === "steps") && (
+            <div className="animate-in fade-in duration-150">
+              <PlatformVotingGuide />
+            </div>
+          )}
+
+          {/* TAB 3: GIẢI THƯỞNG */}
           {activeTab === "awards" && (
-            <RulesAwards />
-          )}
-
-          {/* TAB 3: 5 STEPS */}
-          {activeTab === "steps" && (
-            <RulesSteps />
-          )}
-
-          {/* TAB 4: VALIDITY & PRINCIPLES */}
-          {activeTab === "validity" && (
-            <RulesValidity />
+            <div className="animate-in fade-in duration-150">
+              <RulesAwards />
+            </div>
           )}
         </div>
 

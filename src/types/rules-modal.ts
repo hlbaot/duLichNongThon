@@ -1,1 +1,1 @@
-export type ActiveTab = "overview" | "awards" | "steps" | "validity";
+export type ActiveTab = "overview" | "guide" | "awards" | "steps" | "validity";

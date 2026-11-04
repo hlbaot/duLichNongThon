@@ -52,7 +52,7 @@ export function Footer() {
 
             <div className="pt-2 flex items-center gap-2 text-xs text-[#A7F3D0] font-semibold">
               <ShieldCheck className="h-4 w-4 text-[#86EFAC]" />
-              <span>Thời gian bình chọn: 00h00 05/11/2026 – 23h59 20/11/2026</span>
+              <span>Thời gian bình chọn: 00h00 07/11/2026 – 23h59 20/11/2026</span>
             </div>
           </div>
 

@@ -1,11 +1,11 @@
 "use client";
 
 import { useEffect } from "react";
-import { Leaf } from "lucide-react";
+import { Leaf, Calendar, CheckCircle2, ShieldCheck } from "lucide-react";
 import { useInView } from "@/hooks/useInView";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { VotingRules } from "./voting-rules";
-import { StepTimeline } from "./how-to-vote/step-timeline";
+import { PlatformVotingGuide } from "./rules-content";
 
 export function HowToVote() {
   const { ref: sectionRef, inView: sectionInView } = useInView<HTMLElement>({ threshold: 0, once: false });
@@ -46,16 +46,33 @@ export function HowToVote() {
       </div>
 
       <div className="site-container relative">
-        <header className="how-header">
-          <div>
-            <p className="campaign-info-label">Hướng dẫn bình chọn</p>
-            <h2 id="how-heading" className="campaign-info-title"><span className="campaign-info-emphasis">Quy trình</span> 5 bước bình chọn</h2>
-            <p className="how-intro-copy">Mỗi tài khoản được bình chọn tối đa 03 điểm đến khác nhau</p>
+        <header className="how-header mb-8 sm:mb-10">
+          <div className="max-w-2xl">
+            <p className="campaign-info-label">BAN TỔ CHỨC HỘI THI 2026</p>
+            <h2 id="how-heading" className="campaign-info-title">
+              <span className="campaign-info-emphasis">Hướng dẫn & Thể lệ</span> bình chọn trực tuyến
+            </h2>
+            <p className="how-intro-copy">
+              Bình chọn qua 03 nền tảng chính thức: Fanpage Facebook, TikTok và Cổng Landing Page. Không giới hạn tổng số lượt bình chọn.
+            </p>
           </div>
-          <p className="how-otp">Xác thực OTP an toàn</p>
+          <div className="flex flex-wrap items-center gap-2.5">
+            <span className="how-otp flex items-center gap-1.5 text-xs text-[#026E4E]">
+              <Calendar className="h-4 w-4 text-[#FF9F00]" /> 00:00 07/11 – 23:59 20/11/2026
+            </span>
+            <span className="how-otp flex items-center gap-1.5 text-xs text-[#026E4E]">
+              <CheckCircle2 className="h-4 w-4 text-[#026E4E]" /> Không giới hạn lượt bình chọn
+            </span>
+            <span className="how-otp flex items-center gap-1.5 text-xs text-[#026E4E]">
+              <ShieldCheck className="h-4 w-4 text-[#026E4E]" /> Xác thực OTP Gmail an toàn
+            </span>
+          </div>
         </header>
 
-        <StepTimeline />
+        {/* Hướng dẫn 3 Nền tảng */}
+        <PlatformVotingGuide inline />
+
+        {/* 4 Điều Thể lệ và Giải thưởng */}
         <VotingRules />
       </div>
     </section>
