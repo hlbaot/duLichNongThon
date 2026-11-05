@@ -36,7 +36,7 @@ Phiên token được lưu dưới key `dlnt2026:api-session`. Refresh được 
 
 Hạn mức toàn hội thi lấy từ `maxVotes` của `/votes/me`, không reset theo ngày. Đồng hồ OTP dùng `retryAfter`, `expiresIn` từ response. Trang chi tiết nhận slug từ API. Trường region và mã đề cử không có trong API nên không tự tạo dữ liệu thay thế. Ảnh null dùng giao diện chờ cập nhật.
 
-Đồng hồ hội thi chỉ hiển thị khi có `NEXT_PUBLIC_VOTING_END_AT` (ISO 8601) được ban tổ chức xác nhận; quyền bỏ phiếu do backend quyết định.
+Đồng hồ hội thi đọc `VOTING_START_AT` và `VOTING_END_AT` (ISO 8601 có múi giờ) trên server frontend rồi truyền lịch xuống client. Giữ tương thích với `NEXT_PUBLIC_VOTING_START_AT`/`NEXT_PUBLIC_VOTING_END_AT` nếu chưa cấu hình tên mới. Trước giờ mở thì đếm tới giờ mở, trong thời gian bình chọn thì đếm tới giờ đóng. Cần build/deploy lại khi đổi env production; quyền bỏ phiếu vẫn do backend quyết định.
 
 Đã kiểm tra GET `/destinations?page=1&limit=1`: HTTP 200, 35 điểm đến; production cần cấu hình URL backend để Next.js tạo proxy rewrite.
 

@@ -2,26 +2,20 @@
 
 import { useEffect, useState, type CSSProperties } from "react";
 import { ArrowDown, ArrowUpRight, Timer } from "lucide-react";
+import { getVotingCountdown, type VotingCountdown } from "@/lib/voting-schedule";
 import { RevealOnScroll } from "./reveal-on-scroll";
 
-export function Hero() {
-  const [remaining, setRemaining] = useState<number | null>(null);
+export function Hero({ startAt, endAt }: { startAt?: string; endAt?: string }) {
+  const [countdown, setCountdown] = useState<VotingCountdown | null>(null);
 
   useEffect(() => {
-    const endAt = process.env.NEXT_PUBLIC_VOTING_END_AT;
-    if (!endAt || !Number.isFinite(Date.parse(endAt))) return;
-    const tick = () =>
-      setRemaining(
-        Math.max(0, Date.parse(endAt) - Date.now())
-      );
+    const tick = () => setCountdown(getVotingCountdown(startAt, endAt, Date.now()));
     tick();
     const timer = setInterval(tick, 1000);
+    return () => clearInterval(timer);
+  }, [startAt, endAt]);
 
-    return () => {
-      clearInterval(timer);
-    };
-  }, []);
-
+  const remaining = countdown?.remaining ?? null;
   const values =
     remaining === null
       ? [null, null, null, null]
@@ -83,7 +77,7 @@ export function Hero() {
         <RevealOnScroll className="hero-countdown">
           <p style={{ "--i": 3 } as CSSProperties} className="hero-stagger mb-4 flex items-center justify-center gap-2.5 text-center text-sm font-extrabold uppercase tracking-wider text-white sm:text-base">
             <Timer aria-hidden="true" className="size-5 shrink-0 text-[#FF9F00]" />
-            {remaining === null ? "Lịch bình chọn đang cập nhật" : remaining === 0 ? "Bình chọn đã kết thúc" : "Thời gian bình chọn còn lại"}
+            {countdown === null ? "Lịch bình chọn đang cập nhật" : countdown.status === "upcoming" ? "Thời gian đến khi mở bình chọn" : countdown.status === "ended" ? "Bình chọn đã kết thúc" : "Thời gian bình chọn còn lại"}
           </p>
 
           <dl style={{ "--i": 4 } as CSSProperties} className="hero-stagger grid grid-cols-4 gap-1.5 sm:gap-2.5">

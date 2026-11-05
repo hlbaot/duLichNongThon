@@ -29,7 +29,10 @@ export default function HomeView() {
             </>
           }
         >
-          <Hero />
+          <Hero
+            startAt={process.env.VOTING_START_AT ?? process.env.NEXT_PUBLIC_VOTING_START_AT}
+            endAt={process.env.VOTING_END_AT ?? process.env.NEXT_PUBLIC_VOTING_END_AT}
+          />
           <SectionDivider fill="var(--campaign-green)" className="divider-to-sage" />
           <div className="campaign-green-flow">
             <Top3Leaderboard />
