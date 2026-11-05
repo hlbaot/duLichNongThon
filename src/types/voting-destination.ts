@@ -2,6 +2,8 @@
 export interface Destination {
   id: string;
   slug: string;
+  contestCode: string | null;
+  shortTitle: string;
   code: string;
   name: string;
   province: string;

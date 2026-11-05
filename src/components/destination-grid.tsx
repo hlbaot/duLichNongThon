@@ -1,5 +1,4 @@
 "use client";
-import type { SortOption } from "@/types/destination-grid";
 
 import React, { useState, useMemo, useEffect } from "react";
 import { useVoting } from "@/context/voting-context";
@@ -14,7 +13,6 @@ const VISIBLE_PAGE_COUNT = 3;
 export function DestinationGrid() {
   const { destinations } = useVoting();
   const [searchQuery, setSearchQuery] = useState("");
-  const [sortBy] = useState<SortOption>("votes-desc");
   const [currentPage, setCurrentPage] = useState(1);
   const [serverMatchedIds, setServerMatchedIds] = useState<string[] | null>(null);
 
@@ -30,16 +28,18 @@ export function DestinationGrid() {
       setServerMatchedIds(null);
       return;
     }
+    const controller = new AbortController();
+    setServerMatchedIds(null);
     const timer = setTimeout(async () => {
       try {
-        const res = await getDestinations({ keyword: q, page: 1, limit: 50 });
-        setServerMatchedIds(res.items.map((item) => item.id));
+        // The ranking response contains all active entries; search matches by UUID.
+        const res = await getDestinations({ keyword: q, page: 1, limit: 100 }, controller.signal);
+        if (!controller.signal.aborted) setServerMatchedIds(res.items.map(item => item.id));
       } catch {
-        // Fallback local search nếu có sự cố mạng
-        setServerMatchedIds(null);
+        if (!controller.signal.aborted) setServerMatchedIds(null);
       }
     }, 250);
-    return () => clearTimeout(timer);
+    return () => { clearTimeout(timer); controller.abort(); };
   }, [searchQuery]);
 
   // Filter & sort (Kết hợp kết quả tìm kiếm server-side từ API và lọc bổ trợ mã hồ sơ local)
@@ -52,6 +52,8 @@ export function DestinationGrid() {
         if (serverMatchedIds && serverMatchedIds.includes(d.id)) return true;
         return (
           d.name.toLowerCase().includes(q) ||
+          d.shortTitle.toLowerCase().includes(q) ||
+          d.brief.toLowerCase().includes(q) ||
           d.province.toLowerCase().includes(q) ||
           d.code.toLowerCase().includes(q) ||
           (d.recordCode && d.recordCode.toLowerCase().includes(q)) ||
@@ -60,22 +62,10 @@ export function DestinationGrid() {
       });
     }
 
-    // Sort
-    result.sort((a, b) => {
-      if (sortBy === "votes-desc") {
-        return a.rank - b.rank;
-      }
-      if (sortBy === "name-asc") {
-        return a.name.localeCompare(b.name, "vi");
-      }
-      if (sortBy === "code-asc") {
-        return a.code.localeCompare(b.code);
-      }
-      return 0;
-    });
-
+    // Keep the destination list stable as votes and ranking change.
+    result.sort((a, b) => a.displayOrder - b.displayOrder || a.id.localeCompare(b.id));
     return result;
-  }, [destinations, searchQuery, sortBy]);
+  }, [destinations, searchQuery, serverMatchedIds]);
 
   // Pagination calculation
   const totalItems = filteredDestinations.length;
@@ -114,6 +104,7 @@ export function DestinationGrid() {
               type="text"
               aria-label="Tìm kiếm điểm đến, mã số dự thi hoặc tỉnh thành"
               placeholder="Tìm theo tên, mã số hoặc tỉnh thành…"
+              maxLength={100}
               value={searchQuery}
               onChange={(e) => handleSearchChange(e.target.value)}
               className="w-full pl-11 pr-10 py-3 rounded-2xl sm:rounded-full bg-white border border-[#026E4E]/20 text-sm font-medium text-[#0E382B] placeholder:text-[#4B6354]/60 focus:outline-none focus:ring-2 focus:ring-[#026E4E] shadow-2xs"
@@ -135,7 +126,7 @@ export function DestinationGrid() {
         {totalItems > 0 ? (
           <div className="space-y-10">
             <div
-              key={`${searchQuery}-${sortBy}-${safeCurrentPage}`}
+              key={`${searchQuery}-${safeCurrentPage}`}
               className="destination-cards grid gap-6"
             >
               {currentItems.map((dest, idx) => (

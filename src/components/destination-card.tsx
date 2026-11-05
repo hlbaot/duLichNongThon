@@ -2,7 +2,7 @@
 
 import React, { memo } from "react";
 import Link from "next/link";
-import { MapPin, CheckCircle2, Heart } from "lucide-react";
+import { CheckCircle2, Heart } from "lucide-react";
 import { useVoting } from "@/context/voting-context";
 import { DestinationImage } from "./destination-image";
 import type { DestinationCardProps } from "@/types/destination-card";
@@ -32,11 +32,9 @@ function DestinationCardInner({ destination, index = 0 }: DestinationCardProps) 
           />
         </Link>
 
-        {/* Badge tỉnh thành nổi bật ở góc trên ảnh */}
-        {destination.province && (
-          <div className="pointer-events-none absolute top-3 left-3 z-20 px-2.5 py-1 rounded-full bg-black/65 backdrop-blur-md text-[#A7F3D0] text-xs font-bold border border-white/15 flex items-center gap-1 shadow-md">
-            <MapPin size={11} className="text-[#FF9F00] shrink-0" />
-            <span className="truncate max-w-[140px]">{destination.province}</span>
+        {destination.contestCode && (
+          <div className="pointer-events-none absolute top-3 left-3 z-20 px-2.5 py-1 rounded-full bg-black/65 text-white text-xs font-bold">
+            {destination.contestCode}
           </div>
         )}
       </div>
@@ -49,7 +47,7 @@ function DestinationCardInner({ destination, index = 0 }: DestinationCardProps) 
             className="block text-left"
             title={destination.name}
           >
-            <h3 className="destination-card-title">{destination.name}</h3>
+            <h3 className="destination-card-title">{destination.shortTitle ?? destination.name}</h3>
           </Link>
         </div>
 

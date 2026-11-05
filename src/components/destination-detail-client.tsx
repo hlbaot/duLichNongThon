@@ -18,7 +18,7 @@ import { ProfileInline } from "./destination-profile-text";
 import { RevealOnScroll } from "./reveal-on-scroll";
 import { Container } from "./common";
 import { AnimationProvider } from "./animation-provider";
-import type { GetDestinationResponse, DestinationMedia } from "@/types/api/destinations";
+import type { GetDestinationResponse } from "@/types/api/destinations";
 import type { Destination } from "@/types/voting-destination";
 
 interface DestinationDetailClientProps {
@@ -31,7 +31,8 @@ export function DestinationDetailClient({ destination }: DestinationDetailClient
   const profile = useMemo(() => parseDestinationProfile(destination.detail), [destination.detail]);
   const rankedItem = ranking.find(item => item.id === destination.id || item.slug === destination.slug);
   const voteDestination: Destination = {
-    id: destination.id, slug: destination.slug, code: destination.slug,
+    id: destination.id, slug: destination.slug, code: destination.contestCode ?? "",
+    contestCode: destination.contestCode ?? null, shortTitle: destination.shortTitle ?? destination.title,
     name: destination.title, province: destination.province ?? "", brief: destination.brief,
     votes: rankedItem?.votes ?? 0, rank: rankedItem?.rank ?? 999,
     displayOrder: destination.displayOrder, imageUrl: destination.thumbnailUrl ?? "", regionLabel: "", tags: [],
@@ -58,7 +59,6 @@ export function DestinationDetailClient({ destination }: DestinationDetailClient
     return destination.media.filter(item => item.mediaType === "VIDEO" && item.id !== featuredVideo?.id);
   }, [destination, featuredVideo]);
 
-  const editorialImage = profile.sections.some(section => section.kind === "product" && section.content.trim()) ? images[0] : undefined;
   
   // BE thường lặp brief trong chính hồ sơ; chỉ hiện một lần để không bị trùng.
   const briefRepeated = profile.sections.some(section => section.content.trim() === destination.brief.trim());
@@ -94,7 +94,7 @@ export function DestinationDetailClient({ destination }: DestinationDetailClient
       <div className="profile-body-layout">
         <div className="profile-main-column">
           {profile.heading && <h2 className="profile-body-heading">{profile.heading}</h2>}
-          <DestinationDetailSections sections={profile.sections} image={editorialImage ? { src: editorialImage.mediaUrl, alt: editorialImage.caption ?? destination.title, caption: editorialImage.caption } : undefined} />
+          <DestinationDetailSections sections={profile.sections} />
           
           {/* Trên màn hình nhỏ (mobile), hiển thị thư viện ảnh ngay bên dưới bài đọc */}
           {images.length > 0 && (

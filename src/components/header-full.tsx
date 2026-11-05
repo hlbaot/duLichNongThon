@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { HEADER_LINKS, formatIndex } from "./header-links";
+import { HEADER_LINKS } from "./header-links";
 import { HeaderAuth } from "./header-auth";
 import { HeaderBurger } from "./header-burger";
 
@@ -37,7 +37,7 @@ export function HeaderFull({ inert, activeId, menuOpen, onNavigate, onToggleMenu
         </button>
 
         <div className="nav-links">
-          {HEADER_LINKS.map((link, index) => (
+          {HEADER_LINKS.map((link) => (
             <a
               key={link.id}
               href={`/#${link.id}`}
@@ -47,7 +47,6 @@ export function HeaderFull({ inert, activeId, menuOpen, onNavigate, onToggleMenu
                 onNavigate(link.id);
               }}
             >
-              <sup className="nav-index" aria-hidden="true">{formatIndex(index)}</sup>
               {link.label}
             </a>
           ))}

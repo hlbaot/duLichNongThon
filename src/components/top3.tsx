@@ -47,7 +47,7 @@ export function Top3Leaderboard() {
             <span>Xem toàn bộ bảng xếp hạng</span><ArrowUpRight size={18} />
           </button>
         </div>
-        <p className="ranking-note">Hiển thị tối đa 3 điểm đến có lượt bình chọn cao nhất. Cùng số phiếu được hiển thị đồng hạng.</p>
+        <p className="ranking-note">Hiển thị tối đa 3 điểm đến dẫn đầu theo thứ hạng chính thức từ hệ thống.</p>
       </> : <div className="ranking-empty" aria-busy={loading}>
         <div className="ranking-empty-art" aria-hidden="true">
           <div className="ranking-empty-orbit" />

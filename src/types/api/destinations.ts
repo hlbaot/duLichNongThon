@@ -2,6 +2,8 @@ import type { UUID } from "./common";
 
 export interface DestinationSummary {
   id: UUID;
+  contestCode: string | null;
+  shortTitle: string;
   title: string;
   slug: string;
   brief: string;

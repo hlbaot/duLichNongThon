@@ -9,10 +9,7 @@
 @keyframes field-drift { from { transform: translate3d(0, 0, 0) scale(.95); } to { transform: translate3d(65px, -45px, 0) scale(1.06); } }
 .campaign-green-flow {
   background-color: var(--campaign-green);
-  background-image: var(--destination-map), var(--destination-map), var(--destination-map);
-  background-position: right top 1rem, left center, right bottom 1rem;
-  background-size: min(100%, 960px) auto;
-  background-repeat: no-repeat;
+
 }
 
 @media (max-width: 767px) {

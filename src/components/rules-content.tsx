@@ -4,9 +4,6 @@ import React, { useState } from "react";
 import Image from "next/image";
 import {
   Award,
-  Calendar,
-  CheckCircle2,
-  Clock,
   ExternalLink,
   Heart,
   HelpCircle,
@@ -15,7 +12,6 @@ import {
   ShieldCheck,
   ThumbsUp,
   Trophy,
-  Users,
 } from "lucide-react";
 
 function FacebookBadgeIcon({ className = "h-6 w-6" }: { className?: string }) {
@@ -52,183 +48,12 @@ function TikTokBadgeIcon({ className = "h-6 w-6" }: { className?: string }) {
  * ========================================================================= */
 export function OfficialRulesArticles({ inline = false }: { inline?: boolean }) {
   return (
-    <div className="space-y-6">
-      {/* Tiêu đề & Văn bản ban hành */}
-      <div className="p-5 rounded-2xl bg-gradient-to-br from-[#08291D] to-[#0E382B] text-white border border-[#026E4E]/30 space-y-2 text-center shadow-sm">
-        <span className="text-[11px] font-bold tracking-widest text-[#A7F3D0] uppercase">
-          BỘ NÔNG NGHIỆP VÀ MÔI TRƯỜNG • BAN TỔ CHỨC HỘI THI
-        </span>
-        <h3 className="text-base sm:text-xl font-black tracking-tight text-white uppercase">
-          THỂ LỆ BÌNH CHỌN TRỰC TUYẾN
-        </h3>
-        <p className="text-xs text-[#A7F3D0]/90 font-medium">
-          Hội thi “Điểm đến du lịch nông thôn Việt Nam tốt nhất” năm 2026
-        </p>
-      </div>
-
-      {/* Lưới 4 Điều Thể lệ */}
-      <div className={`grid gap-4 ${inline ? "grid-cols-1 md:grid-cols-2" : "grid-cols-1"}`}>
-        {/* ĐIỀU 1 */}
-        <div className="p-5 rounded-2xl bg-white border border-[#026E4E]/15 shadow-2xs space-y-3">
-          <div className="flex items-center gap-3">
-            <div className="h-9 w-9 rounded-xl bg-[#026E4E]/10 text-[#026E4E] flex items-center justify-center shrink-0">
-              <Users className="h-5 w-5" />
-            </div>
-            <div>
-              <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#026E4E]">
-                Quy định đối tượng
-              </span>
-              <h4 className="font-extrabold text-[#0E382B] text-sm sm:text-base">
-                Điều 1. Đối tượng bình chọn
-              </h4>
-            </div>
-          </div>
-          <ul className="space-y-2 text-xs sm:text-sm text-[#385243] leading-relaxed pl-1">
-            <li className="flex items-start gap-2">
-              <span className="font-bold text-[#026E4E] shrink-0">1.</span>
-              <span>
-                Các điểm đến thuộc danh sách <strong>35 điểm đến dự thi</strong> được Ban Tổ chức Hội thi công bố chính thức.
-              </span>
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="font-bold text-[#026E4E] shrink-0">2.</span>
-              <span>
-                Người tham gia bình chọn là <strong>cá nhân sử dụng tài khoản Facebook, TikTok hoặc Gmail hợp lệ</strong> để tham gia trên Cổng bình chọn (Landing Page).
-              </span>
-            </li>
-          </ul>
-        </div>
-
-        {/* ĐIỀU 2 */}
-        <div className="p-5 rounded-2xl bg-white border border-[#FF9F00]/25 shadow-2xs space-y-3">
-          <div className="flex items-center gap-3">
-            <div className="h-9 w-9 rounded-xl bg-[#FF9F00]/10 text-[#D97706] flex items-center justify-center shrink-0">
-              <Calendar className="h-5 w-5" />
-            </div>
-            <div>
-              <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#D97706]">
-                Thời hạn chính thức
-              </span>
-              <h4 className="font-extrabold text-[#0E382B] text-sm sm:text-base">
-                Điều 2. Thời gian bình chọn
-              </h4>
-            </div>
-          </div>
-          <div className="p-3 rounded-xl bg-amber-50/70 border border-amber-200/60 text-xs sm:text-sm text-[#78350F] space-y-1">
-            <div className="flex items-center gap-2 font-black">
-              <Clock className="h-4 w-4 text-[#D97706]" />
-              <span>00 giờ 00 phút ngày 07/11/2026 – 23 giờ 59 phút ngày 20/11/2026</span>
-            </div>
-            <p className="text-[11px] text-[#92400E]">
-              Chỉ ghi nhận các lượt bình chọn và tương tác phát sinh trong thời gian quy định trên.
-            </p>
-          </div>
-        </div>
-
-        {/* ĐIỀU 3 */}
-        <div className="p-5 rounded-2xl bg-white border border-[#026E4E]/15 shadow-2xs space-y-3">
-          <div className="flex items-center gap-3">
-            <div className="h-9 w-9 rounded-xl bg-[#026E4E]/10 text-[#026E4E] flex items-center justify-center shrink-0">
-              <CheckCircle2 className="h-5 w-5" />
-            </div>
-            <div>
-              <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#026E4E]">
-                Cơ chế tính điểm
-              </span>
-              <h4 className="font-extrabold text-[#0E382B] text-sm sm:text-base">
-                Điều 3. Cách thức bình chọn và ghi nhận kết quả
-              </h4>
-            </div>
-          </div>
-          <ul className="space-y-2 text-xs sm:text-sm text-[#385243] leading-relaxed pl-1">
-            <li className="flex items-start gap-2">
-              <span className="font-bold text-[#026E4E] shrink-0">1.</span>
-              <span>
-                Bình chọn được thực hiện qua <strong>03 nền tảng chính thức</strong>: Fanpage Facebook, TikTok và Cổng bình chọn (Landing Page) của Hội thi.
-              </span>
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="font-bold text-[#026E4E] shrink-0">2.</span>
-              <div>
-                <strong>Quy đổi điểm số:</strong>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 mt-2">
-                  <div className="p-2 rounded-lg bg-blue-50 border border-blue-200 text-blue-900 text-xs font-bold text-center">
-                    1 Like FB 👍 = 01 điểm
-                  </div>
-                  <div className="p-2 rounded-lg bg-rose-50 border border-rose-200 text-rose-900 text-xs font-bold text-center">
-                    1 Tim TikTok ❤️ = 01 điểm
-                  </div>
-                  <div className="p-2 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-900 text-xs font-bold text-center">
-                    1 Bình chọn Web = 01 điểm
-                  </div>
-                </div>
-              </div>
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="font-bold text-[#026E4E] shrink-0">3.</span>
-              <span>
-                <strong>Tổng điểm bình chọn</strong> của mỗi điểm đến bằng tổng số điểm hợp lệ ghi nhận trên cả 03 nền tảng.
-              </span>
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="font-bold text-[#026E4E] shrink-0">4.</span>
-              <span>
-                <strong className="text-[#026E4E]">Không giới hạn tổng số lượt bình chọn</strong>, người tham gia có thể bình chọn cho nhiều hơn 01 điểm đến yêu thích khác nhau.
-              </span>
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="font-bold text-[#026E4E] shrink-0">5.</span>
-              <span>
-                Các thao tác cụ thể trên từng nền tảng thực hiện theo <em>Hướng dẫn bình chọn</em> do Ban Tổ chức công bố riêng.
-              </span>
-            </li>
-          </ul>
-        </div>
-
-        {/* ĐIỀU 4 */}
-        <div className="p-5 rounded-2xl bg-white border border-[#026E4E]/15 shadow-2xs space-y-3">
-          <div className="flex items-center gap-3">
-            <div className="h-9 w-9 rounded-xl bg-emerald-100 text-[#026E4E] flex items-center justify-center shrink-0">
-              <ShieldCheck className="h-5 w-5" />
-            </div>
-            <div>
-              <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#026E4E]">
-                Minh bạch & Thẩm định
-              </span>
-              <h4 className="font-extrabold text-[#0E382B] text-sm sm:text-base">
-                Điều 4. Quy định chung
-              </h4>
-            </div>
-          </div>
-          <ul className="space-y-2 text-xs sm:text-sm text-[#385243] leading-relaxed pl-1">
-            <li className="flex items-start gap-2">
-              <span className="font-bold text-[#026E4E] shrink-0">1.</span>
-              <span>
-                Chỉ ghi nhận tương tác trên bài đăng/video chính thức và lượt bình chọn được hệ thống Cổng bình chọn xác nhận hợp lệ.
-              </span>
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="font-bold text-[#026E4E] shrink-0">2.</span>
-              <span>
-                <strong>Không chấp nhận hành vi sử dụng công cụ tự động</strong>, tạo tương tác ảo hoặc gian lận làm sai lệch kết quả. Ban Tổ chức có quyền kiểm tra và loại bỏ dữ liệu không hợp lệ khi có căn cứ.
-              </span>
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="font-bold text-[#026E4E] shrink-0">3.</span>
-              <span>
-                Kết quả hiển thị trong thời gian bình chọn là kết quả tạm thời. <strong>Kết quả chính thức</strong> được công bố sau khi Ban Tổ chức kiểm tra, tổng hợp và phê duyệt.
-              </span>
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="font-bold text-[#026E4E] shrink-0">4.</span>
-              <span>
-                Các vấn đề phát sinh do Ban Tổ chức xem xét, quyết định theo Thể lệ Hội thi và quy định có liên quan.
-              </span>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
+    <ol className={`list-decimal space-y-2 pl-6 text-base leading-relaxed text-[#262626] ${inline ? "" : "rounded-lg border border-neutral-200 bg-white py-5 pr-5 pl-11"}`}>
+      <li>Đối tượng</li>
+      <li>Thời gian bình chọn</li>
+      <li>Cách thức bình chọn &amp; chấm điểm</li>
+      <li>Quy định chung</li>
+    </ol>
   );
 }
 
@@ -575,9 +400,6 @@ export function RulesAwards({ inline = false }: { inline?: boolean }) {
               <span className="text-xs font-semibold text-[#4B6354] ml-1">/ giải</span>
             </div>
           </div>
-          <p className="text-xs text-[#4B6354]">
-            Trao cho điểm đến đạt kết quả tổng hợp xuất sắc nhất ghi nhận trên cả 03 nền tảng (Facebook, TikTok, Landing Page).
-          </p>
         </div>
 
         <div className="p-5 rounded-2xl bg-gradient-to-br from-emerald-50 to-teal-50 border-2 border-[#026E4E] shadow-sm space-y-3">

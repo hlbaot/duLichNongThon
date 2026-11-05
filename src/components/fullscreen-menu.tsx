@@ -3,7 +3,7 @@
 import { useEffect, useRef, type KeyboardEvent } from "react";
 import Image from "next/image";
 import { X } from "lucide-react";
-import { HEADER_LINKS, formatIndex } from "./header-links";
+import { HEADER_LINKS } from "./header-links";
 import { HeaderAuth } from "./header-auth";
 
 interface FullscreenMenuProps {
@@ -85,7 +85,6 @@ export function FullscreenMenu({ open, activeId, onClose, onNavigate }: Fullscre
                   onNavigate(link.id);
                 }}
               >
-                <span className="fsm-index" aria-hidden="true">{formatIndex(index)}</span>
                 <span className="fsm-label">{link.label}</span>
               </a>
             </li>

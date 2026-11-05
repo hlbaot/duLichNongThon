@@ -587,3 +587,30 @@
 .profile-plain > h2 { margin: 32px 0 14px; font: 600 clamp(22px, 2.4vw, 28px)/1.3 var(--font-profile-serif, 'Lora'), Georgia, serif; color: var(--profile-ink); }
 .profile-plain strong { font-weight: 750; }
 .profile-plain p { overflow-wrap: break-word; text-wrap: pretty; }
+
+/* Bài chi tiết: nền trắng, chữ đen và các đoạn văn liên tục. */
+.destination-detail-page {
+  --profile-bg: #fff;
+  --profile-ink: #202020;
+  --profile-muted: #444;
+  --profile-line: #e5e5e5;
+  background: #fff;
+}
+.profile-article { max-width: 75ch; color: #202020; font-family: Georgia, 'Times New Roman', serif; font-size: 19px; line-height: 1.85; overflow-wrap: anywhere; }
+.profile-article-section { margin-top: 28px; scroll-margin-top: 110px; }
+.profile-article-section:first-child { margin-top: 0; }
+.profile-article-section h3 { margin-bottom: 12px; font-size: 23px; font-weight: 700; line-height: 1.4; }
+.profile-article-section p + p, .profile-article-section p + ul, .profile-article-section ul + p { margin-top: 16px; }
+.profile-article-section ul { list-style: disc; padding-left: 24px; }
+.profile-article-section strong { font-weight: 700; }
+.destination-detail-page .profile-body-heading { margin-bottom: 24px; color: #202020; font-size: 24px; letter-spacing: normal; text-transform: none; }
+.destination-detail-page .profile-hero-heading { text-align: left; margin-inline: 0; padding-block: 36px; }
+.destination-detail-page .profile-title { margin: 16px 0; font-weight: 700; letter-spacing: -.02em; font-size: clamp(30px, 4vw, 46px); }
+.destination-detail-page .profile-meta { justify-content: flex-start; margin: 0; letter-spacing: normal; text-transform: none; font-size: 14px; }
+.destination-detail-page .profile-introduction { margin: 20px 0 0; max-width: 75ch; color: #333; font-weight: 600; }
+.destination-detail-page .profile-province { padding: 0; border: 0; border-radius: 0; color: #444; }
+.destination-detail-page .profile-hero-media > div, .destination-detail-page .profile-hero-cover { border-radius: 0; box-shadow: none; }
+@media (max-width: 767px) {
+  .profile-article { font-size: 18px; line-height: 1.8; }
+  .profile-article-section h3 { font-size: 21px; }
+}

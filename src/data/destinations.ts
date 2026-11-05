@@ -5,7 +5,9 @@ export function toVotingDestination(destination: RankedDestination): Destination
   return {
     id: destination.id,
     slug: destination.slug,
-    code: destination.slug,
+    contestCode: destination.contestCode ?? null,
+    shortTitle: destination.shortTitle ?? destination.title,
+    code: destination.contestCode ?? "",
     name: destination.title,
     province: destination.province ?? "",
     brief: destination.brief,
@@ -13,7 +15,7 @@ export function toVotingDestination(destination: RankedDestination): Destination
     displayOrder: destination.displayOrder,
     rank: destination.rank,
     imageUrl: destination.thumbnailUrl ?? "",
-    // The API does not expose a region or nomination code.
+    // Region metadata is not part of the API response.
     regionLabel: "",
     tags: [],
   };

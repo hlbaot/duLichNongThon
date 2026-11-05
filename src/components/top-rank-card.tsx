@@ -3,7 +3,7 @@ import type { TopRankCardProps } from "@/types/top-rank-card";
 
 import { useEffect, useRef, useState, memo, type CSSProperties, type PointerEvent } from "react";
 import Link from "next/link";
-import { Award, Check, Crown, Heart, Medal, MapPin } from "lucide-react";
+import { Award, Check, Crown, Heart, Medal } from "lucide-react";
 import { useVoting } from "@/context/voting-context";
 import { useCountUp } from "@/hooks/useCountUp";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
@@ -104,7 +104,7 @@ function TopRankCardInner({ rank, destination, delay, play, order, tied = false 
           <div className="rank-surface">
             <Link href={detailUrl} prefetch={true} className="rank-visual cursor-pointer block" title={`Xem chi tiết bài thi ${destination.name}`}>
               <header className="rank-header"><span><Icon size={18} strokeWidth={1.8} />{tied ? `ĐỒNG HẠNG ${rank}` : theme.label}</span><span className="rank-badge-plate"><strong className="rank-badge">0{rank}</strong></span></header>
-              <div className="rank-photo"><DestinationImage src={destination.imageUrl} alt={destination.name} region={destination.region} /><div className="rank-photo-shade" /><div className="rank-place"><p><MapPin size={12} />{destination.province}</p><h3>{destination.name}</h3></div></div>
+              <div className="rank-photo"><DestinationImage src={destination.imageUrl} alt={destination.name} region={destination.region} /><div className="rank-photo-shade" /><div className="rank-place">{destination.contestCode && <p>{destination.contestCode}</p>}<h3>{destination.shortTitle ?? destination.name}</h3></div></div>
               <div className="rank-shine" aria-hidden="true" />
               {rank === 1 && <div className="rank-sparkles" aria-hidden="true">{SPARKLES.map((sparkle, index) => <span key={index} style={{ left:sparkle.x, top:sparkle.y, "--sparkle-delay":`${sparkle.delay + 1000}ms` } as CSSProperties}><FourPointStar /></span>)}</div>}
             </Link>

@@ -63,8 +63,8 @@ export function LeaderboardModal() {
 
         {/* Scrollable list of 35 destinations */}
         <div className="modal-body overflow-y-auto p-4 sm:p-6 space-y-3 flex-1">
-          {sorted.map((dest, index) => {
-            const rank = index + 1;
+          {sorted.map((dest) => {
+            const rank = dest.rank;
             const percentage = Math.round((dest.votes / maxVotes) * 100);
             const isVoted = user?.votedIds.includes(dest.id);
 
@@ -120,15 +120,12 @@ export function LeaderboardModal() {
                         onClick={() => setLeaderboardModalOpen(false)}
                         className="font-bold text-sm text-[#1B2B22] hover:text-[#026E4E] transition-colors truncate block"
                       >
-                        {dest.name}
+                        {dest.shortTitle ?? dest.name}
                       </Link>
-                      <span className="leaderboard-code text-[10px] px-1.5 py-0.2 rounded-md bg-[#1F6B45]/10 text-[#1F6B45] font-semibold">
-                        {dest.code}
-                      </span>
+                      {dest.contestCode && <span className="leaderboard-code text-[10px] px-1.5 py-0.2 rounded-md bg-[#1F6B45]/10 text-[#1F6B45] font-semibold">
+                        {dest.contestCode}
+                      </span>}
                     </div>
-                    <p className="text-xs text-[#4B5E52] font-medium truncate">
-                      {dest.province}{dest.regionLabel ? ` • ${dest.regionLabel}` : ""}
-                    </p>
 
                     {/* Progress Bar */}
                     <div className="mt-1.5 w-full bg-black/5 rounded-full h-1.5 overflow-hidden">

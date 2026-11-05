@@ -1,13 +1,11 @@
 import type { Destination } from "@/types/voting-destination";
 import type { TopRank, TopRankedDestination } from "@/types/top-rank-card";
 
-/** Return top 3 destinations sorted by votes (and displayOrder as tiebreaker) so the podium always renders. */
+/** Backend owns ranking order and resolves equal votes by displayOrder, then UUID. */
 export function getTopDestinations(destinations: readonly Destination[]): TopRankedDestination[] {
-  const sorted = [...destinations].sort((a, b) =>
-    b.votes - a.votes || a.displayOrder - b.displayOrder || a.id.localeCompare(b.id));
-  return sorted.slice(0, 3).map((destination, index) => ({
+  return destinations.slice(0, 3).filter(destination => destination.rank >= 1 && destination.rank <= 3).map(destination => ({
     destination,
-    rank: (index + 1) as TopRank,
-    tied: destination.votes > 0 && sorted.filter(item => item.votes === destination.votes).length > 1,
+    rank: destination.rank as TopRank,
+    tied: false,
   }));
 }

@@ -75,7 +75,6 @@
 .how-section .campaign-info-title { color: var(--campaign-deep); font-size: clamp(1.875rem, 4vw, 3.25rem); font-weight: 800; line-height: 1.13; letter-spacing: -.035em; }
 .campaign-info-emphasis {
   display: inline-block;
-  background: linear-gradient(transparent 74%, #F59E0B 74%, #F59E0B 94%, transparent 94%);
 }
 .how-note > span { flex: none; border-radius: 50%; background: var(--green-600); }
 .how-intro-copy { margin-top: 17px; font-size: .95rem; font-weight: 600; color: #164C40; }

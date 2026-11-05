@@ -33,9 +33,7 @@ export default function HomeView() {
           <SectionDivider fill="var(--campaign-green)" className="divider-to-sage" />
           <div className="campaign-green-flow">
             <Top3Leaderboard />
-            <SectionDivider fill="var(--campaign-green)" className="campaign-flow-wave" />
             <DestinationGrid />
-            <SectionDivider fill="var(--campaign-green)" className="campaign-flow-wave" />
             <HowToVote />
           </div>
         </CampaignContent>
