@@ -48,11 +48,13 @@ function TikTokBadgeIcon({ className = "h-6 w-6" }: { className?: string }) {
  * ========================================================================= */
 export function OfficialRulesArticles({ inline = false }: { inline?: boolean }) {
   return (
-    <ol className={`list-decimal space-y-2 pl-6 text-base leading-relaxed text-[#262626] ${inline ? "" : "rounded-lg border border-neutral-200 bg-white py-5 pr-5 pl-11"}`}>
-      <li>Đối tượng</li>
-      <li>Thời gian bình chọn</li>
-      <li>Cách thức bình chọn &amp; chấm điểm</li>
-      <li>Quy định chung</li>
+    <ol className={`voting-rules-summary-list ${inline ? "" : "voting-rules-summary"}`} role="list">
+      {["Đối tượng", "Thời gian bình chọn", "Cách thức bình chọn & chấm điểm", "Quy định chung"].map((label, index) => (
+        <li key={label}>
+          <span className="voting-rules-summary-number" aria-hidden="true">{index + 1}</span>
+          <span>{label}</span>
+        </li>
+      ))}
     </ol>
   );
 }
