@@ -1,6 +1,6 @@
 # Trang chi tiết hồ sơ — giao diện editorial
 
-Trang `/diem-den/[id]` và alias `/[id]` dùng chung giao diện mới. Hai route `/bai-thi/[id]`, `/dia-diem/[id]` tiếp tục redirect như cũ. Không thêm route, thư viện, API, lời gọi lấy dữ liệu hoặc thay đổi cơ chế xác thực/bình chọn.
+Trang chi tiết dùng duy nhất route `/diem-den/[id]`, với giá trị `[id]` là slug từ API. Mọi card điểm đến và bảng xếp hạng đều liên kết tới route này. Các route phụ đã được xóa.
 
 ## Các file sửa trong lần thiết kế lại
 

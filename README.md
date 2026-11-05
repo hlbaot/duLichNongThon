@@ -48,7 +48,7 @@ Hệ thống được phát triển với triết lý thiết kế hiện đại
 
 ### 2. Danh mục 35 Điểm đến & Phân trang Thông minh
 - **Tìm kiếm thông minh & Sắp xếp linh hoạt**: Tìm kiếm thời gian thực theo tên điểm đến, mã số hồ sơ (DLNT01, DLNT02...) và tỉnh thành; hỗ trợ sắp xếp theo lượt bình chọn cao nhất, tên A-Z hoặc theo mã số.
-- **Chi tiết hồ sơ bài thi (Detail Modal & Standalone Route `/bai-thi/[id]`)**: Xem chi tiết toàn diện từng bài thi dự thi với ảnh bìa khổ rộng, 4 trụ cột tiêu chí đánh giá của Bộ Nông nghiệp & Môi trường (Sản phẩm & OCOP, Cộng đồng & Bản sắc, Môi trường sinh thái, Chuyển đổi số), bảng thống kê quy mô làng quê, duyệt nhanh bài trước/sau và sao chép liên kết chia sẻ trực tiếp.
+- **Chi tiết hồ sơ bài thi (Detail Modal & Standalone Route `/diem-den/[id]`)**: Xem chi tiết toàn diện từng bài thi dự thi với ảnh bìa khổ rộng, 4 trụ cột tiêu chí đánh giá của Bộ Nông nghiệp & Môi trường (Sản phẩm & OCOP, Cộng đồng & Bản sắc, Môi trường sinh thái, Chuyển đổi số), bảng thống kê quy mô làng quê, duyệt nhanh bài trước/sau và sao chép liên kết chia sẻ trực tiếp.
 - **Dàn 4x3 & Phân trang 3 lớp tối ưu**: Dàn đều 12 thẻ/trang (4 cột x 3 hàng chuẩn desktop), tương ứng 3 lớp trang (Trang 1: 12, Trang 2: 12, Trang 3: 11) cho toàn bộ 35 điểm đến; thanh điều khiển squircle bo tròn mượt mà, tự động cuộn lên đầu danh mục khi chuyển trang.
 
 ### 3. Quy trình 5 Bước Bình Chọn & Cơ cấu Đa kênh

@@ -127,7 +127,7 @@
   flex-direction: column;
   padding: max(16px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(24px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left));
   background: var(--menu-overlay);
-  color: var(--menu-cream);
+  color: var(--menu-ink);
   overflow-y: auto;
   overscroll-behavior: contain;
   clip-path: circle(0 at calc(100% - 48px) 44px);
@@ -142,9 +142,9 @@
 .fsm-top { display: flex; align-items: center; justify-content: flex-end; gap: 8px; min-height: 52px; }
 @media (min-width: 640px) { .fsm { padding-right: 24px; } }
 .fsm .header-login { background: var(--header-compact-bg); border: 1px solid rgba(255, 255, 255, .25); }
-.fsm .fsm-close { color: var(--menu-cream); background: rgba(255, 255, 255, .1); }
-.fsm .fsm-close:hover { background: rgba(255, 255, 255, .2); }
-.fsm .header-burger:focus-visible, .fsm .header-login:focus-visible, .fsm-link:focus-visible { outline-color: var(--menu-gold); }
+.fsm .fsm-close { color: var(--menu-ink); background: rgba(22, 84, 56, .08); }
+.fsm .fsm-close:hover { background: rgba(22, 84, 56, .16); }
+.fsm .header-burger:focus-visible, .fsm .header-login:focus-visible, .fsm-link:focus-visible { outline-color: var(--menu-ink); }
 
 .fsm-nav { flex: 1; display: flex; align-items: center; padding-block: 24px; }
 .fsm-list { display: flex; flex-direction: column; gap: clamp(2px, 1vh, 12px); width: 100%; max-width: 1200px; margin-inline: auto; }
@@ -161,7 +161,7 @@
   align-items: flex-start;
   gap: 10px;
   padding-block: 4px;
-  color: var(--menu-cream);
+  color: var(--menu-ink);
   font-size: clamp(40px, 11vw, 96px);
   font-weight: 800;
   line-height: .98;
@@ -182,9 +182,9 @@
 /* Hover/focus: link đang trỏ sáng, các link còn lại mờ đi. */
 .fsm-list:is(:hover, :focus-within) .fsm-link:not(:hover, :focus-visible) { opacity: .35; }
 
-.fsm-foot { display: flex; flex-direction: column; gap: 6px; max-width: 1200px; width: 100%; margin-inline: auto; padding-top: 16px; border-top: 1px solid rgba(244, 241, 230, .14); font-size: 13px; color: rgba(244, 241, 230, .65); }
-.fsm-brand { display: flex; align-items: center; gap: 10px; color: var(--menu-cream); font-weight: 700; }
-.fsm-logo { position: relative; width: 28px; height: 28px; border-radius: 50%; overflow: hidden; border: 1px solid rgba(244, 241, 230, .4); flex-shrink: 0; }
+.fsm-foot { display: flex; flex-direction: column; gap: 6px; max-width: 1200px; width: 100%; margin-inline: auto; padding-top: 16px; border-top: 1px solid rgba(22, 84, 56, .18); font-size: 13px; color: #3F6B53; }
+.fsm-brand { display: flex; align-items: center; gap: 10px; color: var(--menu-ink); font-weight: 700; }
+.fsm-logo { position: relative; width: 28px; height: 28px; border-radius: 50%; overflow: hidden; border: 1px solid rgba(22, 84, 56, .25); flex-shrink: 0; }
 
 /* ---------- Giảm chuyển động: chỉ fade ngắn 150ms, không trượt/co giãn/stagger ---------- */
 @media (prefers-reduced-motion: reduce) {

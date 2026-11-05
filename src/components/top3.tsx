@@ -11,12 +11,11 @@ import { TopRankCard } from "./top-rank-card";
 export function Top3Leaderboard() {
   const { setLeaderboardModalOpen } = useVoting();
   const topRankings = useVotingStore(state => state.topRankings);
-  const ranking = useVotingStore(state => state.ranking);
+  const connected = useVotingStore(state => state.rankingConnected);
   const loading = useVotingStore(state => state.rankingLoading);
   const { ref, inView } = useInView<HTMLDivElement>({ threshold: .2, once: true });
   const reduced = useReducedMotion();
-  const sourceRankings = topRankings.length > 0 ? topRankings : ranking;
-  const top3 = getTopDestinations(sourceRankings);
+  const top3 = getTopDestinations(topRankings);
   const play = inView || reduced;
   const classicPodium = top3.length === 3 && top3.every(item => !item.tied);
 
@@ -30,7 +29,10 @@ export function Top3Leaderboard() {
         </div>
       </div>
 
-      {top3.length ? <>
+      <p role="status" className="ranking-note">{loading ? "Đang tải bảng xếp hạng…" : connected ? "Đang cập nhật trực tiếp" : "Đang kết nối lại · Giữ dữ liệu cập nhật gần nhất"}</p>
+      {loading ? <div className="premium-podium" aria-busy="true" aria-label="Đang tải bảng xếp hạng">
+        {[1, 2, 3].map(item => <div key={item} className="h-72 rounded-3xl bg-white/30 animate-pulse" />)}
+      </div> : top3.length ? <>
         <div className="premium-podium" data-count={top3.length}>
           {top3.map(({ destination, rank, tied }, index) => <TopRankCard
             key={destination.id}

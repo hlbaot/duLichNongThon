@@ -11,11 +11,15 @@ import type { Destination } from "@/types/voting-destination";
 export function DestinationDetailVote({
   destination,
   compact = false,
+  rankingAvailable = true,
 }: {
   destination: Destination;
   compact?: boolean;
+  rankingAvailable?: boolean;
 }) {
   const { user, handleVoteClick } = useVoting();
+  const connected = useVotingStore(state => state.rankingConnected);
+  const rankingLoading = useVotingStore(state => state.rankingLoading);
   const isVoting = useVotingStore((state) => state.isVoting);
   const { isLoading } = useAuth();
   const voted = !!user?.votedIds.includes(destination.id);
@@ -31,7 +35,7 @@ export function DestinationDetailVote({
         </div>
         <span className="profile-vote-status-tag">
           <Sparkles size={11} className="text-amber-500" />
-          <span>Trực tiếp</span>
+          <span>{connected ? "Trực tiếp" : "Đang kết nối lại"}</span>
         </span>
       </div>
 
@@ -40,14 +44,14 @@ export function DestinationDetailVote({
         <div className="profile-vote-stat-main">
           <span className="profile-vote-label">LƯỢT BÌNH CHỌN</span>
           <div className="profile-vote-count-row">
-            <strong className="profile-vote-count" aria-label={destination.votes.toLocaleString("vi-VN")}>
-              {count.toLocaleString("vi-VN")}
+            <strong className="profile-vote-count" aria-label={rankingAvailable ? destination.votes.toLocaleString("vi-VN") : "Đang tải"}>
+              {rankingAvailable ? count.toLocaleString("vi-VN") : rankingLoading ? "Đang tải…" : "Chưa có dữ liệu"}
             </strong>
             <span className="profile-vote-unit">phiếu</span>
           </div>
         </div>
 
-        {destination.rank > 0 && destination.rank < 999 && (
+        {rankingAvailable && destination.rank > 0 && destination.rank < 999 && (
           <div className="profile-vote-rank-pill">
             <Trophy size={13} className="text-amber-600 shrink-0" />
             <span>Hạng #{destination.rank}</span>

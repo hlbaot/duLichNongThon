@@ -1,8 +1,8 @@
 /** Danh sách link dùng chung cho pill đầy đủ và menu toàn màn hình. */
 export const HEADER_LINKS = [
   { id: "hero", label: "Trang chủ" },
-  { id: "destinations", label: "Điểm đến" },
   { id: "leaderboard", label: "Xếp hạng" },
+  { id: "destinations", label: "Điểm đến" },
 ] as const;
 
 export type HeaderLinkId = (typeof HEADER_LINKS)[number]["id"];

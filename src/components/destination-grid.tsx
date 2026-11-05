@@ -2,6 +2,7 @@
 
 import React, { useState, useMemo, useEffect } from "react";
 import { useVoting } from "@/context/voting-context";
+import { useVotingStore } from "@/stores/use-voting-store";
 import { getDestinations } from "@/api/destinations";
 import { DestinationCard } from "./destination-card";
 import { Search, Compass, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, X } from "lucide-react";
@@ -12,24 +13,22 @@ const VISIBLE_PAGE_COUNT = 3;
 
 export function DestinationGrid() {
   const { destinations } = useVoting();
+  const loading = useVotingStore(state => state.rankingLoading);
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [serverMatchedIds, setServerMatchedIds] = useState<string[] | null>(null);
 
   const handleSearchChange = (query: string) => {
     setSearchQuery(query);
+    setServerMatchedIds(null);
     setCurrentPage(1);
   };
 
   // Gọi API GET /destinations?keyword=... khi người dùng tìm kiếm
   useEffect(() => {
     const q = searchQuery.trim();
-    if (!q) {
-      setServerMatchedIds(null);
-      return;
-    }
+    if (!q) return;
     const controller = new AbortController();
-    setServerMatchedIds(null);
     const timer = setTimeout(async () => {
       try {
         // The ranking response contains all active entries; search matches by UUID.
@@ -83,7 +82,12 @@ export function DestinationGrid() {
     }
   };
 
-  if (!destinations.length) return null;
+  if (loading) return <section id="destinations" className="destinations-section" aria-busy="true" aria-label="Đang tải điểm đến">
+    <div className="site-container"><p role="status">Đang tải danh sách đề cử…</p>
+      <div className="destination-cards grid gap-6">{Array.from({ length: 8 }, (_, i) => <div key={i} className="h-80 rounded-3xl bg-white/30 animate-pulse" />)}</div>
+    </div>
+  </section>;
+  if (!destinations.length) return <section id="destinations" className="destinations-section"><p className="site-container">Chưa có điểm đến trong bảng xếp hạng.</p></section>;
 
   return (
     <section id="destinations" className="destinations-section">

@@ -1,14 +1,14 @@
 "use client";
 
 import { create } from "zustand";
-import { getRankings, getTopRankings } from "@/api/rankings";
+import { getRankings } from "@/api/rankings";
 import { apiErrorMessage } from "@/api/errors";
 import { toVotingDestination } from "@/data/destinations";
+import { isRankingSnapshot } from "@/lib/ranking-stream";
 import type { VotingStore } from "@/types/voting-store";
 
-let rankingSequence = 0;
-let rankingRequest: Promise<void> | null = null;
-let requestSequence = 0;
+let rankingRevision = 0;
+let rankingRequest: { signal?: AbortSignal; promise: Promise<void> } | null = null;
 
 export const useVotingStore = create<VotingStore>((set) => ({
   user: null,
@@ -18,55 +18,39 @@ export const useVotingStore = create<VotingStore>((set) => ({
   totalVotes: 0,
   isVoting: false,
   rankingLoading: true,
+  rankingConnected: false,
   rankingError: null,
-  applyRankings: (response) => set({
-    ranking: response.items.map(toVotingDestination),
-    topRankings: response.items.slice(0, 3).map(toVotingDestination),
-    totalVotes: response.totalVotes,
-    rankingLoading: false,
-    rankingError: null,
-  }),
-  applyTopRankings: (response) => set({
-    topRankings: response.items.map(toVotingDestination),
-  }),
-  refreshRankings: async () => {
-    if (rankingRequest) {
-      const pendingSequence = requestSequence;
-      await rankingRequest;
-      // A confirmed vote invalidates any request that started before it.
-      if (pendingSequence !== rankingSequence) await useVotingStore.getState().refreshRankings();
-      return;
-    }
-    const sequence = ++rankingSequence;
-    requestSequence = sequence;
-    rankingRequest = (async () => {
+  applyRankings: (response) => {
+    ++rankingRevision;
+    const ranking = response.items.map(toVotingDestination);
+    set({
+      ranking,
+      topRankings: ranking.slice(0, 3),
+      totalVotes: response.totalVotes,
+      rankingLoading: false,
+      rankingError: null,
+    });
+  },
+  refreshRankings: async (signal) => {
+    if (rankingRequest && !rankingRequest.signal?.aborted) return rankingRequest.promise;
+    const revision = rankingRevision;
+    const request = { signal, promise: Promise.resolve() };
+    request.promise = (async () => {
       try {
-        const [topRes, allRes] = await Promise.all([
-          getTopRankings().catch(() => null),
-          getRankings(),
-        ]);
-        if (sequence === rankingSequence) {
-          useVotingStore.getState().applyRankings(allRes);
-          if (topRes) useVotingStore.getState().applyTopRankings(topRes);
+        const snapshot = await getRankings(signal);
+        // A newer SSE snapshot always wins over an older HTTP response.
+        if (!signal?.aborted && revision === rankingRevision) {
+          if (!isRankingSnapshot(snapshot)) throw new Error("Dữ liệu xếp hạng không hợp lệ.");
+          useVotingStore.getState().applyRankings(snapshot);
         }
       } catch (error) {
-        if (sequence === rankingSequence) set({ rankingError: apiErrorMessage(error), rankingLoading: false });
+        if (!signal?.aborted && revision === rankingRevision) set({ rankingError: apiErrorMessage(error) });
+      } finally {
+        if (rankingRequest === request) rankingRequest = null;
       }
     })();
-    try { await rankingRequest; }
-    finally { rankingRequest = null; }
-  },
-  applyConfirmedVote: (destinationId) => {
-    // Discard polling responses that started before this confirmed vote.
-    ++rankingSequence;
-    set(state => {
-      if (!state.ranking.some(item => item.id === destinationId)) return state;
-      const ranking = state.ranking
-        .map(item => item.id === destinationId ? { ...item, votes: item.votes + 1 } : item);
-      const topRankings = state.topRankings.map(item => item.id === destinationId ? { ...item, votes: item.votes + 1 } : item);
-      // Keep authoritative ranks until the immediate backend refresh completes.
-      return { ranking, topRankings, totalVotes: state.totalVotes + 1 };
-    });
+    rankingRequest = request;
+    return request.promise;
   },
   setAccount: (user, myVotes) => set({ user, myVotes }),
   setIsVoting: (isVoting) => set({ isVoting }),

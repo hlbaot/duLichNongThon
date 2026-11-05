@@ -29,7 +29,7 @@ export function DestinationDetailClient({ destination }: DestinationDetailClient
   const { destinations } = useVoting();
   const ranking = useVotingStore(state => state.ranking);
   const profile = useMemo(() => parseDestinationProfile(destination.detail), [destination.detail]);
-  const rankedItem = ranking.find(item => item.id === destination.id || item.slug === destination.slug);
+  const rankedItem = ranking.find(item => item.id === destination.id);
   const voteDestination: Destination = {
     id: destination.id, slug: destination.slug, code: destination.contestCode ?? "",
     contestCode: destination.contestCode ?? null, shortTitle: destination.shortTitle ?? destination.title,
@@ -115,7 +115,7 @@ export function DestinationDetailClient({ destination }: DestinationDetailClient
 
         {/* Cột bên phải: Thẻ bình chọn + Thư viện hình ảnh nằm ngay bên cạnh nội dung */}
         <aside className="profile-aside-column" aria-label="Bình chọn và hình ảnh điểm đến">
-          <DestinationDetailVote destination={voteDestination} />
+          <DestinationDetailVote rankingAvailable={!!rankedItem} destination={voteDestination} />
 
           {/* Ảnh đặt bên phải, không để ở cuối cùng */}
           {images.length > 0 && (
@@ -127,6 +127,6 @@ export function DestinationDetailClient({ destination }: DestinationDetailClient
       </div>
       <DestinationDetailNavigation destinations={destinations} currentId={destination.id} />
     </Container>
-    <div className="profile-vote-mobile"><DestinationDetailVote destination={voteDestination} compact /></div>
+    <div className="profile-vote-mobile"><DestinationDetailVote rankingAvailable={!!rankedItem} destination={voteDestination} compact /></div>
   </div>;
 }

@@ -5,12 +5,15 @@ export async function getTopRankings(): Promise<GetTopRankingsResponse> {
   const { data } = await https.get<GetTopRankingsResponse | null | "">("/rankings/top", {
     headers: { "Cache-Control": "no-store" },
   });
-  return data || { items: [], totalVotes: 0, totalDestinations: 0 };
+  if (!data) throw new Error("Chưa nhận được dữ liệu xếp hạng.");
+  return data;
 }
 
-export async function getRankings(): Promise<GetRankingsResponse> {
+export async function getRankings(signal?: AbortSignal): Promise<GetRankingsResponse> {
   const { data } = await https.get<GetRankingsResponse | null | "">("/rankings", {
+    signal,
     headers: { "Cache-Control": "no-store" },
   });
-  return data || { items: [], totalVotes: 0, totalDestinations: 0 };
+  if (!data) throw new Error("Chưa nhận được dữ liệu xếp hạng.");
+  return data;
 }

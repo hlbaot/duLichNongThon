@@ -10,11 +10,10 @@
 
 - Trang chủ: `/`.
 - Chi tiết: `/diem-den/{slug}`, dùng slug thật API trả về, không dùng mã bài thi hoặc UUID.
-- `/[id]` vẫn render nội dung như trước và có canonical về `/diem-den/{slug}`.
-- `/bai-thi/[id]` và `/dia-diem/[id]` vẫn dùng `redirect()` như trước (redirect tạm thời; khi đã streaming có thể trả HTTP 200 và chuyển hướng qua nội dung). Chưa chuyển sang redirect vĩnh viễn theo lựa chọn giữ route hiện tại.
+- Chỉ giữ một route chi tiết `/diem-den/[id]`, trong đó `[id]` nhận slug từ API. Các route phụ đã xóa; URL cũ không còn được phục vụ.
 - Không đưa URL alias, UUID, `/login`, `/api/*` hoặc proxy `/backend-api/*` vào sitemap.
 
-Robots cho phép `/`, chặn `/api/`, `/backend-api/`, `/bai-thi/`, `/dia-diem/`. Không chặn CSS, JS, ảnh hoặc `/_next/`. `/login` được crawl để bot đọc metadata `noindex, nofollow`; robots.txt không phải cơ chế bảo vệ dữ liệu. Không chặn toàn bộ root dynamic vì sẽ chặn cả route và tài nguyên hợp lệ; canonical xử lý nội dung trùng tại đây.
+Robots cho phép `/`, chặn `/api/`, `/backend-api/`. Không chặn CSS, JS, ảnh hoặc `/_next/`. `/login` được crawl để bot đọc metadata `noindex, nofollow`; robots.txt không phải cơ chế bảo vệ dữ liệu.
 
 ## Nguồn sitemap và cache
 
@@ -35,7 +34,6 @@ Kiểm tra mã HTTP 200, namespace XML, chỉ URL chuẩn, domain khớp env và
 
 ## Các hạng mục còn cần duyệt riêng
 
-- Redirect vĩnh viễn các URL alias, gồm root `/{slug}` và các URL dùng UUID.
 - Tách kiểm tra bài tồn tại khỏi Suspense để trả status 404 trước khi streaming. Hiện `notFound()` trong nội dung đã stream có thể trả HTTP 200 kèm noindex; lỗi API cũng đang bị coi là bài không tồn tại. Cần phân biệt lỗi 404 và lỗi backend trước khi thay đổi luồng này.
 - JSON-LD WebSite, Organization và TouristAttraction/Place: cần xác minh thông tin đơn vị tổ chức và dữ liệu địa điểm. Chưa thêm dữ liệu suy đoán.
 
@@ -45,14 +43,14 @@ Kiểm tra mã HTTP 200, namespace XML, chỉ URL chuẩn, domain khớp env và
 2. Kiểm tra `/robots.txt`, `/sitemap.xml`, canonical và metadata trên domain thật.
 3. Gửi `/sitemap.xml` trong Google Search Console và Bing Webmaster Tools.
 4. Dùng URL Inspection kiểm tra trang chủ, một bài chi tiết và `/login`; xác minh canonical Google chọn và trạng thái index.
-5. Theo dõi báo cáo sitemap, lỗi crawl, trang trùng và soft 404; cân nhắc duyệt sửa redirect/404 ở trên.
+5. Theo dõi báo cáo sitemap, lỗi crawl, trang trùng và soft 404; cân nhắc duyệt sửa xử lý 404 ở trên.
 
 ## Kết quả kiểm tra trong phiên triển khai
 
 - Next.js 16.4.3, build production thành công; không cài dependency.
 - `/robots.txt` và `/sitemap.xml`: HTTP 200; 36 URL, 35 ảnh, không có `lastmod`. Đã gọi toàn bộ 36 URL trên bản production local: đều HTTP 200 và không có noindex.
 - Trang chủ và bài chi tiết đã đối chiếu canonical, Open Graph, `lang="vi"`; login có `noindex, nofollow`.
-- Alias root vẫn HTTP 200 với canonical về route chuẩn. Alias `/bai-thi/` giữ chuyển hướng streaming, HTTP quan sát được là 200, không phải 301/308.
+- Route chi tiết hiện chỉ còn `/diem-den/[id]`; các alias cũ đã được xóa.
 - URL không khớp route: 404. Slug chi tiết không tồn tại: HTTP 200 + noindex do streaming; chưa thay đổi luồng tải dữ liệu.
 
 Ví dụ URL trong sitemap local (domain được thay theo `NEXT_PUBLIC_SITE_URL` khi build):

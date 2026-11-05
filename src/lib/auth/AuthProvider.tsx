@@ -2,6 +2,7 @@
 import { createContext, useCallback, useContext, useEffect, useRef, useState, type ReactNode } from "react";
 import { toast } from "react-toastify";
 import { apiErrorMessage } from "@/api/errors";
+import { useRankingStream } from "@/hooks/useRankingStream";
 import { authService } from "./authService";
 import { useVotingStore } from "@/stores/use-voting-store";
 import type { AuthContextValue } from "@/types/auth";
@@ -9,6 +10,8 @@ import type { AuthContextValue } from "@/types/auth";
 const AuthContext = createContext<AuthContextValue | null>(null);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
+  useRankingStream();
+  const [confirmedVotes, setConfirmedVotes] = useState<{ userId: string; ids: string[] } | null>(null);
   const user = useVotingStore(state => state.user);
   const myVotes = useVotingStore(state => state.myVotes);
   const isVoting = useVotingStore(state => state.isVoting);
@@ -37,24 +40,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const sequenceCounter = accountSequence;
     alive.current = true;
     void refreshAccount();
-    const refreshRankings = () => {
-      if (document.visibilityState === "visible") void useVotingStore.getState().refreshRankings();
-    };
-    refreshRankings();
     const onStorage = (event: StorageEvent) => {
       if (event.key === null || event.key === "dlnt2026:api-session") void refreshAccount();
     };
     const onVisible = () => {
-      if (document.visibilityState === "visible") { void refreshAccount(); refreshRankings(); }
+      if (document.visibilityState === "visible") void refreshAccount();
     };
-    const interval = window.setInterval(refreshRankings, 10_000);
     window.addEventListener("storage", onStorage);
     window.addEventListener("focus", onVisible);
     document.addEventListener("visibilitychange", onVisible);
     return () => {
       alive.current = false;
       ++sequenceCounter.current;
-      window.clearInterval(interval);
       window.removeEventListener("storage", onStorage);
       window.removeEventListener("focus", onVisible);
       document.removeEventListener("visibilitychange", onVisible);
@@ -77,13 +74,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (!state.user) { openLoginModal(destinationId); return false; }
     if (state.isVoting) return false;
     if (!state.myVotes) { toast.error("Chưa tải được lượt bình chọn. Vui lòng thử lại."); void refreshAccount(); return false; }
-    if (state.myVotes.items.some(item => item.destinationId === destinationId)) { toast.error("Bạn đã bình chọn điểm đến này."); return false; }
+    if ((confirmedVotes?.userId === state.user.id && confirmedVotes.ids.includes(destinationId)) || state.myVotes.items.some(item => item.destinationId === destinationId)) { toast.error("Bạn đã bình chọn điểm đến này."); return false; }
     state.setIsVoting(true);
     let committed = false;
     try {
       await authService.vote(destinationId);
       committed = true;
-      useVotingStore.getState().applyConfirmedVote(destinationId);
+      setConfirmedVotes(previous => ({
+        userId: state.user!.id,
+        ids: [...new Set([...(previous?.userId === state.user!.id ? previous.ids : []), destinationId])],
+      }));
       toast.success("Bình chọn thành công.");
       return true;
     } catch (error) {
@@ -91,11 +91,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       return false;
     } finally {
       // Also reconcile an ambiguous timeout without submitting another vote.
-      await Promise.all([refreshAccount(), useVotingStore.getState().refreshRankings()]);
+      await Promise.all([refreshAccount(), ...(useVotingStore.getState().rankingConnected ? [] : [useVotingStore.getState().refreshRankings()])]);
       if (!committed && !authService.hasSession()) openLoginModal();
       useVotingStore.getState().setIsVoting(false);
     }
-  }, [isLoading, openLoginModal, refreshAccount]);
+  }, [isLoading, openLoginModal, refreshAccount, confirmedVotes]);
   const verifyOtp = useCallback(async (email: string, otp: string) => {
     try {
       const verifiedUser = await authService.verifyOtp(email, otp);
@@ -116,11 +116,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       await authService.logout();
       ++accountSequence.current;
       useVotingStore.getState().setAccount(null, null);
+      setConfirmedVotes(null);
       closeLoginModal();
       toast.success("Đã đăng xuất thành công.");
     } catch (error) { toast.error(apiErrorMessage(error), { containerId }); }
   }, [closeLoginModal]);
-  const votedIds = myVotes?.items.map(item => item.destinationId) ?? [];
+  const votedIds = [...new Set([...(myVotes?.items.map(item => item.destinationId) ?? []), ...(confirmedVotes?.userId === user?.id ? confirmedVotes?.ids ?? [] : [])])];
   return <AuthContext.Provider value={{
     user, isLoading, isVoting, loginModalOpen, pendingDestinationId,
     openLoginModal, closeLoginModal,
