@@ -10,6 +10,7 @@ import { DestinationDetailClient } from "@/components/destination-detail-client"
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { Playfair_Display, Manrope } from "next/font/google";
+import { destinationUrl, publicImageUrl } from "@/lib/site";
 import { BackToTop } from "@/components/back-to-top";
 
 const editorial = Playfair_Display({ subsets: ["latin", "vietnamese"], display: "swap", variable: "--font-profile-serif" });
@@ -42,13 +43,33 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { id: slug } = await params;
   try {
     const destination = await loadDestination(slug);
+    const canonical = destinationUrl(destination.slug);
+    const image = publicImageUrl(destination.thumbnailUrl);
+    const images = image ? [{ url: image, alt: destination.title }] : [];
     return {
-      title: `${destination.title} | Hội thi Du lịch Nông thôn 2026`,
+      title: destination.title,
       description: destination.brief,
+      alternates: { canonical },
+      openGraph: {
+        type: "article",
+        locale: "vi_VN",
+        siteName: "Hội thi Du lịch Nông thôn 2026",
+        title: destination.title,
+        description: destination.brief,
+        url: canonical,
+        images,
+      },
+      twitter: {
+        card: image ? "summary_large_image" : "summary",
+        title: destination.title,
+        description: destination.brief,
+        images: image ? [image] : [],
+      },
     };
   } catch {
     return {
-      title: "Chi tiết điểm đến | Hội thi Du lịch Nông thôn 2026",
+      title: "Chi tiết điểm đến",
+      robots: { index: false, follow: false },
     };
   }
 }
