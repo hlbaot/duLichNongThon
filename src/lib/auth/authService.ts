@@ -29,20 +29,29 @@ function writeCookie(value: string, maxAge: number) {
 }
 
 function readSession(): VerifyOtpResponse | null {
-  const raw = readCookie();
+  const cookie = readCookie();
+  // Migrate a still-valid session saved by earlier frontend versions.
+  const raw = cookie ?? window.localStorage.getItem(SESSION_KEY);
   if (!raw) return null;
   try {
     const value: unknown = JSON.parse(raw);
     if (typeof value === "object" && value !== null &&
       "accessToken" in value && typeof value.accessToken === "string" &&
-      "refreshToken" in value && typeof value.refreshToken === "string") return value as VerifyOtpResponse;
+      "refreshToken" in value && typeof value.refreshToken === "string") {
+      const session = value as VerifyOtpResponse;
+      if (!cookie) saveSession(session);
+      return session;
+    }
   } catch { /* Invalid local session: require a fresh login. */ }
   clearSession();
   return null;
 }
 
 function saveSession(session: VerifyOtpResponse) {
-  writeCookie(JSON.stringify(session), SESSION_MAX_AGE);
+  const maxAge = Number.isFinite(session.refreshExpiresIn)
+    ? Math.max(0, Math.min(SESSION_MAX_AGE, Math.floor(session.refreshExpiresIn)))
+    : SESSION_MAX_AGE;
+  writeCookie(JSON.stringify(session), maxAge);
   // Dọn token cũ từng lưu trong localStorage (nếu có).
   window.localStorage.removeItem(SESSION_KEY);
 }
@@ -91,9 +100,12 @@ export const authService = {
   },
   async getAccount() {
     if (!readSession()) return { user: null, myVotes: null };
-    const [user, myVotes] = await Promise.all([
-      authorized(api.getMe), authorized(getMyVotes),
-    ]);
+    const user = await authorized(api.getMe);
+    // A vote-history network failure must not make a valid session look logged out.
+    const myVotes = await authorized(getMyVotes).catch(error => {
+      if (!readSession()) throw error;
+      return null;
+    });
     return { user, myVotes };
   },
   async vote(destinationId: string) {

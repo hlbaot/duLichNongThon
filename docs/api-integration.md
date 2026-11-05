@@ -43,3 +43,9 @@ Hạn mức toàn hội thi lấy từ `maxVotes` của `/votes/me`, không rese
 Card đề cử chỉ hiển thị video, tên, vị trí, số phiếu và nút Vote. Video lấy từ phần tử `VIDEO` đầu tiên trong `/destinations/:slug`; chỉ gọi cho các card ở trang hiện tại, dùng chung cache trong 60 giây. Link Vimeo riêng tư được chuyển sang player và giữ tham số `h`. Mô tả và nội dung đầy đủ chỉ nằm ở trang chi tiết; nhấn tên để mở.
 
 Top 3: khi chưa có điểm đến nào có phiếu (`votes > 0`), hiển thị khung chờ xếp hạng. Khi có phiếu, tự thay khung chờ bằng tối đa 3 card. Bằng số phiếu hiển thị đồng hạng ở podium (ví dụ 1, 1, 3); `displayOrder`, UUID quyết định 3 điểm đến được chọn nếu có nhiều người bằng phiếu. Không thay đổi giá trị `rank` của backend trong store.
+
+
+Đăng nhập quay lại: cookie lưu phiên theo hạn `refreshExpiresIn` của backend, tối đa 30 ngày. Trang `/login` tự quay về trang chủ khi khôi phục được phiên hợp lệ; không gọi gửi OTP trong trường hợp này. Access token hết hạn được refresh bằng refresh token đã lưu. Phiên localStorage từ phiên bản cũ được chuyển sang cookie rồi được backend kiểm tra; không đăng nhập chỉ dựa trên email. Nếu tải lịch sử bình chọn lỗi mạng, vẫn giữ tài khoản đã xác thực và chưa cho bình chọn tới khi tải lại được lịch sử. Đăng xuất thu hồi refresh token và xóa phiên; lần sau cần OTP.
+
+
+Khôi phục OTP đang chờ: FE lưu email, `resendAt` và `expiresAt` trong sessionStorage của tab (fallback bộ nhớ), không lưu mã OTP. Đóng popup hoặc tải lại trang vẫn trở lại bước nhập OTP. Nhập lại cùng email có phiên chờ sẽ dùng phiên đó, không gọi send trùng. Nếu `/auth/otp/send` trả 409 mà không còn dữ liệu local, FE vẫn mở bước OTP; không tự tạo ngày hết hạn. Người dùng có thể nhập mã đã nhận hoặc chọn gửi lại qua `/auth/otp/resend`. FE đọc `retryAfter`/header `Retry-After` khi bị giới hạn; với 429 không kèm thời gian thì chờ 60 giây. Sau xác thực thành công xóa phiên OTP chờ. Nếu gửi mã hoàn tất sau khi popup đóng, metadata vẫn được lưu để mở lại.

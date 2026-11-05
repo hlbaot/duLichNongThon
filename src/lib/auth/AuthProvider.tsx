@@ -124,14 +124,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   return <AuthContext.Provider value={{
     user, isLoading, isVoting, loginModalOpen, pendingDestinationId,
     openLoginModal, closeLoginModal,
-    sendOtp: async email => {
-      try { return await authService.sendOtp(email); }
-      catch (error) { throw new Error(apiErrorMessage(error)); }
-    },
-    resendOtp: async email => {
-      try { return await authService.resendOtp(email); }
-      catch (error) { throw new Error(apiErrorMessage(error)); }
-    },
+    // Preserve HTTP status and retry metadata for the OTP recovery UI.
+    sendOtp: email => authService.sendOtp(email),
+    resendOtp: email => authService.resendOtp(email),
     verifyOtp, logout, vote,
     usedVotes: myVotes?.usedVotes ?? 0,
     remainingVotes: myVotes?.remainingVotes ?? 0,
