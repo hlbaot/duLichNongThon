@@ -17,7 +17,7 @@ export function Top3Leaderboard() {
   const reduced = useReducedMotion();
   const top3 = getTopDestinations(topRankings);
   const play = inView || reduced;
-  const classicPodium = top3.length === 3 && top3.every(item => !item.tied);
+  const classicPodium = top3.length === 3;
 
   return <section id="leaderboard" className={`ranking-section premium-ranking ${play ? "ranking-playing" : ""}`}>
     <div className="ranking-spotlight" aria-hidden="true" /><div className="ranking-halo" aria-hidden="true" />
