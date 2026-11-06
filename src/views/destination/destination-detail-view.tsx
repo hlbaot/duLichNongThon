@@ -9,12 +9,10 @@ import type { RankedDestination } from "@/types/api/rankings";
 import { DestinationDetailClient } from "@/components/destination-detail-client";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
-import { Playfair_Display, Manrope } from "next/font/google";
+import { Playfair_Display } from "next/font/google";
 import { destinationUrl, publicImageUrl } from "@/lib/site";
-import { BackToTop } from "@/components/back-to-top";
 
 const editorial = Playfair_Display({ subsets: ["latin", "vietnamese"], display: "swap", variable: "--font-profile-serif" });
-const bodyFont = Manrope({ subsets: ["latin", "vietnamese"], display: "swap", variable: "--font-profile-sans" });
 
 /** Chỉ hiển thị dữ liệu thật do BE trả về; không dựng dữ liệu thay thế. */
 const loadDestination = cache(async (rawParam: string): Promise<GetDestinationResponse> => {
@@ -79,7 +77,7 @@ async function DestinationContent({ params }: PageProps) {
   const destination = await loadDestination(slug);
 
   return (
-    <div className={`destination-detail-page ${editorial.variable} ${bodyFont.variable}`}>
+    <div className={`destination-detail-page ${editorial.variable}`}>
       <Navbar />
 
       <main className="profile-page-main">
@@ -87,7 +85,6 @@ async function DestinationContent({ params }: PageProps) {
       </main>
 
       <Footer />
-      <BackToTop />
     </div>
   );
 }

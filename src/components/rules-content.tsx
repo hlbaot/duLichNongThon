@@ -49,10 +49,30 @@ function TikTokBadgeIcon({ className = "h-6 w-6" }: { className?: string }) {
 export function OfficialRulesArticles({ inline = false }: { inline?: boolean }) {
   return (
     <ol className={`voting-rules-summary-list ${inline ? "" : "voting-rules-summary"}`} role="list">
-      {["Đối tượng", "Thời gian bình chọn", "Cách thức bình chọn & chấm điểm", "Quy định chung"].map((label, index) => (
+      {[
+        {
+          label: "Đối tượng",
+          content: <>Bình chọn cho 35 điểm đến được Ban Tổ chức công bố. Người tham gia sử dụng tài khoản Facebook, TikTok hoặc Gmail hợp lệ.</>,
+        },
+        {
+          label: "Thời gian bình chọn",
+          content: <>Từ <strong>00:00 ngày 07/11/2026</strong> đến <strong>23:59 ngày 20/11/2026</strong>. Chỉ ghi nhận lượt bình chọn và tương tác trong thời gian này.</>,
+        },
+        {
+          label: "Cách thức bình chọn & chấm điểm",
+          content: <>Mỗi lượt Like Facebook, Tim TikTok trên bài đăng/video chính thức hoặc bình chọn hợp lệ trên Cổng bình chọn được tính <strong>01 điểm</strong>. Tổng điểm cộng từ cả 03 nền tảng. Không giới hạn tổng lượt bình chọn; có thể chọn nhiều điểm đến. Thao tác theo hướng dẫn riêng của Ban Tổ chức.</>,
+        },
+        {
+          label: "Quy định chung",
+          content: <>Chỉ ghi nhận lượt hợp lệ; nghiêm cấm tự động hóa, tương tác ảo và gian lận. Ban Tổ chức có quyền loại dữ liệu vi phạm. Kết quả hiển thị là tạm thời; kết quả chính thức được công bố sau kiểm tra, tổng hợp và phê duyệt. Các phát sinh do Ban Tổ chức quyết định theo Thể lệ Hội thi và quy định liên quan.</>,
+        },
+      ].map(({ label, content }, index) => (
         <li key={label}>
           <span className="voting-rules-summary-number" aria-hidden="true">{index + 1}</span>
-          <span>{label}</span>
+          <div>
+            <h4 className="font-bold">{label}</h4>
+            <p className="mt-2 font-normal">{content}</p>
+          </div>
         </li>
       ))}
     </ol>

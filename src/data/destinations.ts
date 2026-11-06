@@ -1,7 +1,9 @@
 import type { RankedDestination } from "@/types/api/rankings";
 import type { Destination } from "@/types/voting-destination";
+import { withOfficialDestination } from "@/lib/destination-display";
 
 export function toVotingDestination(destination: RankedDestination): Destination {
+  destination = withOfficialDestination(destination);
   return {
     id: destination.id,
     slug: destination.slug,

@@ -188,7 +188,7 @@ export function RulesModal() {
         <footer className="px-6 py-4 bg-[#F4FAF6] border-t border-[#026E4E]/10 flex flex-col sm:flex-row items-center justify-between gap-3 shrink-0">
           <div className="flex items-center gap-2 text-xs text-[#4B6354]">
             <Mail className="h-4 w-4 text-[#026E4E]" />
-            <span>Ban Thư ký Hội thi: <strong>bantochuc@dulichnongthon.vn</strong></span>
+            <span>Ban Thư ký Hội thi: <strong>Diemdendulichnongthonvietnam@gmail.com</strong></span>
           </div>
           <button
             onClick={close}

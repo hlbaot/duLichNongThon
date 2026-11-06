@@ -11,6 +11,7 @@ function DestinationCardInner({ destination, index = 0 }: DestinationCardProps) 
   const { user, handleVoteClick } = useVoting();
   const isVoted = user?.votedIds.includes(destination.id);
   const detailUrl = `/diem-den/${encodeURIComponent(destination.slug)}`;
+  const cardTitle = `${destination.contestCode ? `#${destination.contestCode} | ` : ""}${destination.shortTitle ?? destination.name}`;
   const delay = `${Math.floor((index % 8) / 4) * 60 + (index % 4) * 30}ms`;
 
   return (
@@ -32,11 +33,6 @@ function DestinationCardInner({ destination, index = 0 }: DestinationCardProps) 
           />
         </Link>
 
-        {destination.contestCode && (
-          <div className="pointer-events-none absolute top-3 left-3 z-20 px-2.5 py-1 rounded-full bg-black/65 text-white text-xs font-bold">
-            {destination.contestCode}
-          </div>
-        )}
       </div>
 
       <div className="destination-card-body">
@@ -45,9 +41,9 @@ function DestinationCardInner({ destination, index = 0 }: DestinationCardProps) 
             href={detailUrl}
             prefetch={false}
             className="block text-left"
-            title={destination.name}
+            title={cardTitle}
           >
-            <h3 className="destination-card-title">{destination.shortTitle ?? destination.name}</h3>
+            <h3 className="destination-card-title">{cardTitle}</h3>
           </Link>
         </div>
 

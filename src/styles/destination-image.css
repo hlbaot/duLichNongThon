@@ -3,5 +3,5 @@
 .destination-image-fallback[data-region="nam"], .destination-image-fallback[data-region="south"] { background: radial-gradient(ellipse at 70% 10%,#a6d8e3,transparent 70%),linear-gradient(145deg,#315e62,#7bacaa); }
 .destination-image-fallback::after { content:'';position:absolute;inset:0;background:repeating-radial-gradient(ellipse at 110% 110%,transparent 0 28px,#ffffff18 29px,transparent 30px); }
 .destination-image-fallback > span { display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;padding:24px;max-width:90%;position:relative;z-index:1; }
-.destination-image-fallback > span > span { font-family:'Lora',Georgia,serif;font-size:clamp(16px,2vw,23px);line-height:1.4; }
+.destination-image-fallback > span > span { font-family:var(--font-lora),Georgia,serif;font-size:clamp(16px,2vw,23px);line-height:1.4; }
 .destination-image-fallback small { font-size:10px;letter-spacing:.03em; }

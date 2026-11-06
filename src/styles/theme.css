@@ -1,5 +1,5 @@
 @theme {
-  --font-sans: 'Manrope', sans-serif;
+  --font-sans: var(--font-manrope), Arial, sans-serif;
   
   --color-forest: #026E4E;
   --color-forest-dark: #01583E;
@@ -23,8 +23,8 @@
 }
 
 @theme {
-  --font-sans: 'Manrope', sans-serif;
-  --font-editorial: 'Lora', Georgia, serif;
+  --font-sans: var(--font-manrope), Arial, sans-serif;
+  --font-editorial: var(--font-lora), Georgia, serif;
   --color-cream: #FFFFFF;
   --color-pale-green: #F4FAF6;
 }

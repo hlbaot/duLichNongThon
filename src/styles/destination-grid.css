@@ -2,7 +2,7 @@
 .destination-cards { grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); }
 .destination-heading { max-width: 720px; }
 .destination-heading > div { background: transparent; padding-left: 0; letter-spacing: .1em; font-size: 10px; text-transform: uppercase; color: #026E4E; }
-.destination-heading h2 { font-family: 'Lora', Georgia, serif; font-weight: 500; color: #0E382B; }
+.destination-heading h2 { font-family: var(--font-lora), Georgia, serif; font-weight: 500; color: #0E382B; }
 .destination-heading p { font-size: 14px; max-width: 600px; color: #4B6354; }
 .destination-filters { box-shadow: 0 4px 16px rgba(2, 110, 78, 0.04); border-radius: 20px; background: #F4FAF6; border: 1px solid rgba(2, 110, 78, 0.1); }
 .destination-filters input, .destination-filters select { min-height: 44px; background: #FFFFFF; }
@@ -58,13 +58,11 @@
 .destination-card-media { position: relative; width: 100%; aspect-ratio: 16 / 10; overflow: hidden; background: #061914; }
 .destination-card-body { display: flex; flex: 1; flex-direction: column; gap: 14px; padding: 18px; }
 .destination-card-title {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  overflow: hidden;
+  display: block;
+  width: 100%;
   overflow-wrap: break-word;
   word-break: normal;
-  text-wrap: balance;
+  text-wrap: wrap;
   min-height: 2.8em;
   font-size: 16px;
   font-weight: 800;

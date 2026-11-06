@@ -4,7 +4,7 @@
 .how-actions { display: flex; align-items: flex-start; flex-direction: column; gap: 20px; margin-top: 30px; }
 .steps-list { border-top: 1px solid rgba(2, 110, 78, 0.12); }
 .vote-step { display: grid; grid-template-columns: 42px 1fr; gap: 20px; padding: 28px 0; border-bottom: 1px solid rgba(2, 110, 78, 0.12); }
-.step-number { font-family: 'Lora', Georgia, serif; font-size: 27px; color: #026E4E; line-height: 1.3; font-weight: 700; }
+.step-number { font-family: var(--font-lora), Georgia, serif; font-size: 27px; color: #026E4E; line-height: 1.3; font-weight: 700; }
 .step-heading { display: flex; justify-content: space-between; gap: 20px; align-items: center; }
 .step-heading h3 { font-size: 18px; font-weight: 700; letter-spacing: -.025em; color: #0E382B; }
 .step-heading svg { color: #026E4E; flex-shrink: 0; }
@@ -255,7 +255,7 @@
 .voting-rules-summary-heading { padding-bottom: 18px; border-bottom: 1px solid #026e4e18; }
 .voting-rules-summary-title { color: #0e382b; font-size: clamp(20px, 2vw, 24px); font-weight: 800; line-height: 1.4; letter-spacing: -.02em; }
 .voting-rules-summary-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 36px; list-style: none; margin: 14px 0 0; }
-.voting-rules-summary-list > li { display: flex; align-items: center; gap: 12px; min-width: 0; padding: 10px 0; color: #244c3d; font-size: 15px; font-weight: 650; line-height: 1.6; }
+.voting-rules-summary-list > li { display: flex; align-items: flex-start; gap: 12px; min-width: 0; padding: 10px 0; color: #244c3d; font-size: 15px; font-weight: 650; line-height: 1.6; }
 .voting-rules-summary-number { display: grid; place-items: center; flex-shrink: 0; width: 30px; height: 30px; border-radius: 50%; background: #e8f3ed; color: #026e4e; font-size: 13px; font-weight: 800; font-variant-numeric: tabular-nums; }
 .voting-rules-summary-list.voting-rules-summary { margin-top: 0; }
 @media (max-width: 639px) {

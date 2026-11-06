@@ -3,7 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import { useVoting } from "@/context/voting-context";
-import { Mail, Phone, MapPin, ShieldCheck, Heart } from "lucide-react";
+import { Mail, MapPin, ShieldCheck, Heart } from "lucide-react";
 
 export function Footer() {
   const { setRulesModalOpen, setLeaderboardModalOpen } = useVoting();
@@ -47,7 +47,7 @@ export function Footer() {
             </div>
 
             <p className="text-sm text-white/85 leading-relaxed max-w-sm font-medium">
-              Bộ Nông nghiệp và Môi trường chủ trì, tôn vinh các điểm đến du lịch nông nghiệp, sinh thái và văn hóa truyền thống tiêu biểu; thúc đẩy phát triển nông thôn bền vững.
+              Hội thi nhằm tìm kiếm, tôn vinh và quảng bá những điểm đến du lịch nông thôn tiêu biểu trên cả nước; góp phần lan tỏa giá trị văn hóa bản địa, phát huy tiềm năng du lịch và thúc đẩy phát triển nông thôn bền vững.
             </p>
 
             <div className="pt-2 flex items-center gap-2 text-xs text-[#A7F3D0] font-semibold">
@@ -110,15 +110,11 @@ export function Footer() {
             <ul className="space-y-3 text-sm text-white/85 font-medium">
               <li className="flex items-start gap-2.5">
                 <MapPin className="h-4 w-4 text-[#86EFAC] shrink-0 mt-0.5" />
-                <span>Số 02 Ngọc Hà, Ba Đình, TP. Hà Nội</span>
-              </li>
-              <li className="flex items-center gap-2.5">
-                <Phone className="h-4 w-4 text-[#86EFAC] shrink-0" />
-                <span>Hotline: 1900 6868 (8:00 - 18:00 hàng ngày)</span>
+                <span>Địa chỉ: số 10 Tôn Thất Thuyết, phường Cầu Giấy, TP. Hà Nội</span>
               </li>
               <li className="flex items-center gap-2.5">
                 <Mail className="h-4 w-4 text-[#86EFAC] shrink-0" />
-                <span>Email: bantochuc@dulichnongthon.vn</span>
+                <span className="min-w-0 [overflow-wrap:anywhere]">Email: Diemdendulichnongthonvietnam@gmail.com</span>
               </li>
             </ul>
           </div>
@@ -126,7 +122,7 @@ export function Footer() {
 
         {/* Bottom copyright band */}
         <div className="pt-8 border-t border-white/15 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-white/70">
-          <p>© 2026 Ban Tổ chức Hội thi “Điểm đến du lịch nông thôn Việt Nam tốt nhất” năm 2026 · Bộ Nông nghiệp và Môi trường. Tất cả quyền được bảo lưu.</p>
+          <p>© 2026 Hội thi “Điểm đến du lịch nông thôn Việt Nam tốt nhất” năm 2026. Bảo lưu mọi quyền.</p>
           <div className="flex items-center gap-1.5 text-white/90 font-medium">
             <span>Chung tay vì nông thôn xanh</span>
             <Heart className="h-3.5 w-3.5 text-[#FEF08A] fill-current" />

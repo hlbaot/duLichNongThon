@@ -10,7 +10,6 @@ import { Top3Leaderboard } from "@/components/top3";
 import { DestinationGrid } from "@/components/destination-grid";
 import { HowToVote } from "@/components/how-to-vote";
 import { Footer } from "@/components/footer";
-import { BackToTop } from "@/components/back-to-top";
 
 export default function HomeView() {
   return (
@@ -40,7 +39,6 @@ export default function HomeView() {
             <HowToVote />
           </div>
         </CampaignContent>
-        <BackToTop />
       </div>
     </>
   );

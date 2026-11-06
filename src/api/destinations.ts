@@ -1,4 +1,5 @@
 import { https } from "./https";
+import { withOfficialDestination, withOfficialDestinationDetail } from "@/lib/destination-display";
 import type {
   GetDestinationRequest,
   GetDestinationResponse,
@@ -14,10 +15,11 @@ export async function getDestinations(
     params: { page, limit, keyword },
     signal,
   });
-  return data || { items: [], total: 0, page: page ?? 1, limit: limit ?? 12, totalPages: 0 };
+  return data ? { ...data, items: data.items.map(withOfficialDestination) }
+    : { items: [], total: 0, page: page ?? 1, limit: limit ?? 12, totalPages: 0 };
 }
 
 export async function getDestination({ slug }: GetDestinationRequest): Promise<GetDestinationResponse> {
   const { data } = await https.get<GetDestinationResponse>(`/destinations/${encodeURIComponent(slug)}`);
-  return data;
+  return withOfficialDestinationDetail(data);
 }
