@@ -13,3 +13,9 @@ export interface GetRankingsResponse {
 }
 
 export type GetTopRankingsResponse = GetRankingsResponse;
+
+export interface RankingCountsResponse {
+  totalVotes: number;
+  totalDestinations: number;
+  items: { id: string; voteCount: number; rank: number }[];
+}

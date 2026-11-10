@@ -13,8 +13,9 @@ export function useRankingStream() {
       return;
     }
     return startRankingStream({
-      url: `${backendURL}/rankings/stream`,
+      url: `${backendURL}/rankings/stream?compact=1`,
       applySnapshot: snapshot => useVotingStore.getState().applyRankings(snapshot),
+      applyCounts: counts => useVotingStore.getState().applyRankingCounts(counts),
       setConnected: rankingConnected => useVotingStore.setState({ rankingConnected }),
       refresh: signal => useVotingStore.getState().refreshRankings(signal),
     });
