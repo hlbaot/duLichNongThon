@@ -5,7 +5,6 @@ import { useEffect, useRef, useState, memo, type CSSProperties, type PointerEven
 import Link from "next/link";
 import { Award, Check, Crown, Heart, Medal } from "lucide-react";
 import { useVoting } from "@/context/voting-context";
-import { useCountUp } from "@/hooks/useCountUp";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { DestinationImage } from "./destination-image";
@@ -17,7 +16,7 @@ export const RANK_THEME = {
     border: "linear-gradient(145deg, #FFFBEB, #FBBF24 30%, #B45309 60%, #F59E0B 82%, #FFFBEB)",
     glow: "0 0 0 1px rgba(245,158,11,.4), 0 20px 60px -10px rgba(245,158,11,.45), 0 0 80px rgba(254,243,199,.3)",
     badge: "linear-gradient(135deg, #78350F, #92400E 40%, #78350F 70%, #B45309)",
-    entrance: "rank-enter-gold", duration: 900, shine: 900, count: 1000,
+    entrance: "rank-enter-gold", duration: 900, shine: 900,
   },
   2: {
     label: "VỊ TRÍ THỨ HAI", icon: Award, order: 1, ink: "#0C4A6E", labelSurface: "#f0f9ffcc", voteInk: "#0284C7", tint: "#f5fbff",
@@ -25,7 +24,7 @@ export const RANK_THEME = {
     border: "linear-gradient(145deg, #f0f9ff, #7DD3FC 40%, #0369A1 72%, #bae6fd)",
     glow: "0 14px 38px -15px rgba(2,132,199,.25)",
     badge: "linear-gradient(135deg, #075985, #0284C7, #075985)",
-    entrance: "rank-enter-left", duration: 700, shine: 1800, count: 2200,
+    entrance: "rank-enter-left", duration: 700, shine: 1800,
   },
   3: {
     label: "VỊ TRÍ THỨ BA", icon: Medal, order: 3, ink: "#14532D", labelSurface: "#f0fdf4cc", voteInk: "#16A34A", tint: "#f6fcf8",
@@ -33,7 +32,7 @@ export const RANK_THEME = {
     border: "linear-gradient(145deg, #f0fdf4, #86EFAC 40%, #15803D 72%, #bbf7d0)",
     glow: "0 14px 38px -15px rgba(22,163,74,.24)",
     badge: "linear-gradient(135deg, #166534, #15803D, #166534)",
-    entrance: "rank-enter-right", duration: 700, shine: 2000, count: 2200,
+    entrance: "rank-enter-right", duration: 700, shine: 2000,
   },
 } as const;
 
@@ -55,20 +54,13 @@ function TopRankCardInner({ rank, destination, delay, play, order, tied = false 
   const Icon = theme.icon;
   const reduced = useReducedMotion();
   const canTilt = useMediaQuery("(hover: hover) and (pointer: fine)");
-  const [countStarted, setCountStarted] = useState(false);
   const [entering, setEntering] = useState(false);
   const [complete, setComplete] = useState(false);
   const tilt = useRef<HTMLDivElement>(null);
   const pointerFrame = useRef(0);
   const { user, handleVoteClick } = useVoting();
   const voted = !!user?.votedIds.includes(destination.id);
-  const count = useCountUp(destination.votes, { duration: 1600, start: countStarted });
   const detailUrl = `/diem-den/${encodeURIComponent(destination.slug)}`;
-  useEffect(() => {
-    if (!play || reduced) return;
-    const timer = window.setTimeout(() => setCountStarted(true), theme.count);
-    return () => window.clearTimeout(timer);
-  }, [play, reduced, theme.count]);
   useEffect(() => () => cancelAnimationFrame(pointerFrame.current), []);
   const onMove = (event: PointerEvent<HTMLDivElement>) => {
     if (rank !== 1 || !canTilt || reduced) return;
@@ -112,11 +104,7 @@ function TopRankCardInner({ rank, destination, delay, play, order, tied = false 
               <div className="rank-actions">
                 <Link href={detailUrl} className="rank-vote-count cursor-pointer block">
                   <span>Lượt bình chọn</span>
-                  <strong>
-                    <span className="sr-only">{destination.votes.toLocaleString("vi-VN")}</span>
-                    <span className="rank-count-motion" aria-hidden="true">{count.toLocaleString("vi-VN")}</span>
-                    <span className="rank-count-final" aria-hidden="true">{destination.votes.toLocaleString("vi-VN")}</span>
-                  </strong>
+                  <strong>{destination.votes.toLocaleString("vi-VN")}</strong>
                 </Link>
                 <button
                   className={`vote-button ${voted ? "is-voted" : ""}`}

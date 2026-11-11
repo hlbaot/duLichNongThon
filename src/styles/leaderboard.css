@@ -131,7 +131,6 @@
 .rank-vote-count { min-width:0; }
 .rank-vote-count > span { font-size:10px;color:#536449;display:block; }
 .rank-vote-count > strong { color:var(--rank-vote-ink);font-size:31px;font-weight:800;letter-spacing:-.045em;font-variant-numeric:tabular-nums;line-height:1.4; }
-.rank-count-final { display:none; }
 .rank-actions .vote-button { padding:11px 13px;font-size:12px;gap:6px;min-height:44px;white-space:nowrap; }
 .rank-shine { position:absolute;left:-45%;top:0;bottom:0;width:40%;pointer-events:none;background:linear-gradient(90deg,transparent,#fff9,transparent);transform:translateX(-150%) skewX(-20deg);opacity:0; }
 .rank-playing .rank-shine { animation:rank-shine-once .9s var(--rank-shine-delay) ease-in-out both; }
@@ -180,8 +179,6 @@
   .rank-entering, .rank-tilt[data-tilting="true"] { will-change:auto; }
   .rank-tilt { transform:none; }
   .rank-shine, .rank-sparkles, .rank-burst { display:none; }
-  .rank-count-motion { display:none; }
-  .rank-count-final { display:inline; }
   .ranking-spotlight { opacity:.05;animation:none!important; }
   .ranking-halo { opacity:1;transform:scale(1);animation:none!important; }
 }
