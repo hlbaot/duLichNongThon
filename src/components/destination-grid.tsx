@@ -14,6 +14,7 @@ const VISIBLE_PAGE_COUNT = 3;
 export function DestinationGrid() {
   const { destinations } = useVoting();
   const loading = useVotingStore(state => state.rankingLoading);
+  const error = useVotingStore(state => state.rankingError);
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [serverMatchedIds, setServerMatchedIds] = useState<string[] | null>(null);
@@ -82,6 +83,9 @@ export function DestinationGrid() {
     }
   };
 
+  if (loading && error) return <section id="destinations" className="destinations-section">
+    <p className="site-container" role="status">Chưa tải được danh sách đề cử. Hệ thống sẽ tự thử lại.</p>
+  </section>;
   if (loading) return <section id="destinations" className="destinations-section" aria-busy="true" aria-label="Đang tải điểm đến">
     <div className="site-container"><p role="status">Đang tải danh sách đề cử…</p>
       <div className="destination-cards grid gap-6">{Array.from({ length: 8 }, (_, i) => <div key={i} className="h-80 rounded-3xl bg-white/30 animate-pulse" />)}</div>

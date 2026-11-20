@@ -24,7 +24,7 @@ interface RankingStreamOptions {
   visibility?: Pick<Document, "visibilityState" | "addEventListener" | "removeEventListener">;
 }
 
-/** One owner per provider; EventSource itself handles reconnection and heartbeats. */
+/** One owner per provider, with a shared HTTP fallback during SSE outages. */
 export function startRankingStream(options: RankingStreamOptions): () => void {
   let stopped = false;
   let healthy = false;
@@ -34,6 +34,7 @@ export function startRankingStream(options: RankingStreamOptions): () => void {
   let detachStream: (() => void) | undefined;
   let generation = 0;
   let retries = 0;
+  let reconnectAt = 0;
   const visibility = options.visibility ?? (typeof document === "undefined" ? undefined : document);
   const visible = () => visibility?.visibilityState !== "hidden";
 
@@ -48,6 +49,7 @@ export function startRankingStream(options: RankingStreamOptions): () => void {
       if (request === controller) request = undefined;
       if (activeGeneration === generation) {
         retries++;
+        if (!stream) open();
         scheduleFallback();
       }
     }
@@ -56,7 +58,9 @@ export function startRankingStream(options: RankingStreamOptions): () => void {
   const scheduleFallback = () => {
     if (stopped || !visible() || healthy || timer !== undefined || request) return;
     const activeGeneration = generation;
-    const delay = Math.min(60_000, 30_000 * 2 ** Math.min(retries, 1)) + Math.floor(Math.random() * 5_000);
+    const delay = retries === 0
+      ? 4_000 + Math.floor(Math.random() * 2_000)
+      : (retries === 1 ? 30_000 : 60_000) + Math.floor(Math.random() * 5_000);
     timer = setTimeout(() => {
       timer = undefined;
       if (activeGeneration === generation) return refresh();
@@ -71,10 +75,18 @@ export function startRankingStream(options: RankingStreamOptions): () => void {
   const connected = () => {
     healthy = true;
     retries = 0;
+    reconnectAt = 0;
     options.setConnected(true);
     clearTimeout(timer);
     timer = undefined;
     request?.abort();
+  };
+  const closeStream = () => {
+    if (stream) { stream.onopen = null; stream.onerror = null; }
+    detachStream?.();
+    detachStream = undefined;
+    stream?.close();
+    stream = undefined;
   };
   const pause = () => {
     generation++;
@@ -83,15 +95,17 @@ export function startRankingStream(options: RankingStreamOptions): () => void {
     timer = undefined;
     request?.abort();
     request = undefined;
-    if (stream) { stream.onopen = null; stream.onerror = null; }
-    detachStream?.();
-    detachStream = undefined;
-    stream?.close();
-    stream = undefined;
+    closeStream();
     options.setConnected(false);
   };
+  const streamFailed = () => {
+    closeStream();
+    // EventSource does not expose the HTTP status. Cool down on any transport failure.
+    reconnectAt = Date.now() + 120_000 + Math.floor(Math.random() * 30_000);
+    disconnected();
+  };
   const open = () => {
-    if (stopped || !visible() || stream) return;
+    if (stopped || !visible() || stream || Date.now() < reconnectAt) return;
     options.setConnected(false);
     try {
       const source = new EventSource(options.url);
@@ -125,16 +139,15 @@ export function startRankingStream(options: RankingStreamOptions): () => void {
         source.removeEventListener("rankings", onRanking);
         source.removeEventListener("ranking-counts", onCounts);
       };
-      source.onerror = () => { if (active()) disconnected(); };
+      source.onerror = () => { if (active()) streamFailed(); };
       // Wait for valid data, not merely an open socket, before declaring healthy.
-    } catch { disconnected(); }
+    } catch { streamFailed(); }
     scheduleFallback();
   };
   const onVisibility = () => {
     if (stopped) return;
     if (!visible()) { pause(); return; }
     if (!stream) {
-      retries = 0;
       open();
       // Immediately catch up on return; a newer SSE snapshot aborts this read.
       void refresh();

@@ -13,7 +13,7 @@ export async function getTopRankings(): Promise<GetTopRankingsResponse> {
 export async function getRankings(signal?: AbortSignal): Promise<GetRankingsResponse> {
   const { data } = await https.get<GetRankingsResponse | null | "">("/rankings", {
     signal,
-    headers: { "Cache-Control": "no-store" },
+    ...(typeof window === "undefined" ? {} : { baseURL: "/api" }),
   });
   if (!data) throw new Error("Chưa nhận được dữ liệu xếp hạng.");
   return data;
@@ -24,7 +24,7 @@ export async function getRankingCounts(signal?: AbortSignal): Promise<RankingCou
   try {
     const { data } = await https.get<RankingCountsResponse>("/rankings/counts", {
       signal,
-      headers: { "Cache-Control": "no-store" },
+      ...(typeof window === "undefined" ? {} : { baseURL: "/api" }),
     });
     return data;
   } catch (error) {

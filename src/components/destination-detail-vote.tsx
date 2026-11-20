@@ -20,6 +20,7 @@ export function DestinationDetailVote({
   const { user, handleVoteClick } = useVoting();
   const connected = useVotingStore(state => state.rankingConnected);
   const rankingLoading = useVotingStore(state => state.rankingLoading);
+  const rankingError = useVotingStore(state => state.rankingError);
   const isVoting = useVotingStore((state) => state.isVoting);
   const { isLoading } = useAuth();
   const voted = !!user?.votedIds.includes(destination.id);
@@ -44,8 +45,8 @@ export function DestinationDetailVote({
         <div className="profile-vote-stat-main">
           <span className="profile-vote-label">LƯỢT BÌNH CHỌN</span>
           <div className="profile-vote-count-row">
-            <strong className="profile-vote-count" aria-label={rankingAvailable ? destination.votes.toLocaleString("vi-VN") : "Đang tải"}>
-              {rankingAvailable ? count.toLocaleString("vi-VN") : rankingLoading ? "Đang tải…" : "Chưa có dữ liệu"}
+            <strong className="profile-vote-count" aria-label={rankingAvailable ? destination.votes.toLocaleString("vi-VN") : undefined}>
+              {rankingAvailable ? count.toLocaleString("vi-VN") : rankingLoading && !rankingError ? "Đang tải…" : "Chưa có dữ liệu"}
             </strong>
             <span className="profile-vote-unit">phiếu</span>
           </div>

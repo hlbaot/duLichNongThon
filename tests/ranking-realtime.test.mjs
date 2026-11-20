@@ -30,6 +30,7 @@ function harness(refresh = async () => {}) {
     removeEventListener: (_name, handler) => visibilityListeners.delete(handler),
   };
   let next = 0;
+  let now = 0;
   class Source {
     constructor(url) { this.url = url; this.listeners = {}; sources.push(this); }
     addEventListener(name, handler) { this.listeners[name] = handler; }
@@ -40,7 +41,8 @@ function harness(refresh = async () => {}) {
   }
   const lib = load('src/lib/ranking-stream.ts', {}, {
     EventSource: Source, AbortController,
-    setTimeout: (fn, delay) => { delays.push(delay); timers.set(++next, fn); return next; },
+    Date: { now: () => now },
+    setTimeout: (fn, delay) => { delays.push(delay); timers.set(++next, { fn, delay }); return next; },
     clearTimeout: id => timers.delete(id),
   });
   const snapshots = [], connections = [], counts = [];
@@ -50,7 +52,12 @@ function harness(refresh = async () => {}) {
   });
   return { ...lib, timers, sources, snapshots, connections, counts, delays, stop,
     changeVisibility: state => { visibility.visibilityState = state; for (const listener of visibilityListeners) listener(); },
-    tick: () => { const [id, fn] = timers.entries().next().value; timers.delete(id); return fn(); },
+    tick: () => {
+      const [id, { fn, delay }] = timers.entries().next().value;
+      timers.delete(id);
+      now += delay;
+      return fn();
+    },
   };
 }
 test('named snapshots replace ranking; heartbeat silence does not start polling', () => {
@@ -69,18 +76,20 @@ test('malformed payload and disconnect preserve data and use one fallback timer'
   const h = harness();
   h.sources[0].emit(snapshot());
   for (const bad of ['{', '{}', '{"items":[null],"totalVotes":0,"totalDestinations":1}']) h.sources[0].emit(bad);
-  h.sources[0].onerror(); h.sources[0].onerror();
+  const onerror = h.sources[0].onerror;
+  onerror(); onerror();
   assert.equal(h.snapshots.length, 1);
   assert.equal(h.connections.at(-1), false);
   assert.equal(h.timers.size, 1);
   assert.equal(h.sources.length, 1);
+  assert.equal(h.sources[0].closed, true);
   h.stop();
 });
 test('fallback does not overlap; a valid SSE snapshot aborts HTTP and stops polling', async () => {
   let finish, signal;
   const h = harness(s => { signal = s; return new Promise(resolve => { finish = resolve; }); });
   const pending = h.tick();
-  h.sources[0].onerror();
+  h.sources[0].emit('{}');
   assert.equal(h.timers.size, 0);
   h.sources[0].emit(snapshot());
   assert.equal(signal.aborted, true);
@@ -181,14 +190,58 @@ test('pausing an in-flight fallback cannot reschedule an old generation or apply
   h.stop();
 });
 
-test('fallback backs off from 30 seconds to 60 seconds with bounded jitter', async () => {
+test('fallback starts quickly and backs off to 60 seconds with bounded jitter', async () => {
   const h = harness(async () => { throw Error('offline'); });
-  assert.ok(h.delays[0] >= 30_000 && h.delays[0] < 35_000);
+  assert.ok(h.delays[0] >= 4_000 && h.delays[0] < 6_000);
+  await h.tick();
+  assert.ok(h.delays.at(-1) >= 30_000 && h.delays.at(-1) < 35_000);
   await h.tick();
   assert.ok(h.delays.at(-1) >= 60_000 && h.delays.at(-1) < 65_000);
   await h.tick();
   assert.ok(h.delays.at(-1) >= 60_000 && h.delays.at(-1) < 65_000);
   h.stop();
+});
+
+test('a failed stream stays closed through early fallbacks and reopens after cooling down', async () => {
+  const h = harness();
+  h.sources[0].onerror();
+  h.changeVisibility('hidden');
+  h.changeVisibility('visible');
+  await new Promise(setImmediate);
+  assert.equal(h.sources.length, 1);
+  assert.equal(h.sources[0].closed, true);
+  await h.tick();
+  await h.tick();
+  assert.equal(h.sources.length, 1);
+  await h.tick();
+  assert.equal(h.sources.length, 2);
+  h.stop();
+});
+
+test('ranking API shares validated responses and leaves upstream throttling uncached', async () => {
+  const calls = [];
+  const responses = [
+    Response.json(snapshot()),
+    new Response('Rate limited', { status: 429, headers: { 'Retry-After': '60' } }),
+  ];
+  const { GET } = load('src/app/api/rankings/[[...part]]/route.ts', {
+    'next/server': { connection: async () => {}, NextResponse: Response },
+    '@/lib/ranking-stream': load('src/lib/ranking-stream.ts'),
+  }, {
+    process: { env: { NEXT_PUBLIC_API_BASE_URL: 'https://render.example/' } },
+    AbortSignal,
+    fetch: async url => { calls.push(url); return responses.shift(); },
+  });
+  const success = await GET(null, { params: Promise.resolve({}) });
+  assert.equal(success.status, 200);
+  assert.equal((await success.json()).totalVotes, 4);
+  assert.match(success.headers.get('Vercel-CDN-Cache-Control'), /s-maxage=15/);
+  const unavailable = await GET(null, { params: Promise.resolve({ part: ['counts'] }) });
+  assert.equal(unavailable.status, 503);
+  assert.equal(unavailable.headers.get('Retry-After'), '60');
+  assert.equal(unavailable.headers.get('Cache-Control'), 'no-store');
+  assert.equal(unavailable.headers.get('Vercel-CDN-Cache-Control'), null);
+  assert.deepEqual(calls, ['https://render.example/rankings', 'https://render.example/rankings/counts']);
 });
 
 test('merging counts preserves metadata, reorders ranks, and rejects missing or duplicate IDs', () => {

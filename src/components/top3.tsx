@@ -13,6 +13,7 @@ export function Top3Leaderboard() {
   const topRankings = useVotingStore(state => state.topRankings);
   const connected = useVotingStore(state => state.rankingConnected);
   const loading = useVotingStore(state => state.rankingLoading);
+  const error = useVotingStore(state => state.rankingError);
   const { ref, inView } = useInView<HTMLDivElement>({ threshold: .2, once: true });
   const reduced = useReducedMotion();
   const top3 = getTopDestinations(topRankings);
@@ -29,8 +30,8 @@ export function Top3Leaderboard() {
         </div>
       </div>
 
-      <p role="status" className="ranking-note">{loading ? "Đang tải bảng xếp hạng…" : connected ? "Đang cập nhật trực tiếp" : "Đang kết nối lại · Giữ dữ liệu cập nhật gần nhất"}</p>
-      {loading ? <div className="premium-podium" aria-busy="true" aria-label="Đang tải bảng xếp hạng">
+      <p role="status" className="ranking-note">{loading ? (error ? "Chưa tải được bảng xếp hạng. Hệ thống sẽ tự thử lại." : "Đang tải bảng xếp hạng…") : connected ? "Đang cập nhật trực tiếp" : "Đang kết nối lại · Giữ dữ liệu cập nhật gần nhất"}</p>
+      {loading ? !error && <div className="premium-podium" aria-busy="true" aria-label="Đang tải bảng xếp hạng">
         {[1, 2, 3].map(item => <div key={item} className="h-72 rounded-3xl bg-white/30 animate-pulse" />)}
       </div> : top3.length ? <>
         <div className="premium-podium" data-count={top3.length}>
