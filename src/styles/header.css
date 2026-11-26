@@ -51,7 +51,7 @@
   font-weight: 700;
   cursor: pointer;
 }
-.header-login:disabled { opacity: .7; cursor: wait; }
+.header-login:disabled { opacity: .7; cursor: not-allowed; }
 .header-login-compact, .header-login-menu { display: inline-flex; }
 .header-burger {
   display: inline-grid;
@@ -88,7 +88,7 @@
 }
 @media (min-width: 640px) { .header-compact { right: 24px; } }
 .header-compact .header-login, .header-compact .account-trigger { background: rgba(255, 255, 255, .14) !important; box-shadow: none; border: 1px solid rgba(255, 255, 255, .25); }
-.header-compact .header-login:hover, .header-compact .account-trigger:hover { background: rgba(255, 255, 255, .24) !important; }
+.header-compact .header-login:enabled:hover, .header-compact .account-trigger:hover { background: rgba(255, 255, 255, .24) !important; }
 .header-compact .header-burger { color: var(--menu-cream); }
 .header-compact .header-burger:hover { background: rgba(255, 255, 255, .16); }
 @media (max-width: 399px) { .header-compact .header-login span { display: none; } .header-compact .header-login { padding: 10px 12px; } }
@@ -242,7 +242,7 @@
   letter-spacing: .02em;
   text-transform: uppercase;
 }
-.header-full .header-login-full:hover { transform: none; opacity: .75; }
+.header-full .header-login-full:enabled:hover { transform: none; opacity: .75; }
 .header-full .header-burger-full:hover { background: rgba(255, 255, 255, .15); }
 @media (max-width: 767px) {
   .header-full .nav-links { margin-left: 0; }
