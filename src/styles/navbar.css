@@ -33,7 +33,7 @@
   box-shadow: 0 4px 14px rgba(2, 110, 78, 0.25);
   border-radius: 9999px;
 }
-.nav-login-button:hover,
+.nav-login-button:enabled:hover,
 .liquid-nav .account-trigger:hover {
   background: linear-gradient(135deg, var(--campaign-forest), var(--campaign-deep)) !important;
   box-shadow: 0 6px 18px rgba(2, 110, 78, 0.35);
