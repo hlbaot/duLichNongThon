@@ -11,7 +11,14 @@ import { DestinationGrid } from "@/components/destination-grid";
 import { HowToVote } from "@/components/how-to-vote";
 import { Footer } from "@/components/footer";
 
+const reopeningStart = "2026-11-26T20:30:00+07:00";
+const reopeningEnd = "2026-11-26T20:55:00+07:00";
+
 export default function HomeView() {
+  const configuredStart = process.env.VOTING_START_AT ?? process.env.NEXT_PUBLIC_VOTING_START_AT;
+  const configuredEnd = process.env.VOTING_END_AT ?? process.env.NEXT_PUBLIC_VOTING_END_AT;
+  const hasLaterSchedule = Date.parse(configuredStart ?? "") >= Date.parse(reopeningEnd);
+
   return (
     <>
       <BackgroundVideo />
@@ -29,8 +36,8 @@ export default function HomeView() {
           }
         >
           <Hero
-            startAt={process.env.VOTING_START_AT ?? process.env.NEXT_PUBLIC_VOTING_START_AT}
-            endAt={process.env.VOTING_END_AT ?? process.env.NEXT_PUBLIC_VOTING_END_AT}
+            startAt={hasLaterSchedule ? configuredStart : reopeningStart}
+            endAt={hasLaterSchedule ? configuredEnd : reopeningEnd}
           />
           <SectionDivider fill="var(--campaign-green)" className="divider-to-sage" />
           <div className="campaign-green-flow">
