@@ -7,10 +7,11 @@ import { AccountMenu } from "./account-menu";
 
 interface HeaderAuthProps {
   variant: "full" | "compact" | "menu";
+  onBeforeLogin?: () => void;
 }
 
-export function HeaderAuth({ variant }: HeaderAuthProps) {
-  const { user } = useAuth();
+export function HeaderAuth({ variant, onBeforeLogin }: HeaderAuthProps) {
+  const { user, openLoginModal } = useAuth();
   const pathname = usePathname();
 
   if (user) return <AccountMenu key={pathname} />;
@@ -18,7 +19,10 @@ export function HeaderAuth({ variant }: HeaderAuthProps) {
   return (
     <button
       type="button"
-      disabled
+      onClick={() => {
+        onBeforeLogin?.();
+        openLoginModal();
+      }}
       className={`nav-login-button header-login header-login-${variant}`}
     >
       {variant === "full" ? null : <LogIn className="h-3.5 w-3.5" aria-hidden="true" />}

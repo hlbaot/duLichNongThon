@@ -66,7 +66,7 @@ export function FullscreenMenu({ open, activeId, onClose, onNavigate }: Fullscre
       }}
     >
       <div className="fsm-top">
-        <HeaderAuth variant="menu" />
+        <HeaderAuth variant="menu" onBeforeLogin={() => onClose({ restoreFocus: false })} />
         <button ref={closeButton} type="button" className="header-burger fsm-close" onClick={() => onClose()} aria-label="Đóng menu">
           <X aria-hidden="true" size={22} />
         </button>
